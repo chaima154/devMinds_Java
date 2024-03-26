@@ -1,0 +1,74 @@
+.white-background{
+    -fx-background-color: #fff;
+}
+.transparent{
+    -fx-background-color: rgba(0,0,0,0);
+}
+.round-layout{
+    -fx-border-radius: 50;
+    -fx-border-color:#D7D7D7;
+}
+
+.selected{
+    -fx-background-color: #F3F3F3;
+}
+
+.mouse-moved :hover{
+    -fx-background-color: #E4E4E4;
+}
+
+.button :hover{
+    -fx-background-color: #cc1c23;
+}
+
+
+.white-background-card{
+    -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0),10,0,0,10);
+    -fx-background-color: #fff;
+    -fx-border-radius: 50;
+}
+
+.shadow{
+
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 10, 0, 0, 10);
+}
+
+
+/*
+Wareth -Job
+ */
+/* Style for the publication box */
+/* styles.css */
+
+/* Style for the publication box */
+.publication-box {
+    -fx-background-color: #f0f0f0; /* Light grey background */
+    -fx-padding: 10px;
+    -fx-spacing: 5px;
+    -fx-border-color: #d0d0d0; /* Light border color */
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
+
+/* Style for the User ID label */
+.user-id-label {
+    -fx-font-size: 10px; /* Small font size */
+    -fx-text-fill: #888888; /* Grey text color */
+}
+
+/* Style for the Content label */
+.content-label {
+    -fx-font-size: 14px; /* Large font size */
+    -fx-text-fill: #000000; /* Black text color */
+}
+
+/* Style for the Likes and Shares labels */
+.likes-shares-label {
+    -fx-font-size: 12px; /* Medium font size */
+    -fx-text-fill: #3366cc; /* Blue text color */
+}
+
+.timestamp-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #808080; /* Grey color */
+}
