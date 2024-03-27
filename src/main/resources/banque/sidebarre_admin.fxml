@@ -17,7 +17,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.control.Hyperlink?>
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="sample.MainController">
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="tn.devMinds.controllers.BackendHome">
     <!-- Balise top avec le titre de l'application -->
     <top>
         <HBox prefHeight="69.0" prefWidth="1315.0" styleClass="header-bar" BorderPane.alignment="CENTER">
