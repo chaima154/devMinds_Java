@@ -16,6 +16,7 @@ public class MyConnection {
             System.out.println(("Connexion établie...."));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            System.out.println(("could not connect to database"));
         }
     }
 
