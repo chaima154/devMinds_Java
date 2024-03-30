@@ -8,10 +8,19 @@ public class TypeCard {
     private Float frais;
     private String statusTypeCarte;
 
+    public TypeCard() {
+    }
+
+    public TypeCard(String typeCarte, String descriptionCarte, Float frais, String statusTypeCarte) {
+        this.typeCarte = typeCarte;
+        this.descriptionCarte = descriptionCarte;
+        this.frais = frais;
+        this.statusTypeCarte = statusTypeCarte;
+    }
+
     public String getStatusTypeCarte() {
         return statusTypeCarte;
     }
-
     public void setStatusTypeCarte(String statusTypeCarte) {
         this.statusTypeCarte = statusTypeCarte;
     }

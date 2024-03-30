@@ -5,6 +5,7 @@ import tn.devMinds.models.Compte;
 import tn.devMinds.models.TypeCard;
 import tn.devMinds.tools.MyConnection;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -43,7 +44,7 @@ public class CardCrud implements  IService<Card>{
     @Override
     public boolean add(Card card) throws SQLException {
         String requete = "INSERT INTO carte (compte_id,type_carte_id,numero,date_expiration,csv,mdp,statut_carte,solde)" +
-                "VALUES ('" + card.getCompte().getId() + "','" + card.getTypeCarte() +"','" +card.getNumero()+"','" +card.getDateExpiration()+"','"+card.getCsv()+"','"+card.getMdp()+"','"+ card.getStatutCarte()+"','"+card.getSolde()+"')";
+                "VALUES ('" + card.getCompte().getId() + "','" + card.getTypeCarte().getId() +"','" +card.getNumero()+"','" +card.getDateExpiration()+"','"+card.getCsv()+"','"+card.getMdp()+"','"+ card.getStatutCarte()+"','"+card.getSolde()+"')";
         try
                 (Statement st = MyConnection.getInstance().getCnx().createStatement()){
            int rowsAffected = st.executeUpdate(requete);
@@ -59,17 +60,58 @@ public class CardCrud implements  IService<Card>{
     @Override
     public boolean delete(Card card) throws SQLException {
 
-        return false;
+        String requete = "DELETE FROM carte WHERE id=?";
+        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)) {
+            pst.setInt(1, card.getId());
+            int rowsAffected = pst.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Carte with ID " + card.getId() + " deleted successfully");
+                return true;
+            } else {
+                System.out.println("No carte found with ID: " + card.getId());
+                return false;
+            }
+        }
     }
-
     @Override
     public boolean delete(int id) throws SQLException {
-        return false;
+        String requete="DELETE FROM carte WHERE id=?";
+        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)) {
+            pst.setInt(1, id);
+            int rowsAffected = pst.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Carte with ID " + id + " deleted successfully");
+                return true;
+            } else {
+                System.out.println("No carte found with ID: " + id);
+                return false;
+            }
+        }
     }
 
     @Override
     public boolean update(Card card) throws SQLException {
-        return false;
+        String requete="UPDATE `carte` SET `compte_id`=?,`numero`=?," +
+                "`date_expiration`=?,`csv`=?,`mdp`=?,`statut_carte`=?,`solde`=?" +
+                " WHERE id=?";
+        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)){
+            pst.setInt(1, card.getCompte().getId());
+            pst.setString(2,card.getNumero());
+            pst.setDate(3,java.sql.Date.valueOf(card.getDateExpiration()));
+            pst.setInt(4,card.getCsv());
+            pst.setString(5,card.getMdp());
+            pst.setString(6,card.getStatutCarte());
+            pst.setDouble(7,card.getSolde());
+            pst.setInt(8,card.getId());
+            int rowsAffected = pst.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Carte with ID " + card.getId() + " updated successfully");
+                return true;
+            } else {
+                System.out.println("No carte found with ID: " + card.getId());
+                return false;
+            }
+        }
     }
 
 

@@ -13,7 +13,20 @@ public class Card {
 
         private Double solde;
 
-        // Getters and setters
+    public Card() {
+    }
+
+    public Card(String numero, LocalDate dateExpiration, Integer csv, String mdp, String statutCarte, TypeCard typeCarte, Compte compte, Double solde) {
+        this.numero = numero;
+        this.dateExpiration = dateExpiration;
+        this.csv = csv;
+        this.mdp = mdp;
+        this.statutCarte = statutCarte;
+        this.typeCarte = typeCarte;
+        this.compte = compte;
+        this.solde = solde;
+    }
+// Getters and setters
 
     public Integer getId() {
         return id;
