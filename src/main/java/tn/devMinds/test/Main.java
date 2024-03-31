@@ -37,7 +37,9 @@ public class Main {
             i++;
             System.out.println("Card number :"+i);
             System.out.println("Card ID: " + card.getId());
+            System.out.println("Card Num: " + card.getNumero());
             System.out.println("Compte ID: " + card.getCompte().getId());
+            System.out.println("Compte RIB: " + card.getCompte().getRib());
             System.out.println("Type Carte: " + card.getTypeCarte().getTypeCarte());
             // Print other details as needed
             System.out.println(); // Add an empty line for better readability

@@ -119,13 +119,13 @@ public class CardCrud implements  IService<Card>{
     public Compte getCompteById(int id)
     {
         Compte c=new Compte();
-        String requet="SELECT * FROM compte where id=id";
+        String requet="SELECT * FROM compte where id="+id ;
         try {
             Statement st = MyConnection.getInstance().getCnx().createStatement();
             ResultSet rs=st.executeQuery(requet);
             while (rs.next())
             {
-            c.setId(rs.getInt(1));
+            c.setId(rs.getInt("id"));
             c.setSolde(rs.getFloat("solde"));
             c.setRib(rs.getString("rib"));
         }}
@@ -139,7 +139,7 @@ public class CardCrud implements  IService<Card>{
     @Override
     public TypeCard getTypeCarteById(int id) {
         TypeCard tc=new TypeCard();
-        String requet="SELECT * FROM type_carte where id=id";
+        String requet="SELECT * FROM type_carte where id="+id;
         try {
             Statement st = MyConnection.getInstance().getCnx().createStatement();
             ResultSet rs=st.executeQuery(requet);

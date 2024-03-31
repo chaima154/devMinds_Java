@@ -1,13 +1,11 @@
 package tn.devMinds.services;
 import tn.devMinds.iservices.IService;
-import tn.devMinds.models.Card;
 import tn.devMinds.models.Compte;
 import tn.devMinds.models.TypeCard;
 import tn.devMinds.tools.MyConnection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import java.sql.ResultSet;
 import java.sql.Statement;
 public class TypeCardCrud implements  IService<TypeCard>{
