@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.devMinds.controllers.TypeTransactionListController"
+            prefHeight="400.0" prefWidth="600.0">
+    <children>
+        <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="830.0" prefWidth="1098.0">
+            <children>
+                <HBox prefHeight="58.0" prefWidth="1143.0">
+                    <padding>
+                        <Insets left="50.0" />
+                    </padding>
+                </HBox>
+                <HBox layoutY="57.0" prefHeight="93.0" prefWidth="1098.0">
+                    <children>
+                        <Label prefHeight="17.0" prefWidth="263.0" text="Les types de transaction">
+                            <HBox.margin>
+                                <Insets left="90.0" top="40.0" />
+                            </HBox.margin>
+                            <font>
+                                <Font name="Georgia" size="24.0" />
+                            </font>
+                        </Label>
+                        <Button fx:id="ajout" mnemonicParsing="false" onAction="#ajout" prefHeight="46.0" prefWidth="144.0" style="-fx-background-color: #3f704d;" text="Ajouter un type de transaction" textFill="WHITE">
+                            <HBox.margin>
+                                <Insets left="500.0" top="50.0" />
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
+                <TableView fx:id="table" layoutX="98.0" layoutY="259.0" prefHeight="489.0" prefWidth="902.0" styleClass="transparent" stylesheets="@css/styles.css">
+                    <columns>
+                        <TableColumn id="Libelle" fx:id="Libelle" minWidth="0.0" prefWidth="167.0" text="Libelle" />
+
+                        <TableColumn fx:id="btn" prefWidth="156.0" text="-" />
+                    </columns>
+                </TableView>
+                <HBox alignment="CENTER" layoutX="111.0" layoutY="179.0" maxHeight="-Infinity" prefHeight="33.0" prefWidth="302.0" styleClass="round-layout" stylesheets="@css/styles.css">
+                    <children>
+                        <TextField fx:id="searchTerm" prefHeight="25.0" prefWidth="237.0" promptText="Recherche.." styleClass="transparent" stylesheets="@css/styles.css" />
+
+                    </children>
+                </HBox>
+
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>
+
