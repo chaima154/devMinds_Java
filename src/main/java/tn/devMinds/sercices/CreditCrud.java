@@ -31,8 +31,8 @@ public class CreditCrud {
     }
 
     public boolean updateCredit(Credit credit) throws SQLException {
-        String requete="UPDATE `credit` SET `montant_credit`=?,`duree`=?,`taux_interet`=?,`date_obtention`=?,`montant_restant`=?,`statut_credit`=?,`type_credit`=?," +
-                "`document_cin`=?,`salaire`=?,`categorie_professionelle`=?,`type_secteur`=?,`secteur_activite`=?"
+        String requete="UPDATE `credit` SET `id`=?,`montant_credit`=?,`duree`=?,`taux_interet`=?,`date_obtention`=?,`montant_restant`=?," +
+                "`statut_credit`=?,`type_credit`=?,`document_cin`=?,`salaire`=?,`categorie_professionelle`=?,`type_secteur`=?,`secteur_activite`=?"
                 + " WHERE id=?";
         try (PreparedStatement pst = cnx2.prepareStatement(requete)){
             pst.setInt(1,credit.getId());
@@ -43,11 +43,12 @@ public class CreditCrud {
             pst.setDouble(6,credit.getMontantRestant());
             pst.setString(7,credit.getStatutCredit());
             pst.setString(8,credit.getTypeCredit());
-            pst.setString(10,credit.getTypeCredit());
-            pst.setDouble(11,credit.getSalaire());
-            pst.setString(12,credit.getCategorieProfessionelle());
-            pst.setString(13,credit.getTypeSecteur());
-            pst.setString(14,credit.getSecteurActivite());
+            pst.setString(9,credit.getDocumentcin());
+            pst.setDouble(10,credit.getSalaire());
+            pst.setString(11,credit.getCategorieProfessionelle());
+            pst.setString(12,credit.getTypeSecteur());
+            pst.setString(13,credit.getSecteurActivite());
+            pst.setInt(14,credit.getId());
 
             int rowsAffected = pst.executeUpdate();
             if (rowsAffected > 0) {

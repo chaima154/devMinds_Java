@@ -23,8 +23,7 @@ public class Credit {
 
     private Compte compte;
 
-    public Credit(int id, double montantCredit, int duree, double tauxInteret, LocalDate dateObtention, double montantRestant, String statutCredit, String typeCredit, String documentcin, double salaire, String categorieProfessionelle, String typeSecteur, String secteurActivite, Set<Tranche> tranches, Compte compte) {
-        this.id = id;
+    public Credit( double montantCredit, int duree, double tauxInteret, LocalDate dateObtention, double montantRestant, String statutCredit, String typeCredit, String documentcin, double salaire, String categorieProfessionelle, String typeSecteur, String secteurActivite) {
         MontantCredit = montantCredit;
         Duree = duree;
         TauxInteret = tauxInteret;
@@ -37,26 +36,8 @@ public class Credit {
         CategorieProfessionelle = categorieProfessionelle;
         TypeSecteur = typeSecteur;
         SecteurActivite = secteurActivite;
-        this.tranches = tranches;
-        this.compte = compte;
     }
     public Credit(){};
-
-    public Credit( double montantCredit, int duree, double tauxInteret, LocalDate dateObtention, double montantRestant, String statutCredit, String typeCredit, double salaire, String categorieProfessionelle, String typeSecteur, String secteurActivite, Set<Tranche> tranches) {
-        MontantCredit = montantCredit;
-        Duree = duree;
-        TauxInteret = tauxInteret;
-        DateObtention = dateObtention;
-        MontantRestant = montantRestant;
-        StatutCredit = statutCredit;
-        TypeCredit = typeCredit;
-        Salaire = salaire;
-        CategorieProfessionelle = categorieProfessionelle;
-        TypeSecteur = typeSecteur;
-        SecteurActivite = secteurActivite;
-        this.tranches = tranches;
-
-    }
 
     public int getId() {
         return id;
@@ -189,6 +170,7 @@ public class Credit {
                 ", MontantRestant=" + MontantRestant +
                 ", StatutCredit='" + StatutCredit + '\'' +
                 ", TypeCredit='" + TypeCredit + '\'' +
+                ", documentcin='" + documentcin + '\'' +
                 ", Salaire=" + Salaire +
                 ", CategorieProfessionelle='" + CategorieProfessionelle + '\'' +
                 ", TypeSecteur='" + TypeSecteur + '\'' +
