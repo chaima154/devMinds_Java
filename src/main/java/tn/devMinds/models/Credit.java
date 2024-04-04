@@ -6,14 +6,15 @@ import java.util.TreeSet;
 
 public class Credit {
     private int id;
-    private Float MontantCredit;
+    private double MontantCredit;
     private int Duree;
-    private float TauxInteret;
+    private double TauxInteret;
     private LocalDate DateObtention;
-    private float MontantRestant;
+    private double MontantRestant;
     private String StatutCredit;
     private String TypeCredit;
-    private float Salaire;
+    private String documentcin;
+    private double Salaire;
     private String CategorieProfessionelle;
     private String TypeSecteur;
     private String SecteurActivite;
@@ -22,8 +23,26 @@ public class Credit {
 
     private Compte compte;
 
-    public Credit(int id, Float montantCredit, int duree, float tauxInteret, LocalDate dateObtention, float montantRestant, String statutCredit, String typeCredit, float salaire, String categorieProfessionelle, String typeSecteur, String secteurActivite, Set<Tranche> tranches) {
+    public Credit(int id, double montantCredit, int duree, double tauxInteret, LocalDate dateObtention, double montantRestant, String statutCredit, String typeCredit, String documentcin, double salaire, String categorieProfessionelle, String typeSecteur, String secteurActivite, Set<Tranche> tranches, Compte compte) {
         this.id = id;
+        MontantCredit = montantCredit;
+        Duree = duree;
+        TauxInteret = tauxInteret;
+        DateObtention = dateObtention;
+        MontantRestant = montantRestant;
+        StatutCredit = statutCredit;
+        TypeCredit = typeCredit;
+        this.documentcin = documentcin;
+        Salaire = salaire;
+        CategorieProfessionelle = categorieProfessionelle;
+        TypeSecteur = typeSecteur;
+        SecteurActivite = secteurActivite;
+        this.tranches = tranches;
+        this.compte = compte;
+    }
+    public Credit(){};
+
+    public Credit( double montantCredit, int duree, double tauxInteret, LocalDate dateObtention, double montantRestant, String statutCredit, String typeCredit, double salaire, String categorieProfessionelle, String typeSecteur, String secteurActivite, Set<Tranche> tranches) {
         MontantCredit = montantCredit;
         Duree = duree;
         TauxInteret = tauxInteret;
@@ -47,11 +66,11 @@ public class Credit {
         this.id = id;
     }
 
-    public Float getMontantCredit() {
+    public double getMontantCredit() {
         return MontantCredit;
     }
 
-    public void setMontantCredit(Float montantCredit) {
+    public void setMontantCredit(double montantCredit) {
         MontantCredit = montantCredit;
     }
 
@@ -63,11 +82,11 @@ public class Credit {
         Duree = duree;
     }
 
-    public float getTauxInteret() {
+    public double getTauxInteret() {
         return TauxInteret;
     }
 
-    public void setTauxInteret(float tauxInteret) {
+    public void setTauxInteret(double tauxInteret) {
         TauxInteret = tauxInteret;
     }
 
@@ -79,11 +98,11 @@ public class Credit {
         DateObtention = dateObtention;
     }
 
-    public float getMontantRestant() {
+    public double getMontantRestant() {
         return MontantRestant;
     }
 
-    public void setMontantRestant(float montantRestant) {
+    public void setMontantRestant(double montantRestant) {
         MontantRestant = montantRestant;
     }
 
@@ -103,11 +122,11 @@ public class Credit {
         TypeCredit = typeCredit;
     }
 
-    public float getSalaire() {
+    public double getSalaire() {
         return Salaire;
     }
 
-    public void setSalaire(float salaire) {
+    public void setSalaire(double salaire) {
         Salaire = salaire;
     }
 
@@ -149,6 +168,14 @@ public class Credit {
 
     public void setCompte(Compte compte) {
         this.compte = compte;
+    }
+
+    public String getDocumentcin() {
+        return documentcin;
+    }
+
+    public void setDocumentcin(String documentcin) {
+        this.documentcin = documentcin;
     }
 
     @Override

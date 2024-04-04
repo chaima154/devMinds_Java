@@ -10,7 +10,7 @@ public class MyConnection {
     private String pwd="";
     public static MyConnection instance;
     Connection cnx;
-    public MyConnection(){
+    private MyConnection(){
         try {
             cnx = DriverManager.getConnection(url,login,pwd);
             System.out.println(("Connexion établie...."));
