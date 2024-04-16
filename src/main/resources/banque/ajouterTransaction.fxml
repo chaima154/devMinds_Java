@@ -1,27 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="tn.devMinds.controllers.AjouterTransactionController"
-            prefHeight="400.0" prefWidth="600.0">
-
-    <VBox >
-        <HBox spacing="10">
-            <ComboBox fx:id="typeTransactionComboBox" prefWidth="200" />
-            <Button text="Valider" onAction="#handleShowForm"/>
-        </HBox>
-        <VBox fx:id="formContainer" spacing="10" visible="false">
-            <TextField fx:id="compteIdField" promptText="ID du compte"/>
-            <TextField fx:id="destinataireCompteIdField" promptText="ID du compte destinataire"/>
-            <TextField fx:id="montantField" promptText="Montant"/>
-            <DatePicker fx:id="datePicker" />
-            <Button text="Soumettre Transaction" onAction="#handleSubmitTransaction"/>
-        </VBox>
+<VBox fx:controller="tn.devMinds.controllers.AjouterTransactionController"
+      xmlns:fx="http://javafx.com/fxml" spacing="10">
+    <ComboBox fx:id="typeTransactionComboBox" promptText="Sélectionnez le type de transaction" onAction="#handleShowForm"/>
+    <VBox fx:id="formContainer" spacing="10" visible="false">
+        <TextField fx:id="compteIdField" promptText="ID Compte"/>
+        <TextField fx:id="destinataireCompteIdField" promptText="ID Compte Destinataire"/>
+        <TextField fx:id="montantField" promptText="Montant"/>
+        <DatePicker fx:id="datePicker" promptText="Date de Transaction"/>
+        <Button text="Valider" onAction="#handleSubmitTransaction"/>
     </VBox>
-</AnchorPane>
+</VBox>
