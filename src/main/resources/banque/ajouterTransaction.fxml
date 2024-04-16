@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.devMinds.controllers.AjouterTransactionController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <VBox >
+        <HBox spacing="10">
+            <ComboBox fx:id="typeTransactionComboBox" prefWidth="200" />
+            <Button text="Valider" onAction="#handleShowForm"/>
+        </HBox>
+        <VBox fx:id="formContainer" spacing="10" visible="false">
+            <TextField fx:id="compteIdField" promptText="ID du compte"/>
+            <TextField fx:id="destinataireCompteIdField" promptText="ID du compte destinataire"/>
+            <TextField fx:id="montantField" promptText="Montant"/>
+            <DatePicker fx:id="datePicker" />
+            <Button text="Soumettre Transaction" onAction="#handleSubmitTransaction"/>
+        </VBox>
+    </VBox>
+</AnchorPane>

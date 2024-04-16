@@ -1,5 +1,7 @@
 package tn.devMinds.iservices;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import tn.devMinds.entities.TypeTransaction;
 import tn.devMinds.tools.MyConnection;
 
@@ -82,6 +84,25 @@ public class TypeTransactionService implements IService<TypeTransaction> {
         }
         return (ArrayList<TypeTransaction>) data;
     }
+
+    // Cette méthode retourne tous les noms des types de transaction pour peupler le ComboBox
+    public ObservableList<String> getAllTypeTransactionNames() {
+        ObservableList<String> types = FXCollections.observableArrayList();
+        String query = "SELECT libelle FROM type_transaction";
+        try (Statement st = cnx.createStatement();
+             ResultSet rs = st.executeQuery(query)) {
+            while (rs.next()) {
+                String libelle = rs.getString("libelle");
+                types.add(libelle);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la récupération des types de transactions: " + e.getMessage());
+        }
+        return types;
+    }
+
+
+
    /* public List<TypeTransaction> searchTypeTransaction(String searchTerm) {
         List<TypeTransaction> typeTransactions = new ArrayList<>();
         String req = "SELECT * FROM type_transaction WHERE libelle LIKE ? ";

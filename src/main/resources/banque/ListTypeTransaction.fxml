@@ -15,11 +15,7 @@
     <children>
         <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="830.0" prefWidth="1098.0">
             <children>
-                <HBox prefHeight="58.0" prefWidth="1143.0">
-                    <padding>
-                        <Insets left="50.0" />
-                    </padding>
-                </HBox>
+
                 <HBox layoutY="57.0" prefHeight="93.0" prefWidth="1098.0">
                     <children>
                         <Label prefHeight="17.0" prefWidth="263.0" text="Les types de transaction">
@@ -55,4 +51,5 @@
         </AnchorPane>
     </children>
 </AnchorPane>
+
 
