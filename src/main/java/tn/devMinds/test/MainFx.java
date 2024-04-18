@@ -3,6 +3,8 @@ package tn.devMinds.test;
         import javafx.fxml.FXMLLoader;
         import javafx.scene.Scene;
         import javafx.stage.Stage;
+        import tn.devMinds.Views.ViewFactory;
+        import tn.devMinds.entities.Model;
         import tn.devMinds.tools.MyConnection;
         import java.io.IOException;
 
@@ -12,12 +14,19 @@ public class MainFx extends Application {
         launch(args);
     }
     @Override
+    /*
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         primaryStage.setTitle("Hello!");
         primaryStage.setScene(scene);
         primaryStage.show();
+
+    }
+    */
+    public void start(Stage primaryStage) throws IOException {
+        Model.getInstance().getViewFactory().showLoginWindow();
+
 
     }
 }

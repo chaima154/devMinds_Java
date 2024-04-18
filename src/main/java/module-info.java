@@ -5,6 +5,8 @@ module devMinds.Java {
     //requires de.jensd.fx.glyphs.fontawesome;
     requires java.sql;
     opens tn.devMinds.controllers;
+    exports tn.devMinds.controllers.Client;
+
     exports tn.devMinds.test; // Add this line if MainFx is in this package
     exports tn.devMinds.entities;
     exports tn.devMinds.Views;
