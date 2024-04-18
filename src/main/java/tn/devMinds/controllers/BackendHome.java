@@ -1,11 +1,15 @@
 package tn.devMinds.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
-public class BackendHome {
+import java.net.URL;
+import java.util.ResourceBundle;
 
+public class BackendHome implements Initializable {
+/*
     @FXML
     private Button deconnecter;
 
@@ -49,4 +53,12 @@ public class BackendHome {
 
     }
 
+ */
+public Button clients_btn;
+public Button deconnecter;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
 }

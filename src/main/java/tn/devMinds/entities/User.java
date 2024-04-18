@@ -1,5 +1,7 @@
 package tn.devMinds.entities;
 
+import tn.devMinds.Views.Role;
+
 public class User {
     private int id;
     private String firstName;
