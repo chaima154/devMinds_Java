@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import tn.devMinds.entities.Model;
 
 import java.io.IOException;
@@ -24,10 +25,16 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         login_b.setOnAction(event -> {
             try {
-                Model.getInstance().getViewFactory().showClientWindow();
+                onLogin();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    private void onLogin() throws IOException {
+        Stage stage = (Stage) error_lbl.getScene().getWindow();
+        Model.getInstance().getViewFactory().closrStage(stage);
+        Model.getInstance().getViewFactory().showClientWindow();
     }
 }
