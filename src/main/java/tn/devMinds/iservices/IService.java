@@ -5,8 +5,8 @@ import java.util.List;
 
 public interface IService<T> {
         boolean add(T t) throws SQLException;
-        public void delete(T t);
-        public void update(T t, int id);
+        boolean delete(T t);
+        boolean update(T t, int id);
 
         ArrayList<T> getAllData() throws SQLException;
 

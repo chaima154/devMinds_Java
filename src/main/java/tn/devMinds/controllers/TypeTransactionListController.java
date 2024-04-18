@@ -9,23 +9,28 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.util.Callback;
 import tn.devMinds.entities.TypeTransaction;
 import tn.devMinds.iservices.TypeTransactionService;
 
+
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+
 public class TypeTransactionListController implements Initializable {
-    public BackendHome backendHome;
+    public SideBarre_adminController backendHome;
 
     @FXML
     private TableView<TypeTransaction> table;
     @FXML
-    private TableColumn<TypeTransaction, String> Libelle;
+    private TableColumn<TypeTransaction, String> libelleColumn;  // Renamed for consistency with FXML
     @FXML
-    private TableColumn<TypeTransaction, Void> btn;
+    private TableColumn<TypeTransaction, Void> actionColumn;
+
     @FXML
     private Button ajout;
     @FXML
@@ -35,12 +40,14 @@ public class TypeTransactionListController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        shoxwList(getAllList());
+        showList(getAllList());  // Corrected method name
+        setupActionColumn();
         searchTerm.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.isEmpty()) {
-                shoxwList(getAllList());
+                showList(getAllList());
+            } else {
+                // Implement search functionality if required
             }
-            // Ajoutez ici la logique de recherche si nécessaire
         });
     }
 
@@ -54,37 +61,39 @@ public class TypeTransactionListController implements Initializable {
         Parent parent = loader.load();
         AjoutTypeTransactionController controller = loader.getController();
         controller.setTypeTransactionListController(this);
-        backendHome.borderPane.setCenter(parent);
+        SideBarre_adminController.borderPane.setCenter(parent);
+        showList(getAllList());  // Refresh list after adding
     }
 
-    public void shoxwList(ObservableList<TypeTransaction> observableList) {
-        Libelle.setCellValueFactory(data -> {
-            TypeTransaction yourData = data.getValue();
-            return new SimpleObjectProperty<>(yourData.getLibelle());
-        });
-
-        btn.setCellFactory(param -> new TableCell<>() {
-            private final Button button = new Button("Supprimer Type Transaction");
+    private void setupActionColumn() {
+        actionColumn.setCellFactory(param -> new TableCell<TypeTransaction, Void>() {
+            private final Button deleteBtn = new Button("Delete");
+            private final Button updateBtn = new Button("Update");
+            private final HBox hbox = new HBox(5, updateBtn, deleteBtn);  // Adjust spacing as needed
 
             {
-                button.setStyle("-fx-background-color: red;-fx-text-fill: white;");
-                button.setOnAction(event -> {
-                    TypeTransaction typeTransaction = getTableView().getItems().get(getIndex());
-                    // Ajoutez ici la logique de suppression si nécessaire
+                deleteBtn.setOnAction(event -> {
+                    TypeTransaction tt = getTableView().getItems().get(getIndex());
+                    typeTransactionService.delete(tt);  // Assuming delete method in your service
+                    showList(getAllList());  // Refresh list after delete
+                });
+                updateBtn.setOnAction(event -> {
+                    TypeTransaction tt = getTableView().getItems().get(getIndex());
+                    // Here, you would need some form of dialog or UI to handle updating
                 });
             }
 
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(button);
-                }
+                setGraphic(empty ? null : hbox);
             }
         });
+    }
 
+    public void showList(ObservableList<TypeTransaction> observableList) {
+        libelleColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getLibelle()));
         table.setItems(observableList);
     }
 }
+

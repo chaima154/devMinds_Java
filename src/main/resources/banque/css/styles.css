@@ -32,6 +32,14 @@
 
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 10, 0, 0, 10);
 }
+.split-menu-button {
+    -fx-background-color: transparent;
+}
+
+.split-menu-button:hover {
+    -fx-background-color: #f0f0f0;
+}
+
 
 
 /*

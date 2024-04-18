@@ -31,13 +31,10 @@ public class TypeTransactionService implements IService<TypeTransaction> {
     }
 
 
-    @Override
-    public void delete(TypeTransaction typeTransaction) {
-
-    }
 
 
-    /* @Override
+
+     @Override
      public boolean delete(TypeTransaction typeTransaction) {
 
          String req = "UPDATE type_transaction  "
@@ -57,30 +54,36 @@ public class TypeTransactionService implements IService<TypeTransaction> {
 
 
          return er == -1;
-     }*/
+     }
     @Override
-    public void update(TypeTransaction typeTransactionController, int id) {
-
+    public boolean update(TypeTransaction typeTransaction, int id) {
+        String req = "UPDATE type_transaction SET libelle = ? WHERE id = ?";
+        try (PreparedStatement pst = cnx.prepareStatement(req)) {
+            pst.setString(1, typeTransaction.getLibelle());
+            pst.setInt(2, id);
+            int rowsAffected = pst.executeUpdate();
+            System.out.println("Mise à jour effectuée");
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la mise à jour: " + e.getMessage());
+            return false;
+        }
     }
+
 
     @Override
     public ArrayList<TypeTransaction> getAllData() {
-
-
-        List<TypeTransaction> data = new ArrayList();
-        String requete = "SELECT *FROM type_transaction";
-        try {
-            Statement st = MyConnection.getInstance().getCnx().createStatement();
-            ResultSet rs= st.executeQuery(requete);
-            while(rs.next()){
-                TypeTransaction typeTransaction =new TypeTransaction();
-                typeTransaction.setId(rs.getInt(1));
+        List<TypeTransaction> data = new ArrayList<>();
+        String requete = "SELECT * FROM type_transaction";
+        try (Statement st = cnx.createStatement(); ResultSet rs = st.executeQuery(requete)) {
+            while (rs.next()) {
+                TypeTransaction typeTransaction = new TypeTransaction();
+                typeTransaction.setId(rs.getInt("id"));
                 typeTransaction.setLibelle(rs.getString("libelle"));
-
                 data.add(typeTransaction);
             }
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la récupération des données: " + e.getMessage());
         }
         return (ArrayList<TypeTransaction>) data;
     }

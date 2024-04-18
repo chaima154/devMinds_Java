@@ -40,6 +40,7 @@
             <artifactId>mysql-connector-j</artifactId>
             <version>8.0.33</version>
         </dependency>
+        <!-- Removed self-referencing dependency -->
     </dependencies>
     <build>
         <plugins>
@@ -48,9 +49,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>
-                        tn.devMinds.test.MainFx
-                    </mainClass>
+                    <mainClass>tn.devMinds.test.MainFx</mainClass>
                 </configuration>
             </plugin>
         </plugins>

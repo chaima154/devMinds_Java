@@ -33,13 +33,14 @@
                         </Button>
                     </children>
                 </HBox>
-                <TableView fx:id="table" layoutX="98.0" layoutY="259.0" prefHeight="489.0" prefWidth="902.0" styleClass="transparent" stylesheets="@css/styles.css">
-                    <columns>
-                        <TableColumn id="Libelle" fx:id="Libelle" minWidth="0.0" prefWidth="167.0" text="Libelle" />
 
-                        <TableColumn fx:id="btn" prefWidth="156.0" text="-" />
-                    </columns>
-                </TableView>
+                    <TableView fx:id="table" layoutX="98.0" layoutY="259.0" prefHeight="489.0" prefWidth="902.0">
+                        <columns>
+                            <TableColumn fx:id="libelleColumn" prefWidth="167.0" text="Libellé"/>
+                            <TableColumn fx:id="actionColumn" prefWidth="200.0" text="Actions"/>
+                        </columns>
+                    </TableView>
+
                 <HBox alignment="CENTER" layoutX="111.0" layoutY="179.0" maxHeight="-Infinity" prefHeight="33.0" prefWidth="302.0" styleClass="round-layout" stylesheets="@css/styles.css">
                     <children>
                         <TextField fx:id="searchTerm" prefHeight="25.0" prefWidth="237.0" promptText="Recherche.." styleClass="transparent" stylesheets="@css/styles.css" />
