@@ -2,16 +2,20 @@ package tn.devMinds.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import tn.devMinds.entities.TypeTransaction;
 import tn.devMinds.iservices.TypeTransactionService;
 import java.io.IOException;
 
-public class  AjoutTypeTransactionController {
+public class  AjoutTypeTransactionController extends SideBarre_adminController {
     public TypeTransactionListController typeTransactionListController;
-
+    @FXML
+    public BorderPane borderPane;
     @FXML
     private TextField libelle;
 
@@ -26,7 +30,11 @@ public class  AjoutTypeTransactionController {
     void retour(ActionEvent event) throws IOException {
         retourner();
     }
+    private SideBarre_adminController sidebarController;
 
+    public void setSidebarController(SideBarre_adminController sidebarController) {
+        this.sidebarController = sidebarController;
+    }
     private void retourner() throws IOException {
         // Chargez la vue de liste appropriée (ListTypeTransaction.fxml)
     }
@@ -42,22 +50,28 @@ public class  AjoutTypeTransactionController {
             TypeTransaction typeTransaction = new TypeTransaction();
             typeTransaction.setLibelle(libelle.getText());
 
-            boolean ajoutReussi = typetransactionservice.add(typeTransaction);
-            if (ajoutReussi) {
-                System.out.println(typeTransaction);
+            String errorMessage = typetransactionservice.add(typeTransaction);
+            if (errorMessage == null) {
                 Alert al = new Alert(Alert.AlertType.CONFIRMATION);
                 al.setTitle("Confirmation");
                 al.setContentText("Le type de transaction a été ajouté avec succès.");
-                al.show();
-                this.retourner(); // Rediriger vers la vue de liste après l'ajout
+                al.showAndWait();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListTypeTransaction.fxml"));
+                Parent parent = loader.load();
+                TypeTransactionListController typetransaction = loader.getController();
+                if (loader.getController() instanceof TypeTransactionListController) {
+                    ((TypeTransactionListController) typetransaction).setSidebarController(this);
+                    this.borderPane.setCenter(parent);
+                }
             } else {
                 Alert al = new Alert(Alert.AlertType.ERROR);
                 al.setTitle("Erreur");
-                al.setContentText("Une erreur s'est produite lors de l'ajout du type de transaction.");
+                al.setContentText(errorMessage);
                 al.show();
             }
         }
     }
+
 
     public void setTypeTransactionListController(TypeTransactionListController controller) {
         this.typeTransactionListController = controller;

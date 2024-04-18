@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="tn.devMinds.controllers.TypeTransactionListController"
-            prefHeight="400.0" prefWidth="600.0">
-    <children>
-        <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="830.0" prefWidth="1098.0">
+
+<BorderPane fx:id="borderPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.TypeTransactionListController">
+    <center>
+        <AnchorPane prefHeight="830.0" prefWidth="1098.0">
             <children>
 
                 <HBox layoutY="57.0" prefHeight="93.0" prefWidth="1098.0">
@@ -34,12 +34,12 @@
                     </children>
                 </HBox>
 
-                    <TableView fx:id="table" layoutX="98.0" layoutY="259.0" prefHeight="489.0" prefWidth="902.0">
-                        <columns>
-                            <TableColumn fx:id="libelleColumn" prefWidth="167.0" text="Libellé"/>
-                            <TableColumn fx:id="actionColumn" prefWidth="200.0" text="Actions"/>
-                        </columns>
-                    </TableView>
+                <TableView fx:id="table" layoutX="98.0" layoutY="259.0" prefHeight="490.0" prefWidth="870.0">
+                    <columns>
+                        <TableColumn fx:id="libelleColumn" prefWidth="420.8000030517578" text="Libellé" />
+                        <TableColumn fx:id="actionColumn" prefWidth="448.7999572753906" text="Actions" />
+                    </columns>
+                </TableView>
 
                 <HBox alignment="CENTER" layoutX="111.0" layoutY="179.0" maxHeight="-Infinity" prefHeight="33.0" prefWidth="302.0" styleClass="round-layout" stylesheets="@css/styles.css">
                     <children>
@@ -50,7 +50,5 @@
 
             </children>
         </AnchorPane>
-    </children>
-</AnchorPane>
-
-
+    </center>
+</BorderPane>

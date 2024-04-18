@@ -19,7 +19,7 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="tn.devMinds.controllers.SideBarre_adminController">
+<BorderPane fx:id="borderPane" xmlns:fx="http://javafx.com/fxml" fx:controller="tn.devMinds.controllers.SideBarre_adminController">
     <!-- Balise top avec le titre de l'application -->
     <top>
         <HBox prefHeight="69.0" prefWidth="1315.0" styleClass="header-bar" BorderPane.alignment="CENTER">
@@ -133,7 +133,8 @@
                                 <SplitMenuButton mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Transactions" styleClass="transparent">
                                     <items>
                                         <MenuItem text="Transaction" onAction="#goTransaction"/>
-                                        <MenuItem text="Type de Transaction" onAction="#goTransactionType"/>
+                                        <MenuItem text="Type de Transaction" onAction="#goTransactionType">
+                                        </MenuItem>
                                     </items>
                                     <font>
                                         <Font name="Georgia" size="13.0" />

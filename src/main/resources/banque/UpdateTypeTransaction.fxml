@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.AjoutTypeTransactionController">
+<BorderPane fx:id="borderPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.UpdateTypeTransactionController">
     <center>
         <VBox alignment="CENTER" spacing="10">
             <children>
@@ -34,7 +34,7 @@
                                 <Insets top="10.0" />
                             </VBox.margin>
                         </TextField>
-                        <Button fx:id="CreateAccount" mnemonicParsing="false" onAction="#AddTypeTransaction" prefHeight="29.0" prefWidth="187.0" style="-fx-background-color: #3f704d;" text="Ajouter " textFill="#fffafa">
+                        <Button fx:id="CreateAccount" mnemonicParsing="false" onAction="#UpdateTypeTransaction" prefHeight="29.0" prefWidth="187.0" style="-fx-background-color: #3f704d;" text="Modifier " textFill="#fffafa">
                             <VBox.margin>
                                 <Insets top="40.0" />
                             </VBox.margin>

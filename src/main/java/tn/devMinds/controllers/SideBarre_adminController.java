@@ -1,9 +1,11 @@
 package tn.devMinds.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -16,7 +18,8 @@ import java.util.ResourceBundle;
 
 public class SideBarre_adminController implements Initializable {
 
-    public static BorderPane borderPane;
+    @FXML
+    public BorderPane borderPane; // Add @FXML annotation here
     @FXML
     private Button deconnecter;
 
@@ -39,7 +42,7 @@ public class SideBarre_adminController implements Initializable {
     void goTransaction(MouseEvent event) {
 
     }
-    @FXML
+    /* @FXML
     void goTransactionType(MouseEvent event) {
         try {
             Node node = (Node) event.getSource();
@@ -52,6 +55,16 @@ public class SideBarre_adminController implements Initializable {
             e.printStackTrace();
         }
 
+    }*/
+    @FXML
+    void goTransactionType(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListTypeTransaction.fxml"));
+        Parent parent = loader.load();
+        TypeTransactionListController typetransaction = loader.getController();
+        if (loader.getController() instanceof TypeTransactionListController) {
+            ((TypeTransactionListController) typetransaction).setSidebarController(this);
+            this.borderPane.setCenter(parent);
+        }
     }
 
     @FXML
@@ -76,6 +89,6 @@ public class SideBarre_adminController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        
+
     }
 }

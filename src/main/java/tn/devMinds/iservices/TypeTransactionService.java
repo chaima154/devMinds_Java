@@ -16,17 +16,43 @@ public class TypeTransactionService implements IService<TypeTransaction> {
     }
 
     @Override
-    public boolean add(TypeTransaction typeTransaction) {
+    public String add(TypeTransaction typeTransaction) {
+        // Volet 1: Les champs de texte d'un formulaire ne doivent pas être null/vide
+        if (typeTransaction.getLibelle() == null || typeTransaction.getLibelle().isEmpty()) {
+            return "Le libellé ne peut pas être vide.";
+        }
+
+        // Volet 3: the name should only be letters, doesn't include numbers
+        if (!typeTransaction.getLibelle().matches("[a-zA-Z]+")) {
+            return "Le libellé ne peut contenir que des lettres.";
+        }
+
+        // Volet 2: On ne peut pas ajouter deux produits avec les mêmes informations deux fois dans la base
+        String checkUniqueQuery = "SELECT COUNT(*) FROM type_transaction WHERE libelle = ?";
+        try {
+            PreparedStatement checkUniqueStmt = MyConnection.getInstance().getCnx().prepareStatement(checkUniqueQuery);
+            checkUniqueStmt.setString(1, typeTransaction.getLibelle());
+            ResultSet resultSet = checkUniqueStmt.executeQuery();
+            if (resultSet.next() && resultSet.getInt(1) > 0) {
+                return "Un type de transaction avec ce libellé existe déjà.";
+            }
+        } catch (SQLException e) {
+            return "Erreur lors de la vérification de l'unicité : " + e.getMessage();
+        }
+
+        // If all validations passed, proceed with inserting into the database
         String requete = "INSERT INTO type_transaction(libelle) VALUES (?)";
         try {
             PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
             pst.setString(1, typeTransaction.getLibelle());
             int rowsAffected = pst.executeUpdate();
-            System.out.println("Le type de transaction a été ajouté");
-            return rowsAffected > 0; // Renvoie true si au moins une ligne a été affectée
+            if (rowsAffected > 0) {
+                return null; // No error
+            } else {
+                return "Aucune ligne n'a été affectée lors de l'ajout.";
+            }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return false; // En cas d'erreur, renvoie false
+            return "Erreur lors de l'ajout du type de transaction : " + e.getMessage();
         }
     }
 
@@ -34,42 +60,94 @@ public class TypeTransactionService implements IService<TypeTransaction> {
 
 
 
-     @Override
-     public boolean delete(TypeTransaction typeTransaction) {
 
-         String req = "UPDATE type_transaction  "
-
-                 + " SET libe='SUPPRIMER' "
-                 + "WHERE productID='" + typeTransaction.getId() + "';";
-         Statement st;
-         int er = 0;
-         try {
-             st = cnx.createStatement();
-             er= st.executeUpdate(req);
-             System.out.println("Suppression affectuée");
-         } catch (SQLException e) {
-
-             e.printStackTrace();
-         }
-
-
-         return er == -1;
-     }
     @Override
-    public boolean update(TypeTransaction typeTransaction, int id) {
+    public boolean delete(TypeTransaction typeTransaction) {
+
+        String req = "DELETE FROM type_transaction "
+                + "WHERE id='" + typeTransaction.getId() + "';";
+
+        Statement st;
+        int er = 0;
+        try {
+            st = cnx.createStatement();
+            er = st.executeUpdate(req);
+            System.out.println("Suppression effectuée");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return er == -1;
+    }
+
+    @Override
+    public String update(TypeTransaction typeTransaction, int id) {
+        // Volet 1: Les champs de texte d'un formulaire ne doivent pas être null/vide
+        if (typeTransaction.getLibelle() == null || typeTransaction.getLibelle().isEmpty()) {
+            return "Le libellé ne peut pas être vide.";
+        }
+
+        // Volet 3: the name should only be letters, doesn't include numbers
+        if (!typeTransaction.getLibelle().matches("[a-zA-Z]+")) {
+            return "Le libellé ne peut contenir que des lettres.";
+        }
+
+        // Volet 2: On ne peut pas ajouter deux produits avec les mêmes informations deux fois dans la base
+        String checkUniqueQuery = "SELECT COUNT(*) FROM type_transaction WHERE libelle = ? AND id != ?";
+        try {
+            PreparedStatement checkUniqueStmt = cnx.prepareStatement(checkUniqueQuery);
+            checkUniqueStmt.setString(1, typeTransaction.getLibelle());
+            checkUniqueStmt.setInt(2, id);
+            ResultSet resultSet = checkUniqueStmt.executeQuery();
+            if (resultSet.next() && resultSet.getInt(1) > 0) {
+                return "Un type de transaction avec ce libellé existe déjà.";
+            }
+        } catch (SQLException e) {
+            return "Erreur lors de la vérification de l'unicité : " + e.getMessage();
+        }
+
+        // If all validations passed, proceed with updating the database
         String req = "UPDATE type_transaction SET libelle = ? WHERE id = ?";
         try (PreparedStatement pst = cnx.prepareStatement(req)) {
             pst.setString(1, typeTransaction.getLibelle());
             pst.setInt(2, id);
             int rowsAffected = pst.executeUpdate();
-            System.out.println("Mise à jour effectuée");
-            return rowsAffected > 0;
+            if (rowsAffected > 0) {
+                return null; // No error
+            } else {
+                return "Aucune ligne n'a été affectée lors de la mise à jour.";
+            }
         } catch (SQLException e) {
-            System.out.println("Erreur lors de la mise à jour: " + e.getMessage());
-            return false;
+            return "Erreur lors de la mise à jour: " + e.getMessage();
         }
     }
+    public String validateInput(TypeTransaction typeTransaction) {
+        // Volet 1: Les champs de texte d'un formulaire ne doivent pas être null/vide
+        if (typeTransaction.getLibelle() == null || typeTransaction.getLibelle().isEmpty()) {
+            return "Le libellé ne peut pas être vide.";
+        }
 
+        // Volet 3: the name should only be letters, doesn't include numbers
+        if (!typeTransaction.getLibelle().matches("[a-zA-Z]+")) {
+            return "Le libellé ne peut contenir que des lettres.";
+        }
+
+        // Volet 2: On ne peut pas ajouter deux produits avec les mêmes informations deux fois dans la base
+        String checkUniqueQuery = "SELECT COUNT(*) FROM type_transaction WHERE libelle = ? AND id != ?";
+        try {
+            PreparedStatement checkUniqueStmt = cnx.prepareStatement(checkUniqueQuery);
+            checkUniqueStmt.setString(1, typeTransaction.getLibelle());
+            checkUniqueStmt.setInt(2, typeTransaction.getId());
+            ResultSet resultSet = checkUniqueStmt.executeQuery();
+            if (resultSet.next() && resultSet.getInt(1) > 0) {
+                return "Un type de transaction avec ce libellé existe déjà.";
+            }
+        } catch (SQLException e) {
+            return "Erreur lors de la vérification de l'unicité : " + e.getMessage();
+        }
+
+        return null; // No validation issues
+    }
 
     @Override
     public ArrayList<TypeTransaction> getAllData() {
