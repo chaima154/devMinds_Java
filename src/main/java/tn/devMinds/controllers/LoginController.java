@@ -25,28 +25,35 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        login_b.setOnAction(event -> {
+        // Initialize choice box with roles
+        act_selector.setItems(FXCollections.observableArrayList(Role.CLIENT, Role.ADMIN));
+        act_selector.setValue(Model.getInstance().getViewFactory().getLoginAccountType());
 
-            act_selector.setItems(FXCollections.observableArrayList(Role.CLIENT, Role.ADMIN));
-            act_selector.setValue(Model.getInstance().getViewFactory().getLoginAccountType());
-            act_selector.valueProperty().addListener(observable -> Model.getInstance().getViewFactory().setLoginAccountType(act_selector.getValue()));
+        // Set login button action
+        login_b.setOnAction(event -> {
             try {
                 onLogin();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
+
+        // Update selected role when choice changes
+        act_selector.valueProperty().addListener((observable, oldValue, newValue) -> {
+            Model.getInstance().getViewFactory().setLoginAccountType(newValue);
+        });
     }
 
     private void onLogin() throws IOException {
+        // Close the login window
         Stage stage = (Stage) error_lbl.getScene().getWindow();
-        Model.getInstance().getViewFactory().closrStage(stage);
-        if (Model.getInstance().getViewFactory().getLoginAccountType() == Role.CLIENT){
-            Model.getInstance().getViewFactory().showClientWindow();
-        }else {
-            Model.getInstance().getViewFactory().showAdminWindow();
+        Model.getInstance().getViewFactory().closeStage(stage);
 
+        // Show appropriate window based on selected role
+        if (Model.getInstance().getViewFactory().getLoginAccountType() == Role.CLIENT) {
+            Model.getInstance().getViewFactory().showClientWindow();
+        } else if (Model.getInstance().getViewFactory().getLoginAccountType() == Role.ADMIN) {
+            Model.getInstance().getViewFactory().showAdminWindow();
         }
     }
-
 }

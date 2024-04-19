@@ -10,6 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.PasswordField?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="login_container" stylesheets="@../Styles/login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.LoginController">
    <VBox layoutY="-1.0" prefHeight="400.0" prefWidth="200.0" styleClass="login_logo_container" stylesheets="@../Styles/login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
       <!--<FontAwesomeIconView fill="#cfcbcb" glyphName="BANK" size="50" />-->
@@ -21,11 +22,11 @@
    </VBox>
    <VBox layoutX="265.0" layoutY="58.0" prefHeight="350.0" prefWidth="350.0" styleClass="login_form_container" stylesheets="@../Styles/login.css" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
       <Label id="choice-prompt_text" text="choose your account type" />
-      <ChoiceBox id="choice-box-popup-menu" fx:id="act_selector" prefWidth="150.0" styleClass="account_selector" stylesheets="@../Styles/login.css" />
+      <ChoiceBox id="choice-box-popup-menu" fx:id="act_selector" prefWidth="100.0" styleClass="account_selector" stylesheets="@../Styles/login.css" />
       <Label fx:id="mail_lbl" text="E-mail" />
       <TextField fx:id="mail_field" styleClass="input_field" />
       <Label fx:id="password_lbl" text="Password" />
-      <TextField fx:id="password_field" styleClass="input_field" />
+      <PasswordField fx:id="password_field" styleClass="input_field" />
       <Button fx:id="login_b" alignment="CENTER" mnemonicParsing="false" prefHeight="42.0" text="Login" textAlignment="JUSTIFY" />
       <Label fx:id="error_lbl" styleClass="error_lbl" text="Error" />
    </VBox>

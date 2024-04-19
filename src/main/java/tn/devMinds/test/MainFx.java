@@ -14,7 +14,7 @@ public class MainFx extends Application {
         launch(args);
     }
     @Override
-    /*
+
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
@@ -23,10 +23,10 @@ public class MainFx extends Application {
         primaryStage.show();
 
     }
-    */
+    /*
     public void start(Stage primaryStage) throws IOException {
         Model.getInstance().getViewFactory().showLoginWindow();
 
 
-    }
+    }*/
 }
