@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import tn.devMinds.entities.Assurance;
 
 import java.io.IOException;
 import java.net.URL;
