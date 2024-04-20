@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:controller="tn.devMinds.controllers.AjouterTransactionController"
+      xmlns:fx="http://javafx.com/fxml" spacing="10">
+    <ComboBox fx:id="typeTransactionComboBox" promptText="Sélectionnez le type de transaction" onAction="#handleShowForm"/>
+    <VBox fx:id="formContainer" spacing="10" visible="false">
+        <TextField fx:id="compteIdField" promptText="ID Compte"/>
+        <TextField fx:id="destinataireCompteIdField" promptText="ID Compte Destinataire"/>
+        <TextField fx:id="montantField" promptText="Montant"/>
+        <DatePicker fx:id="datePicker" promptText="Date de Transaction"/>
+        <Button text="Valider" onAction="#handleSubmitTransaction"/>
+    </VBox>
+</VBox>

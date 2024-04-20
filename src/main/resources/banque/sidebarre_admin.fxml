@@ -17,7 +17,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.control.Hyperlink?>
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="tn.devMinds.controllers.BackendHome">
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<BorderPane fx:id="borderPane" xmlns:fx="http://javafx.com/fxml" fx:controller="tn.devMinds.controllers.SideBarre_adminController">
     <!-- Balise top avec le titre de l'application -->
     <top>
         <HBox prefHeight="69.0" prefWidth="1315.0" styleClass="header-bar" BorderPane.alignment="CENTER">
@@ -106,7 +108,7 @@
                                         <Insets left="7.0" top="12.0" />
                                     </HBox.margin>
                                 </ImageView>
-                                <Button mnemonicParsing="false" onMouseClicked="#goRoles" prefHeight="50.0" prefWidth="169.0" styleClass="transparent" text="Compte bancaire">
+                                <Button mnemonicParsing="false" onMouseClicked="#goCompteBancaire" prefHeight="50.0" prefWidth="169.0" styleClass="transparent" text="Compte bancaire">
                                     <font>
                                         <Font name="Georgia" size="13.0" />
                                     </font>
@@ -128,11 +130,17 @@
                                         <Insets left="9.0" right="10.0" top="12.0" />
                                     </HBox.margin>
                                 </ImageView>
-                                <Button mnemonicParsing="false" onMouseClicked="#goEvenement" prefHeight="50.0" prefWidth="189.0" styleClass="transparent" text="Transaction">
+                                <SplitMenuButton mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Transactions" styleClass="transparent">
+                                    <items>
+                                        <MenuItem text="Transaction" onAction="#goTransaction"/>
+                                        <MenuItem text="Type de Transaction" onAction="#goTransactionType">
+                                        </MenuItem>
+                                    </items>
                                     <font>
                                         <Font name="Georgia" size="13.0" />
                                     </font>
-                                </Button>
+                                </SplitMenuButton>
+
 
                             </children>
                         </HBox>
@@ -147,7 +155,7 @@
                                         <Insets left="7.0" right="10.0" top="12.0" />
                                     </HBox.margin>
                                 </ImageView>
-                                <Button mnemonicParsing="false" onMouseClicked="#goShop" prefHeight="50.0" prefWidth="179.0" styleClass="transparent" text="Carte Bancaire">
+                                <Button mnemonicParsing="false" onMouseClicked="#goCarteBancaire" prefHeight="50.0" prefWidth="179.0" styleClass="transparent" text="Carte Bancaire">
                                     <font>
                                         <Font name="Georgia" size="13.0" />
                                     </font>
@@ -166,7 +174,7 @@
                                         <Insets left="7.0" top="12.0" />
                                     </HBox.margin>
                                 </ImageView>
-                                <Button mnemonicParsing="false" onMouseClicked="#goDonation" prefHeight="50.0" prefWidth="169.0" styleClass="transparent" text="Crédit">
+                                <Button mnemonicParsing="false" onMouseClicked="#goCredit" prefHeight="50.0" prefWidth="169.0" styleClass="transparent" text="Crédit">
                                     <font>
                                         <Font name="Georgia" size="13.0" />
                                     </font>
@@ -188,7 +196,7 @@
                                         <Insets left="7.0" top="12.0" />
                                     </HBox.margin>
                                 </ImageView>
-                                <Button mnemonicParsing="false" onMouseClicked="#goReclamation" prefHeight="50.0" prefWidth="169.0" styleClass="transparent" text="Assurance">
+                                <Button mnemonicParsing="false" onMouseClicked="#goAssurance" prefHeight="50.0" prefWidth="169.0" styleClass="transparent" text="Assurance">
                                     <font>
                                         <Font name="Georgia" size="13.0" />
                                     </font>
