@@ -13,22 +13,23 @@ import tn.devMinds.iservices.AssuranceService;
 import java.io.IOException;
 
 public class UpdateAssuranceController extends SideBarre_adminController {
-    private AssuranceListController assuranceListController;
+
     @FXML
     private BorderPane borderPane;
     private SideBarre_adminController sidebarController;
+
     @FXML
     private TextField nom;
+
     @FXML
     private TextField description;
+
     @FXML
     private TextField prime;
+
     @FXML
     private TextField franchise;
 
-    public void setSidebarController(SideBarre_adminController sidebarController) {
-        this.sidebarController = sidebarController;
-    }
     private final AssuranceService assuranceService = new AssuranceService();
     private Assurance assuranceToUpdate;
 
@@ -68,10 +69,10 @@ public class UpdateAssuranceController extends SideBarre_adminController {
         } else {
             String updateResult = assuranceService.update(updatedAssurance, updatedAssurance.getId());
             if (updateResult == null) {
-                displayAlert("Confirmation", "L'assurance a été mise à jour avec succès.", Alert.AlertType.CONFIRMATION);
+                displayAlert("Confirmation", "L'Assurance a été mise à jour avec succès.", Alert.AlertType.CONFIRMATION);
                 retourner();
             } else {
-                displayAlert("Erreur", "Une erreur s'est produite lors de la mise à jour de l'assurance: " + updateResult, Alert.AlertType.ERROR);
+                displayAlert("Erreur", "Une erreur s'est produite lors de la mise à jour de l'Assurance: " + updateResult, Alert.AlertType.ERROR);
             }
         }
     }
@@ -83,7 +84,4 @@ public class UpdateAssuranceController extends SideBarre_adminController {
         alert.show();
     }
 
-    public void setAssuranceListController(AssuranceListController controller) {
-        this.assuranceListController = controller;
-    }
 }

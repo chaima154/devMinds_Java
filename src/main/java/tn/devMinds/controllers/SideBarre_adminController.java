@@ -58,12 +58,13 @@ public class SideBarre_adminController implements Initializable {
     void goAssurance(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListAssurance.fxml"));
         Parent parent = loader.load();
-        AssuranceListController typeAssurance = loader.getController();
+        AssuranceListController assuranceListController = loader.getController(); // Corrected variable name
         if (loader.getController() instanceof AssuranceListController) {
-            ((AssuranceListController) Assurance).setSidebarController(this);
+            assuranceListController.setSidebarController(this); // Corrected method call
             this.borderPane.setCenter(parent);
         }
     }
+
 
 
     @FXML

@@ -29,7 +29,7 @@ public class AssuranceService implements IService<Assurance> {
             checkUniqueStmt.setString(1, assurance.getNom());
             ResultSet resultSet = checkUniqueStmt.executeQuery();
             if (resultSet.next() && resultSet.getInt(1) > 0) {
-                return "Une assurance avec ce nom existe déjà.";
+                return "Une Assurance avec ce nom existe déjà.";
             }
         } catch (SQLException e) {
             return "Erreur lors de la vérification de l'unicité : " + e.getMessage();
@@ -49,7 +49,7 @@ public class AssuranceService implements IService<Assurance> {
                 return "Aucune ligne n'a été affectée lors de l'ajout.";
             }
         } catch (SQLException e) {
-            return "Erreur lors de l'ajout de l'assurance : " + e.getMessage();
+            return "Erreur lors de l'ajout de l'Assurance : " + e.getMessage();
         }
     }
 
@@ -82,7 +82,7 @@ public class AssuranceService implements IService<Assurance> {
             checkUniqueStmt.setInt(2, id);
             ResultSet resultSet = checkUniqueStmt.executeQuery();
             if (resultSet.next() && resultSet.getInt(1) > 0) {
-                return "Une assurance avec ce nom existe déjà.";
+                return "Une Assurance avec ce nom existe déjà.";
             }
         } catch (SQLException e) {
             return "Erreur lors de la vérification de l'unicité : " + e.getMessage();
@@ -102,7 +102,7 @@ public class AssuranceService implements IService<Assurance> {
                 return "Aucune ligne n'a été affectée lors de la mise à jour.";
             }
         } catch (SQLException e) {
-            return "Erreur lors de la mise à jour de l'assurance : " + e.getMessage();
+            return "Erreur lors de la mise à jour de l'Assurance : " + e.getMessage();
         }
     }
 
@@ -125,4 +125,12 @@ public class AssuranceService implements IService<Assurance> {
         }
         return (ArrayList<Assurance>) data;
     }
+    public String validateInput(Assurance assurance) {
+        if (assurance.getNom() == null || assurance.getNom().isEmpty()) {
+            return "Le nom ne peut pas être vide.";
+        }
+        // Add other validation rules as needed
+        return null; // Return null if validation passes
+    }
+
 }

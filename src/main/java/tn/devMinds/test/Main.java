@@ -1,4 +1,4 @@
-package tn.devMinds.test;
+/*package tn.devMinds.test;
 
 import tn.devMinds.entities.TypeTransaction;
 import tn.devMinds.iservices.TypeTransactionService;
@@ -13,4 +13,4 @@ public class Main {
         tt.add(typetransaction);
         System.out.println(tt.getAllData());
     }
-}
+}*/
