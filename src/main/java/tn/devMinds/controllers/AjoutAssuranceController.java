@@ -25,7 +25,7 @@ public class AjoutAssuranceController extends SideBarre_adminController {
     @FXML
     private TextField franchise;
 
-    private final AssuranceService assuranceService = new AssuranceService();
+    private AssuranceService assuranceService = new AssuranceService();
 
     public Boolean verif_nom(TextField t) {
         String champ = t.getText().trim();

@@ -28,6 +28,12 @@ public class AssuranceListController implements Initializable {
     @FXML
     private TableColumn<Assurance, String> nomColumn;
     @FXML
+    private TableColumn<Assurance, String> descriptionColumn;
+    @FXML
+    private TableColumn<Assurance, String> primeColumn;
+    @FXML
+    private TableColumn<Assurance, String> franchiseColumn;
+    @FXML
     private TableColumn<Assurance, Void> actionColumn;
 
     @FXML

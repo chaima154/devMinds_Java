@@ -4,14 +4,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-import tn.devMinds.entities.Assurance;
 
 import java.io.IOException;
 import java.net.URL;
@@ -49,7 +45,7 @@ public class SideBarre_adminController implements Initializable {
             Node node = (Node) event.getSource();
             Stage stage = (Stage) node.getScene().getWindow();
             Scene scene = stage.getScene();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("src/main/resources/banque/ListTypeTransaction.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("src/main/resources/banque/ListAssurance.fxml"));
             scene.setRoot(loader.load());
             stage.setScene(scene);
         } catch (IOException e) {
@@ -59,7 +55,7 @@ public class SideBarre_adminController implements Initializable {
     }*/
     @FXML
     void goAssurance(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListTypeTransaction.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListAssurance.fxml"));
         Parent parent = loader.load();
         AssuranceListController typeAssurance = loader.getController();
         if (loader.getController() instanceof AssuranceListController) {

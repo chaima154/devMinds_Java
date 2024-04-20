@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane fx:id="borderPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.TypeTransactionListController">
-    <center>
-        <AnchorPane prefHeight="830.0" prefWidth="1098.0">
+<BorderPane fx:id="borderPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.AssuranceListController">
+   <right>
+        <AnchorPane prefHeight="830.0" prefWidth="1098.0" BorderPane.alignment="CENTER">
             <children>
 
                 <HBox layoutY="57.0" prefHeight="93.0" prefWidth="1098.0">
                     <children>
-                        <Label prefHeight="17.0" prefWidth="263.0" text="Les types de transaction">
+                        <Label prefHeight="17.0" prefWidth="263.0" text="Nos Assurances">
                             <HBox.margin>
                                 <Insets left="90.0" top="40.0" />
                             </HBox.margin>
@@ -26,7 +20,7 @@
                                 <Font name="Georgia" size="24.0" />
                             </font>
                         </Label>
-                        <Button fx:id="ajout" mnemonicParsing="false" onAction="#ajout" prefHeight="46.0" prefWidth="144.0" style="-fx-background-color: #3f704d;" text="Ajouter un type de transaction" textFill="WHITE">
+                        <Button fx:id="ajout" mnemonicParsing="false" onAction="#ajout" prefHeight="46.0" prefWidth="144.0" style="-fx-background-color: #3f704d;" text="Ajouter une assurance" textFill="WHITE">
                             <HBox.margin>
                                 <Insets left="500.0" top="50.0" />
                             </HBox.margin>
@@ -36,8 +30,11 @@
 
                 <TableView fx:id="table" layoutX="98.0" layoutY="259.0" prefHeight="490.0" prefWidth="870.0">
                     <columns>
-                        <TableColumn fx:id="libelleColumn" prefWidth="420.8000030517578" text="Libellé" />
-                        <TableColumn fx:id="actionColumn" prefWidth="448.7999572753906" text="Actions" />
+                        <TableColumn fx:id="nomColumn" prefWidth="190.99998474121094" text="Nom" />
+                        <TableColumn fx:id="descriptionColumn" minWidth="4.600006103515625" prefWidth="281.0" text="Description" />
+                        <TableColumn fx:id="primeColumn" prefWidth="133.20001220703125" text="Prime" />
+                        <TableColumn fx:id="franchiseColumn" prefWidth="133.79998779296875" text="Franchise" />
+                        <TableColumn fx:id="actionColumn" prefWidth="130.4000244140625" text="Actions" />
                     </columns>
                 </TableView>
 
@@ -50,5 +47,5 @@
 
             </children>
         </AnchorPane>
-    </center>
+   </right>
 </BorderPane>

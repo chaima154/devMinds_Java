@@ -1,8 +1,5 @@
 package tn.devMinds.iservices;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import tn.devMinds.entities.Assurance;
 import tn.devMinds.tools.MyConnection;
 
 import java.sql.*;

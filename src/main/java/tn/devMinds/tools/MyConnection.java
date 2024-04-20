@@ -5,16 +5,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MyConnection {
-    private static final String URL = "jdbc:mysql://localhost:3306/db_bank";
-    private static final String LOGIN = "root";
-    private static final String PASSWORD = "";
+    private String url = "jdbc:mysql://localhost:3306/db_bank";
+    private String login = "root";
+    private String pwd = "";
 
-    private static MyConnection instance;
-    private Connection cnx;
+    public static MyConnection instance;
+    Connection cnx;
 
     private MyConnection() {
         try {
-            cnx = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+            cnx = DriverManager.getConnection(url, login, pwd);
             System.out.println("Connexion établie....");
         } catch (SQLException e) {
             System.out.println(e.getMessage());

@@ -7,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import tn.devMinds.entities.Assurance;
 import tn.devMinds.iservices.AssuranceService;
 
 import java.io.IOException;
