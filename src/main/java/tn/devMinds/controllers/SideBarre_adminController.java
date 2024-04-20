@@ -40,11 +40,11 @@ public class SideBarre_adminController implements Initializable {
     }
 
     @FXML
-    void goTransaction(MouseEvent event) {
+    void goAssurance(MouseEvent event) {
 
     }
     /* @FXML
-    void goTransactionType(MouseEvent event) {
+    void goAssurance(MouseEvent event) {
         try {
             Node node = (Node) event.getSource();
             Stage stage = (Stage) node.getScene().getWindow();
@@ -58,7 +58,7 @@ public class SideBarre_adminController implements Initializable {
 
     }*/
     @FXML
-    void goTransactionType(ActionEvent event) throws IOException {
+    void goAssurance(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListTypeTransaction.fxml"));
         Parent parent = loader.load();
         AssuranceListController typeAssurance = loader.getController();
@@ -70,7 +70,7 @@ public class SideBarre_adminController implements Initializable {
 
 
     @FXML
-    void goAssurance(MouseEvent event) {
+    void goTypeTransaction(MouseEvent event) {
 
     }
 

@@ -177,7 +177,7 @@
                                 <SplitMenuButton mnemonicParsing="false" prefHeight="43.0" prefWidth="165.0" styleClass="transparent" text="Assurance">
                                     <items>
                                         <MenuItem onAction="#goTransaction" text="Assurance" />
-                                        <MenuItem onAction="#goTransactionType" text="Les demandes">
+                                        <MenuItem onAction="#goAssurance" text="Les demandes">
                                         </MenuItem>
                                     </items>
                                     <font>

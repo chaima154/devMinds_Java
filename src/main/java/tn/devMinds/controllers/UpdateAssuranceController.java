@@ -29,7 +29,7 @@ public class UpdateAssuranceController extends SideBarre_adminController {
     public void setSidebarController(SideBarre_adminController sidebarController) {
         this.sidebarController = sidebarController;
     }
-    private AssuranceService assuranceService = new AssuranceService();
+    private final AssuranceService assuranceService = new AssuranceService();
     private Assurance assuranceToUpdate;
 
     public void initializeData(Assurance assurance) {
