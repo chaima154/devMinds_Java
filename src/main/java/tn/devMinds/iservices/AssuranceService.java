@@ -5,6 +5,8 @@ import tn.devMinds.tools.MyConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import tn.devMinds.entities.Assurance;
+
 
 public class AssuranceService implements IService<Assurance> {
     public Connection cnx;

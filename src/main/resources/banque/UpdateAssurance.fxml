@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="borderPane" prefHeight="564.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.AjoutTypeTransactionController">
+    <center>
+        <VBox alignment="CENTER" prefHeight="419.0" prefWidth="718.0" spacing="10">
+            <children>
+                <Label text="Ajouter Assurance" textFill="#3f704d">
+                    <font>
+                        <Font name="System Bold" size="47.0" />
+                    </font>
+                </Label>
+                  <Label prefHeight="28.0" prefWidth="385.0" text="Nom">
+                      <font>
+                          <Font name="Baskerville Old Face" size="24.0" />
+                      </font>
+                  </Label>
+                  <TextField fx:id="libelle" prefHeight="40.0" prefWidth="400.0">
+                      <VBox.margin>
+                          <Insets top="10.0" />
+                      </VBox.margin>
+                  </TextField>
+                <Label fx:id="resultat" prefHeight="46.0" prefWidth="407.0" text="Decription">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+            <TextField fx:id="libelle1" layoutX="10.0" layoutY="238.0" prefHeight="40.0" prefWidth="400.0" />
+            <Label fx:id="resultat1" layoutX="107.0" layoutY="238.0" prefHeight="46.0" prefWidth="407.0" text="Prime">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <TextField fx:id="libelle11" layoutX="10.0" layoutY="320.0" prefHeight="40.0" prefWidth="400.0" />
+            <Label fx:id="resultat11" layoutX="107.0" layoutY="317.0" prefHeight="46.0" prefWidth="407.0" text="Franchise">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <TextField fx:id="libelle111" layoutX="10.0" layoutY="343.0" prefHeight="40.0" prefWidth="400.0" />
+                <VBox alignment="TOP_LEFT" spacing="10" />
+                <Button fx:id="CreateAccount" mnemonicParsing="false" onAction="#UpdateAssurance" prefHeight="29.0" prefWidth="187.0" style="-fx-background-color: #3f704d;" text="Modifier " textFill="#fffafa">
+                      <VBox.margin>
+                          <Insets top="40.0" />
+                      </VBox.margin>
+                      <font>
+                          <Font size="19.0" />
+                      </font>
+                  </Button>
+            </children>
+        </VBox>
+    </center>
+    <bottom>
+        <Button fx:id="retour" mnemonicParsing="false" onAction="#retour" prefHeight="38.0" prefWidth="81.0" style="-fx-background-color: #3f704d;" text="Retour" textFill="WHITE">
+            <font>
+                <Font size="17.0" />
+            </font>
+        </Button>
+    </bottom>
+</BorderPane>
