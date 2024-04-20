@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import tn.devMinds.entities.Assurance;
 
 import java.io.IOException;
 import java.net.URL;
@@ -60,12 +61,13 @@ public class SideBarre_adminController implements Initializable {
     void goTransactionType(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListTypeTransaction.fxml"));
         Parent parent = loader.load();
-        TypeTransactionListController typetransaction = loader.getController();
-        if (loader.getController() instanceof TypeTransactionListController) {
-            ((TypeTransactionListController) typetransaction).setSidebarController(this);
+        AssuranceListController typeAssurance = loader.getController();
+        if (loader.getController() instanceof AssuranceListController) {
+            ((AssuranceListController) Assurance).setSidebarController(this);
             this.borderPane.setCenter(parent);
         }
     }
+
 
     @FXML
     void goAssurance(MouseEvent event) {
