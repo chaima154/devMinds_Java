@@ -8,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import tn.devMinds.entities.Assurance;
 
 import java.io.IOException;
 import java.net.URL;
@@ -40,6 +39,7 @@ public class SideBarre_adminController implements Initializable {
     void goAssurance(MouseEvent event) {
 
     }
+
     /* @FXML
     void goAssurance(MouseEvent event) {
         try {
@@ -64,7 +64,6 @@ public class SideBarre_adminController implements Initializable {
             this.borderPane.setCenter(parent);
         }
     }
-
 
 
     @FXML

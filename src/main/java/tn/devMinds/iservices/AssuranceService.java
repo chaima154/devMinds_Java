@@ -1,11 +1,11 @@
 package tn.devMinds.iservices;
 
+import tn.devMinds.entities.Assurance;
 import tn.devMinds.tools.MyConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import tn.devMinds.entities.Assurance;
 
 
 public class AssuranceService implements IService<Assurance> {
@@ -125,6 +125,7 @@ public class AssuranceService implements IService<Assurance> {
         }
         return (ArrayList<Assurance>) data;
     }
+
     public String validateInput(Assurance assurance) {
         if (assurance.getNom() == null || assurance.getNom().isEmpty()) {
             return "Le nom ne peut pas être vide.";
