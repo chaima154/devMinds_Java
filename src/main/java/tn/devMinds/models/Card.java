@@ -100,5 +100,14 @@ public class Card {
         this.solde = solde;
     }
 
+
+
+
+
+
+
+
+
+
 }
 

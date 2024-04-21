@@ -12,7 +12,11 @@ public interface IService<T>{
         boolean delete(int id) throws SQLException;
         boolean update(T t) throws SQLException;
         //T getById(int id);
+        ArrayList<T> getAllNormlaCard() throws SQLException;
+        ArrayList<T> getAllPrepaedCard() throws SQLException;
         Compte getCompteById(int id);
         TypeCard getTypeCarteById(int id);
+
+
 }
 

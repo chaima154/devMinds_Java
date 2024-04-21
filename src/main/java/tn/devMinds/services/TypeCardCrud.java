@@ -106,6 +106,16 @@ public class TypeCardCrud implements  IService<TypeCard>{
     }
 
     @Override
+    public ArrayList<TypeCard> getAllNormlaCard() throws SQLException {
+        return null;
+    }
+
+    @Override
+    public ArrayList<TypeCard> getAllPrepaedCard() throws SQLException {
+        return null;
+    }
+
+    @Override
     public Compte getCompteById(int id) {
         return null;
     }

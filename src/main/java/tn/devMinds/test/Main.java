@@ -14,14 +14,15 @@ import java.util.ArrayList;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) throws SQLException {
-//       Compte co=new Compte();
+/*       Compte co=new Compte();*/
+        /*
 //       co.setId(2);
 //       TypeCard tc=new TypeCard();
 //       tc.setId(2);
 //     Card c=new Card("00000000", LocalDate.of(2002, 4, 24), 404, "2002", "Active",tc, co, 5.500);
 //c.setId(105);
 //TypeCard type_carte= new TypeCard("one_for_all","easy to handle in every situation", 3.500F,"active");
-
+*/
         CardCrud ps=new CardCrud();
         TypeCardCrud tc=new TypeCardCrud();
 
