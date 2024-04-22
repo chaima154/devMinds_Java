@@ -7,8 +7,9 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import tn.devMinds.entities.Assurance;
+import tn.devMinds.entities.Assurence;
 import tn.devMinds.iservices.AssuranceService;
+
 
 import java.io.IOException;
 
@@ -25,6 +26,7 @@ public class AjoutAssuranceController extends SideBarre_adminController {
     @FXML
     private TextField franchise;
 
+
     private AssuranceService assuranceService = new AssuranceService();
 
     public Boolean verif_nom(TextField t) {
@@ -38,11 +40,11 @@ public class AjoutAssuranceController extends SideBarre_adminController {
     }
 
     private void retourner() throws IOException {
-        // Load the appropriate list view (ListAssurance.fxml)
+        // Load the appropriate list view (ListAssurence.fxml)
     }
 
     @FXML
-    void addAssurance(ActionEvent event) throws IOException {
+    void AddAssurance(ActionEvent event) throws IOException {
         if (!verif_nom(nom)) {
             Alert al = new Alert(Alert.AlertType.WARNING);
             al.setTitle("Alerte");
@@ -50,7 +52,7 @@ public class AjoutAssuranceController extends SideBarre_adminController {
             al.show();
         } else {
             try {
-                Assurance assurance = new Assurance();
+                Assurence assurance = new Assurence();
                 assurance.setNom(nom.getText());
                 assurance.setDescription(description.getText());
                 assurance.setPrime(Integer.parseInt(prime.getText()));
@@ -60,10 +62,10 @@ public class AjoutAssuranceController extends SideBarre_adminController {
                 if (errorMessage == null) {
                     Alert al = new Alert(Alert.AlertType.CONFIRMATION);
                     al.setTitle("Confirmation");
-                    al.setContentText("L'Assurance a été ajoutée avec succès.");
+                    al.setContentText("L'Assurence a été ajoutée avec succès.");
                     al.showAndWait();
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListAssurance.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListAssurence.fxml"));
                     Parent parent = loader.load();
                     AssuranceListController assuranceListController = loader.getController();
                     if (loader.getController() instanceof AssuranceListController) {

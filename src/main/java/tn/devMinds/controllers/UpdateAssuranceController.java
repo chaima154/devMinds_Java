@@ -7,7 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import tn.devMinds.entities.Assurance;
+import tn.devMinds.entities.Assurence;
 import tn.devMinds.iservices.AssuranceService;
 
 import java.io.IOException;
@@ -31,9 +31,9 @@ public class UpdateAssuranceController extends SideBarre_adminController {
     private TextField franchise;
 
     private final AssuranceService assuranceService = new AssuranceService();
-    private Assurance assuranceToUpdate;
+    private Assurence assuranceToUpdate;
 
-    public void initializeData(Assurance assurance) {
+    public void initializeData(Assurence assurance) {
         this.assuranceToUpdate = assurance;
         nom.setText(assurance.getNom());
         description.setText(assurance.getDescription());
@@ -55,8 +55,8 @@ public class UpdateAssuranceController extends SideBarre_adminController {
     }
 
     @FXML
-    void updateAssurance(ActionEvent event) throws IOException {
-        Assurance updatedAssurance = new Assurance();
+    void UpdateAssurance(ActionEvent event) throws IOException {
+        Assurence updatedAssurance = new Assurence();
         updatedAssurance.setId(assuranceToUpdate.getId());
         updatedAssurance.setNom(nom.getText());
         updatedAssurance.setDescription(description.getText());

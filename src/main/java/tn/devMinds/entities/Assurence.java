@@ -1,11 +1,12 @@
 package tn.devMinds.entities;
 
-public class Assurance {
+public class Assurence {
     protected int id;
     protected String nom;
     protected String description;
     protected int prime;
     protected double franchise;
+
 
     public int getId() {
         return id;

@@ -35,10 +35,9 @@ public class SideBarre_adminController implements Initializable {
 
     }
 
-    @FXML
-    void goAssurance(MouseEvent event) {
 
-    }
+
+
 
     /* @FXML
     void goAssurance(MouseEvent event) {

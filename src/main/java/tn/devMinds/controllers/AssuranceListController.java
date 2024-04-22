@@ -11,7 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import tn.devMinds.entities.Assurance;
+import tn.devMinds.entities.Assurence;
 import tn.devMinds.iservices.AssuranceService;
 
 import java.io.IOException;
@@ -24,17 +24,17 @@ public class AssuranceListController implements Initializable {
     public BorderPane borderPane;
 
     @FXML
-    private TableView<Assurance> table;
+    private TableView<Assurence> table;
     @FXML
-    private TableColumn<Assurance, String> nomColumn;
+    private TableColumn<Assurence, String> nomColumn;
     @FXML
-    private TableColumn<Assurance, String> descriptionColumn;
+    private TableColumn<Assurence, String> descriptionColumn;
     @FXML
-    private TableColumn<Assurance, String> primeColumn;
+    private TableColumn<Assurence, String> primeColumn;
     @FXML
-    private TableColumn<Assurance, String> franchiseColumn;
+    private TableColumn<Assurence, String> franchiseColumn;
     @FXML
-    private TableColumn<Assurance, Void> actionColumn;
+    private TableColumn<Assurence, Void> actionColumn;
 
     @FXML
     private Button ajout;
@@ -61,7 +61,7 @@ public class AssuranceListController implements Initializable {
         });
     }
 
-    private ObservableList<Assurance> getAllList() {
+    private ObservableList<Assurence> getAllList() {
         return FXCollections.observableArrayList(assuranceService.getAllData());
     }
 
@@ -76,20 +76,20 @@ public class AssuranceListController implements Initializable {
     }
 
     private void setupActionColumn() {
-        actionColumn.setCellFactory(param -> new TableCell<Assurance, Void>() {
+        actionColumn.setCellFactory(param -> new TableCell<Assurence, Void>() {
             private final Button deleteBtn = new Button("Delete");
             private final Button updateBtn = new Button("Update");
             private final HBox hbox = new HBox(5, updateBtn, deleteBtn);
 
             {
                 deleteBtn.setOnAction(event -> {
-                    Assurance assurance = getTableView().getItems().get(getIndex());
+                    Assurence assurance = getTableView().getItems().get(getIndex());
                     assuranceService.delete(assurance);
                     showList(getAllList());
                 });
 
                 updateBtn.setOnAction(event -> {
-                    Assurance assurance = getTableView().getItems().get(getIndex());
+                    Assurence assurance = getTableView().getItems().get(getIndex());
                     openUpdateFXML(assurance);
                 });
             }
@@ -102,7 +102,7 @@ public class AssuranceListController implements Initializable {
         });
     }
 
-    private void openUpdateFXML(Assurance assurance) {
+    private void openUpdateFXML(Assurence assurance) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/UpdateAssurance.fxml"));
             Parent root = loader.load();
@@ -118,7 +118,7 @@ public class AssuranceListController implements Initializable {
 
     @FXML
     private void delete(ActionEvent event) {
-        Assurance assurance = table.getSelectionModel().getSelectedItem();
+        Assurence assurance = table.getSelectionModel().getSelectedItem();
         if (assurance != null) {
             if (assuranceService.delete(assurance)) {
                 showList(getAllList());
@@ -130,7 +130,7 @@ public class AssuranceListController implements Initializable {
         }
     }
 
-    public void showList(ObservableList<Assurance> observableList) {
+    public void showList(ObservableList<Assurence> observableList) {
         nomColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getNom()));
         table.setItems(observableList);
     }

@@ -1,14 +1,14 @@
 package tn.devMinds.iservices;
 
+import tn.devMinds.entities.Assurence;
 import tn.devMinds.tools.MyConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
-import tn.devMinds.entities.Assurance;
 import java.util.List;
 
 
-public class AssuranceService implements IService<Assurance> {
+public class AssuranceService implements IService<Assurence> {
     public Connection cnx;
 
     public AssuranceService() {
@@ -16,7 +16,7 @@ public class AssuranceService implements IService<Assurance> {
     }
 
     @Override
-    public String add(Assurance assurance) {
+    public String add(Assurence assurance) {
         if (assurance.getNom() == null || assurance.getNom().isEmpty()) {
             return "Le nom ne peut pas être vide.";
         }
@@ -54,7 +54,7 @@ public class AssuranceService implements IService<Assurance> {
     }
 
     @Override
-    public boolean delete(Assurance assurance) {
+    public boolean delete(Assurence assurance) {
         String req = "DELETE FROM assurance WHERE id=?";
         try (PreparedStatement pst = cnx.prepareStatement(req)) {
             pst.setInt(1, assurance.getId());
@@ -68,7 +68,7 @@ public class AssuranceService implements IService<Assurance> {
     }
 
     @Override
-    public String update(Assurance assurance, int id) {
+    public String update(Assurence assurance, int id) {
         if (assurance.getNom() == null || assurance.getNom().isEmpty()) {
             return "Le nom ne peut pas être vide.";
         }
@@ -107,12 +107,12 @@ public class AssuranceService implements IService<Assurance> {
     }
 
     @Override
-    public ArrayList<Assurance> getAllData() {
-        List<Assurance> data = new ArrayList<>();
+    public ArrayList<Assurence> getAllData() {
+        List<Assurence> data = new ArrayList<>();
         String requete = "SELECT * FROM assurance";
         try (Statement st = cnx.createStatement(); ResultSet rs = st.executeQuery(requete)) {
             while (rs.next()) {
-                Assurance assurance = new Assurance();
+                Assurence assurance = new Assurence();
                 assurance.setId(rs.getInt("id"));
                 assurance.setNom(rs.getString("nom"));
                 assurance.setDescription(rs.getString("description"));
@@ -123,10 +123,10 @@ public class AssuranceService implements IService<Assurance> {
         } catch (SQLException e) {
             System.out.println("Erreur lors de la récupération des données: " + e.getMessage());
         }
-        return (ArrayList<Assurance>) data;
+        return (ArrayList<Assurence>) data;
     }
 
-    public String validateInput(Assurance assurance) {
+    public String validateInput(Assurence assurance) {
         if (assurance.getNom() == null || assurance.getNom().isEmpty()) {
             return "Le nom ne peut pas être vide.";
         }
