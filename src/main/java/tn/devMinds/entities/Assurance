@@ -1,22 +1,11 @@
 package tn.devMinds.entities;
 
 public class Assurance {
-    private int id;
-    private String nom;
-    private String description;
-    private int prime;
-    private double franchise;
-
-    public Assurance() {
-    }
-
-    public Assurance(int id, String nom, String description, int prime, double franchise) {
-        this.id = id;
-        this.nom = nom;
-        this.description = description;
-        this.prime = prime;
-        this.franchise = franchise;
-    }
+    protected int id;
+    protected String nom;
+    protected String description;
+    protected int prime;
+    protected double franchise;
 
     public int getId() {
         return id;
