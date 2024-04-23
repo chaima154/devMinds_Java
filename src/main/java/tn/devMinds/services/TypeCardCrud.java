@@ -124,4 +124,7 @@ public class TypeCardCrud implements  IService<TypeCard>{
     public TypeCard getTypeCarteById(int id) {
         return null;
     }
+
+
+
 }

@@ -55,7 +55,7 @@ public class BackendHome {
     @FXML
     void goCard(MouseEvent event){
         try {
-            root = FXMLLoader.load(getClass().getResource("/banque/GestionCard/showCardAdmin.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/banque/GestionCard/addCardAdmin.fxml"));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);

@@ -4,7 +4,7 @@ import tn.devMinds.models.Card;
 import tn.devMinds.models.Compte;
 import tn.devMinds.models.TypeCard;
 import tn.devMinds.tools.MyConnection;
-
+import java.util.Random;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -224,6 +224,41 @@ public class CardCrud implements  IService<Card>{
         return data;
     }
 
+
+
+
+
+
+    public  String generateUniqueNumero(int x) {
+        String randomNumero = generateRandomNumberString(x);
+        boolean numeroExists = checkIfNumeroExists(randomNumero);
+        while (numeroExists) {
+            randomNumero = generateRandomNumberString(x);
+            numeroExists = checkIfNumeroExists(randomNumero);
+        }
+        return randomNumero;
+    }
+    public  String generateRandomNumberString(int length) {
+        String characters = "0123456789";
+        Random random = new Random();
+        StringBuilder randomString = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            randomString.append(characters.charAt(random.nextInt(characters.length())));
+        }
+        return randomString.toString();
+    }
+        public  boolean checkIfNumeroExists(String numero) {
+            String request = "SELECT numero FROM carte WHERE numero=?";
+            try {
+                PreparedStatement preparedStatement = MyConnection.getInstance().getCnx().prepareStatement(request);
+                preparedStatement.setString(1, numero);
+                ResultSet rs = preparedStatement.executeQuery();
+                return rs.next(); // Returns true if ResultSet contains any rows (numero exists), false otherwise
+            } catch (SQLException e) {
+                System.out.println("+++" + e.getMessage() + "+++");
+                return false; // Return false in case of exception
+            }
+        }
 
 
 
