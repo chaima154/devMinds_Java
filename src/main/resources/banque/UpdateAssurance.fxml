@@ -19,7 +19,7 @@
                           <Font name="Baskerville Old Face" size="24.0" />
                       </font>
                   </Label>
-                  <TextField fx:id="libelle" prefHeight="40.0" prefWidth="400.0">
+                  <TextField fx:id="nom" prefHeight="40.0" prefWidth="400.0">
                       <VBox.margin>
                           <Insets top="10.0" />
                       </VBox.margin>
@@ -29,19 +29,19 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-            <TextField fx:id="libelle1" layoutX="10.0" layoutY="238.0" prefHeight="40.0" prefWidth="400.0" />
+            <TextField fx:id="description" layoutX="10.0" layoutY="238.0" prefHeight="40.0" prefWidth="400.0" />
             <Label fx:id="resultat1" layoutX="107.0" layoutY="238.0" prefHeight="46.0" prefWidth="407.0" text="Prime">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <TextField fx:id="libelle11" layoutX="10.0" layoutY="320.0" prefHeight="40.0" prefWidth="400.0" />
+            <TextField fx:id="prime" layoutX="10.0" layoutY="320.0" prefHeight="40.0" prefWidth="400.0" />
             <Label fx:id="resultat11" layoutX="107.0" layoutY="317.0" prefHeight="46.0" prefWidth="407.0" text="Franchise">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <TextField fx:id="libelle111" layoutX="10.0" layoutY="343.0" prefHeight="40.0" prefWidth="400.0" />
+            <TextField fx:id="franchise" layoutX="10.0" layoutY="343.0" prefHeight="40.0" prefWidth="400.0" />
                 <VBox alignment="TOP_LEFT" spacing="10" />
                 <Button fx:id="CreateAccount" mnemonicParsing="false" onAction="#UpdateAssurance" prefHeight="29.0" prefWidth="187.0" style="-fx-background-color: #3f704d;" text="Modifier " textFill="#fffafa">
                       <VBox.margin>

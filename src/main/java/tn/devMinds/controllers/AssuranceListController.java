@@ -132,6 +132,10 @@ public class AssuranceListController implements Initializable {
 
     public void showList(ObservableList<Assurence> observableList) {
         nomColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getNom()));
+        descriptionColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getDescription()));
+        primeColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getPrime()).asString());
+        franchiseColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getFranchise()).asString());
         table.setItems(observableList);
     }
+
 }

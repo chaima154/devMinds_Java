@@ -62,10 +62,10 @@ public class AjoutAssuranceController extends SideBarre_adminController {
                 if (errorMessage == null) {
                     Alert al = new Alert(Alert.AlertType.CONFIRMATION);
                     al.setTitle("Confirmation");
-                    al.setContentText("L'Assurence a été ajoutée avec succès.");
+                    al.setContentText("L'Assurance a été ajoutée avec succès.");
                     al.showAndWait();
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListAssurence.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListAssurance.fxml"));
                     Parent parent = loader.load();
                     AssuranceListController assuranceListController = loader.getController();
                     if (loader.getController() instanceof AssuranceListController) {
