@@ -42,32 +42,23 @@ public class UserService implements IService<User> {
     @Override
 
     public String add(User user) {
-        // Ajouter la logique pour ajouter un utilisateur dans la base de données
-        String requete = "INSERT INTO user(nom, prenom, email, mdp, role) VALUES (?, ?, ?, ?, ?)";
-        try {
-            PreparedStatement pst = cnx.prepareStatement(requete, Statement.RETURN_GENERATED_KEYS);
+        String query = "INSERT INTO user(nom, prenom, email, mdp, role) VALUES (?, ?, ?, ?, ?)";
+
+        try (PreparedStatement pst = cnx.prepareStatement(query)) {
             pst.setString(1, user.getNom());
             pst.setString(2, user.getPrenom());
             pst.setString(3, user.getEmail());
             pst.setString(4, user.getMdp());
-            pst.setString(5, user.getRole().toString()); // Convertir le rôle en chaîne de caractères
+            pst.setString(5, user.getRole().toString());
 
             int rowsAffected = pst.executeUpdate();
             if (rowsAffected > 0) {
-                // Récupérer l'ID généré automatiquement
-                ResultSet generatedKeys = pst.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    int generatedId = generatedKeys.getInt(1);
-                    user.setId(generatedId);
-                } else {
-                    return "Impossible de récupérer l'ID généré pour l'utilisateur ajouté.";
-                }
-                return null; // Aucune erreur
+                return null; // No errors
             } else {
-                return "Aucune ligne n'a été affectée lors de l'ajout.";
+                return "No rows were affected during the insertion.";
             }
         } catch (SQLException e) {
-            return "Erreur lors de l'ajout de l'utilisateur : " + e.getMessage();
+            return "Error while adding the user: " + e.getMessage();
         }
     }
 

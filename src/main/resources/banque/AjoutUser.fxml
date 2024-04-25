@@ -1,16 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.geometry.Insets?>
+<?import tn.devMinds.entities.Role?>
 
-<VBox fx:id="container" prefHeight="370.0" prefWidth="336.0" spacing="10" stylesheets="@css/styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="tn.devMinds.controllers.AjoutUserController">
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<BorderPane prefHeight="370.0" prefWidth="600.0" stylesheets="@css/styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="tn.devMinds.controllers.AjoutUserController">
+    <center>
+        <SplitPane dividerPositions="0.2">
+            <VBox spacing="10" styleClass="sidebar">
+                <!-- Sidebar content -->
+                <fx:include source="sidebarre_admin.fxml" />
+            </VBox>
 
-    <TextField fx:id="firstNameField" promptText="Prénom" stylesheets="@css/styles.css" />
-    <TextField fx:id="lastNameField" promptText="Nom" />
-    <TextField fx:id="emailField" promptText="Email" />
-    <TextField fx:id="passwordField" promptText="Mot de passe" />
-    <ComboBox fx:id="roleComboBox" promptText="Rôle" />
-    <Button onAction="#addUser" text="Ajouter" />
-</VBox>
+            <GridPane hgap="10" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="30" />
+                    <ColumnConstraints percentWidth="40" />
+                    <ColumnConstraints percentWidth="30" />
+                </columnConstraints>
+
+                <rowConstraints>
+                    <RowConstraints percentHeight="20" />
+                    <RowConstraints percentHeight="20" />
+                    <RowConstraints percentHeight="20" />
+                    <RowConstraints percentHeight="20" />
+                    <RowConstraints percentHeight="20" />
+                    <RowConstraints percentHeight="20" />
+                </rowConstraints>
+
+                <Label text="Prénom" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <TextField fx:id="firstNameField" promptText="Prénom" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                <Label text="Nom" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextField fx:id="lastNameField" promptText="Nom" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                <Label text="Email" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <TextField fx:id="emailField" promptText="Email" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                <Label text="Mot de passe" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <TextField fx:id="passwordField" promptText="Mot de passe" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                <Label text="Rôle" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                <ComboBox fx:id="roleComboBox" promptText="Rôle" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="ADMIN" />
+                            <String fx:value="USER" />
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+
+                <Button onAction="#addUser" text="Ajouter" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            </GridPane>
+        </SplitPane>
+    </center>
+</BorderPane>

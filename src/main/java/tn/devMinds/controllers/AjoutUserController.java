@@ -24,18 +24,29 @@ public class AjoutUserController extends BackendHome {
     @FXML
     private ComboBox<Role> roleComboBox;
 
+
     // Méthode appelée lorsque le bouton "Ajouter" est cliqué
     public void addUser() throws SQLException {
-        // Récupérer les valeurs des champs du formulaire
+        // Retrieve the values from the form fields
         String nom = firstNameField.getText();
         String prenom = lastNameField.getText();
         String email = emailField.getText();
         String mdp = passwordField.getText();
-        Role role = roleComboBox.getValue();
+        String selectedRoleString = String.valueOf(roleComboBox.getValue());  // Get the selected role as a String
 
-        // Valider les champs (vous pouvez ajouter des validations ici si nécessaire)
+        // Convert the selected role String to Role enum
+        Role role;
+        if ("ADMIN".equals(selectedRoleString)) {
+            role = Role.ROLE_ADMIN;
+        } else if ("USER".equals(selectedRoleString)) {
+            role = Role.ROLE_USER;
+        } else {
+            // Handle invalid role selection
+            System.out.println("Invalid role selection.");
+            return;
+        }
 
-        // Créer un nouvel objet User avec les valeurs des champs
+        // Create a new User object with the field values
         User newUser = new User();
         newUser.setNom(nom);
         newUser.setPrenom(prenom);
@@ -43,19 +54,17 @@ public class AjoutUserController extends BackendHome {
         newUser.setMdp(mdp);
         newUser.setRole(role);
 
-        // Ajouter cet utilisateur à votre système en utilisant le service UserService
+
+        // Add the user to the database using the UserService
         UserService userService = new UserService();
         String result = userService.add(newUser);
 
-        // Traiter le résultat de l'opération d'ajout
+        // Handle the result of the addition operation
         if (result == null) {
-            // L'utilisateur a été ajouté avec succès
+            // User added successfully
             System.out.println("Utilisateur ajouté avec succès.");
-            // Vous pouvez également afficher un message à l'utilisateur pour confirmer l'ajout
         } else {
-            // Il y a eu une erreur lors de l'ajout de l'utilisateur
-            System.out.println("Erreur lors de l'ajout de l'utilisateur : " + result);
-            // Afficher un message d'erreur à l'utilisateur
+            // Error occurred while adding the user
+            System.out.println("Erreur lors de l'ajout de l'utilisateur: " + result);
         }
-    }
-}
+    }}
