@@ -82,10 +82,11 @@ public class UserService implements IService<User> {
         return false;
     }
 
+    
     @Override
     public String update(User user, int id) {
         // Ajouter la logique pour mettre à jour les informations d'un utilisateur dans la base de données
-        String req = "UPDATE user SET firstName=?, lastName=?, email=?, password=?, role=? WHERE id=?";
+        String req = "UPDATE user SET nom=?, prenom=?, email=?, mdp=?, role=? WHERE id=?";
         try (PreparedStatement pst = cnx.prepareStatement(req)) {
             pst.setString(1, user.getNom());
             pst.setString(2, user.getPrenom());

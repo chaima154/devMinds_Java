@@ -12,6 +12,6 @@
     <TextField fx:id="emailField" promptText="Email"/>
     <TextField fx:id="passwordField" promptText="Mot de passe"/>
     <ComboBox fx:id="roleComboBox" promptText="Rôle"/>
-    <Button text="Modifier" onAction="#updateUser"/>
+    <Button text="Update" onAction="#handleUpdateUser" />
 </VBox>
 
