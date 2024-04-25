@@ -10,7 +10,7 @@ import tn.devMinds.iservices.UserService;
 
 import java.sql.SQLException;
 
-public class AjoutUserController {
+public class AjoutUserController extends BackendHome {
     @FXML
     private VBox container;
     @FXML
@@ -27,20 +27,20 @@ public class AjoutUserController {
     // Méthode appelée lorsque le bouton "Ajouter" est cliqué
     public void addUser() throws SQLException {
         // Récupérer les valeurs des champs du formulaire
-        String firstName = firstNameField.getText();
-        String lastName = lastNameField.getText();
+        String nom = firstNameField.getText();
+        String prenom = lastNameField.getText();
         String email = emailField.getText();
-        String password = passwordField.getText();
+        String mdp = passwordField.getText();
         Role role = roleComboBox.getValue();
 
         // Valider les champs (vous pouvez ajouter des validations ici si nécessaire)
 
         // Créer un nouvel objet User avec les valeurs des champs
         User newUser = new User();
-        newUser.setFirstName(firstName);
-        newUser.setLastName(lastName);
+        newUser.setNom(nom);
+        newUser.setPrenom(prenom);
         newUser.setEmail(email);
-        newUser.setPassword(password);
+        newUser.setMdp(mdp);
         newUser.setRole(role);
 
         // Ajouter cet utilisateur à votre système en utilisant le service UserService

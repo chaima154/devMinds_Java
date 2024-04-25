@@ -72,3 +72,77 @@ Wareth -Job
     -fx-font-size: 12px;
     -fx-text-fill: #808080; /* Grey color */
 }
+
+.main-container {
+    -fx-padding: 20px;
+    -fx-spacing: 20px;
+}
+
+.table-view {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-pref-height: 500px;
+}
+
+.table-column {
+    -fx-alignment: CENTER_LEFT;
+}
+
+.search-field {
+    -fx-pref-width: 200px;
+    -fx-pref-height: 30px;
+    -fx-background-color: #fff;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
+
+.search-button {
+    -fx-pref-height: 30px;
+    -fx-background-color: #007bff;
+    -fx-text-fill: #fff;
+    -fx-border-width: 0px;
+    -fx-border-radius: 5px;
+}
+/* styles.css */
+
+/* Style de la classe main-container */
+.main-container {
+    -fx-background-color: #f0f0f0; /* Couleur de fond */
+    -fx-padding: 20px; /* Espacement intérieur */
+}
+
+/* Style des champs de recherche */
+.search-field {
+    -fx-pref-width: 200px; /* Largeur préférée */
+    -fx-font-size: 14px; /* Taille de police */
+    -fx-padding: 5px; /* Espacement intérieur */
+}
+
+/* Style des boutons de recherche et d'ajout */
+.search-button, .add-button {
+    -fx-font-size: 14px; /* Taille de police */
+    -fx-padding: 8px 15px; /* Espacement intérieur */
+    -fx-background-color: #4CAF50; /* Couleur de fond */
+    -fx-text-fill: white; /* Couleur du texte */
+    -fx-border-radius: 5px; /* Rayon des coins */
+}
+
+/* Style de la table des utilisateurs */
+.table-view {
+    -fx-pref-width: 100%; /* Largeur préférée */
+    -fx-pref-height: 400px; /* Hauteur préférée */
+}
+
+/* Style des colonnes de la table */
+.table-column {
+    -fx-alignment: CENTER_LEFT; /* Alignement du contenu */
+    -fx-font-size: 14px; /* Taille de police */
+}
+
+/* Style des lignes de la table */
+.table-row-cell {
+    -fx-font-size: 14px; /* Taille de police */
+}

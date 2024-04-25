@@ -4,10 +4,10 @@ package tn.devMinds.entities;
 
 public class User {
     private int id;
-    private String firstName;
-    private String lastName;
+    private String nom;
+    private String prenom;
     private String email;
-    private String password;
+    private String mdp;
     private Role role;
 
 
@@ -22,20 +22,29 @@ public class User {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+
+    public String getNom() {
+        return nom;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getPrenom() {
+        return prenom;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public String getMdp() {
+        return mdp;
+    }
+
+    public void setMdp(String mdp) {
+        this.mdp = mdp;
     }
 
     public String getEmail() {
@@ -46,13 +55,7 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public Role getRole() {
         return role;
@@ -66,10 +69,10 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", firstName='" + nom + '\'' +
+                ", lastName='" + prenom + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
+                ", password='" + mdp + '\'' +
                 ", role=" + role +
                 '}';
     }

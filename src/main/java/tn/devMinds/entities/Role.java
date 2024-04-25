@@ -1,5 +1,6 @@
 package tn.devMinds.entities;
 
 public enum Role {
-    ADMIN, CLIENT;
+    ROLE_USER,
+    ROLE_ADMIN
 }

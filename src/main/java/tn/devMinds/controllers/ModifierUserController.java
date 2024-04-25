@@ -8,7 +8,7 @@ import tn.devMinds.entities.Role;
 import tn.devMinds.entities.User;
 import tn.devMinds.iservices.UserService;
 
-public class ModifierUserController {
+public class ModifierUserController extends BackendHome {
     @FXML
     private VBox container;
     @FXML
@@ -30,19 +30,19 @@ public class ModifierUserController {
 
     public void updateUser(int userId) {
         // Récupérer les nouvelles informations de l'utilisateur depuis les champs du formulaire
-        String firstName = firstNameField.getText();
-        String lastName = lastNameField.getText();
+        String nom = firstNameField.getText();
+        String prenom = lastNameField.getText();
         String email = emailField.getText();
-        String password = passwordField.getText();
+        String mdp = passwordField.getText();
         Role role = roleComboBox.getValue();
 
         // Créer un nouvel objet User avec les nouvelles informations
         User updatedUser = new User();
         updatedUser.setId(userId); // Utiliser l'ID fourni en paramètre
-        updatedUser.setFirstName(firstName);
-        updatedUser.setLastName(lastName);
+        updatedUser.setNom(nom);
+        updatedUser.setPrenom(prenom);
         updatedUser.setEmail(email);
-        updatedUser.setPassword(password);
+        updatedUser.setMdp(mdp);
         updatedUser.setRole(role);
 
         // Appeler la méthode de mise à jour dans le service UserService

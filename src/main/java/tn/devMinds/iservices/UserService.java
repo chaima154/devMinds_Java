@@ -25,10 +25,10 @@ public class UserService implements IService<User> {
             while (rs.next()) {
                 User user = new User();
                 user.setId(rs.getInt("id"));
-                user.setFirstName(rs.getString("firstName"));
-                user.setLastName(rs.getString("lastName"));
+                user.setNom(rs.getString("nom"));
+                user.setPrenom(rs.getString("prenom"));
                 user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
+                user.setMdp(rs.getString("mdp"));
                 user.setRole(Role.valueOf(rs.getString("role"))); // Convertir la chaîne de caractères en rôle
                 data.add(user);
             }
@@ -43,13 +43,13 @@ public class UserService implements IService<User> {
 
     public String add(User user) {
         // Ajouter la logique pour ajouter un utilisateur dans la base de données
-        String requete = "INSERT INTO user(firstName, lastName, email, password, role) VALUES (?, ?, ?, ?, ?)";
+        String requete = "INSERT INTO user(nom, prenom, email, mdp, role) VALUES (?, ?, ?, ?, ?)";
         try {
             PreparedStatement pst = cnx.prepareStatement(requete, Statement.RETURN_GENERATED_KEYS);
-            pst.setString(1, user.getFirstName());
-            pst.setString(2, user.getLastName());
+            pst.setString(1, user.getNom());
+            pst.setString(2, user.getPrenom());
             pst.setString(3, user.getEmail());
-            pst.setString(4, user.getPassword());
+            pst.setString(4, user.getMdp());
             pst.setString(5, user.getRole().toString()); // Convertir le rôle en chaîne de caractères
 
             int rowsAffected = pst.executeUpdate();
@@ -96,10 +96,10 @@ public class UserService implements IService<User> {
         // Ajouter la logique pour mettre à jour les informations d'un utilisateur dans la base de données
         String req = "UPDATE user SET firstName=?, lastName=?, email=?, password=?, role=? WHERE id=?";
         try (PreparedStatement pst = cnx.prepareStatement(req)) {
-            pst.setString(1, user.getFirstName());
-            pst.setString(2, user.getLastName());
+            pst.setString(1, user.getNom());
+            pst.setString(2, user.getPrenom());
             pst.setString(3, user.getEmail());
-            pst.setString(4, user.getPassword());
+            pst.setString(4, user.getMdp());
             pst.setString(5, user.getRole().toString()); // Convertir le rôle en chaîne de caractères
             pst.setInt(6, id);
 
@@ -124,10 +124,10 @@ public class UserService implements IService<User> {
                 while (rs.next()) {
                     User user = new User();
                     user.setId(rs.getInt("id"));
-                    user.setFirstName(rs.getString("firstName"));
-                    user.setLastName(rs.getString("lastName"));
+                    user.setNom(rs.getString("nom"));
+                    user.setPrenom(rs.getString("prenom"));
                     user.setEmail(rs.getString("email"));
-                    user.setPassword(rs.getString("password"));
+                    user.setMdp(rs.getString("mdp"));
                     user.setRole(Role.valueOf(rs.getString("role"))); // Convertir la chaîne de caractères en rôle
                     users.add(user);
                 }
