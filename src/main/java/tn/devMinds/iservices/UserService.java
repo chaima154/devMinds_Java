@@ -82,7 +82,7 @@ public class UserService implements IService<User> {
         return false;
     }
 
-    
+
     @Override
     public String update(User user, int id) {
         // Ajouter la logique pour mettre à jour les informations d'un utilisateur dans la base de données

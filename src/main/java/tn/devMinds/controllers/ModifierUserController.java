@@ -10,6 +10,8 @@ import tn.devMinds.entities.Role;
 import tn.devMinds.entities.User;
 import tn.devMinds.iservices.UserService;
 
+import java.util.List;
+
 public class ModifierUserController extends BackendHome {
     @FXML
     private VBox container;
@@ -27,9 +29,13 @@ public class ModifierUserController extends BackendHome {
     private UserService userService;
     private User user;
 
+
     public ModifierUserController() {
         userService = new UserService();
+        this.user = user;
+
     }
+
 
     public void updateUser(int userId) {
         // Récupérer les nouvelles informations de l'utilisateur depuis les champs du formulaire
