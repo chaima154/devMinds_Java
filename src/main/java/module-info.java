@@ -11,6 +11,8 @@ module com.example.projet {
     exports tn.devMinds.controllers.admin;
     exports tn.devMinds.controllers.client;
 
+    opens tn.devMinds.test;
+    exports tn.devMinds.test;
 
     opens tn.devMinds.controllers to javafx.fxml;
     opens tn.devMinds.controllers.admin to javafx.fxml;
