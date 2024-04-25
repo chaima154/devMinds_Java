@@ -6,7 +6,7 @@ public interface IService<T>{
         ArrayList<T> getAll() throws SQLException;
         String add(T t) throws SQLException;
         boolean delete(T t) throws SQLException;
-        boolean delete(int id) throws SQLException;
+        String delete(int id) throws SQLException;
         String update(T t, int id) throws SQLException;
 }
 

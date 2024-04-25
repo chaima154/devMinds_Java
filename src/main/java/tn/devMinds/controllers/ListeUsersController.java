@@ -16,6 +16,7 @@ import tn.devMinds.entities.User;
 import tn.devMinds.iservices.UserService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.scene.control.TableCell;
 
@@ -143,6 +144,23 @@ public class ListeUsersController extends BackendHome {
 
 
     public void handleDeleteUser(User user) {
-        // Handle delete logic for the selected user (confirmation dialog, remove from the table, etc.)
+        try {
+            // Call the delete method in the UserService
+            String errorMessage = String.valueOf(userService.delete(user.getId()));
+            if (errorMessage == null) {
+                // Deletion successful
+                System.out.println("L'utilisateur a été supprimé avec succès.");
+
+                // Remove the user from the table view
+                userTableView.getItems().remove(user);
+            } else {
+                // Display an error message
+                System.out.println("Erreur lors de la suppression de l'utilisateur : " + errorMessage);
+            }
+        } catch (SQLException e) {
+            // Handle the SQLException
+            System.out.println("Erreur SQL lors de la suppression de l'utilisateur : " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

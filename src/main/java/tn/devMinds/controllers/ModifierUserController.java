@@ -10,6 +10,7 @@ import tn.devMinds.entities.Role;
 import tn.devMinds.entities.User;
 import tn.devMinds.iservices.UserService;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class ModifierUserController extends BackendHome {
@@ -104,5 +105,17 @@ public class ModifierUserController extends BackendHome {
         // Fermer la fenêtre du formulaire
         Stage stage = (Stage) firstNameField.getScene().getWindow();
         stage.close();
+    }
+
+    public void deleteUser(int userId) throws SQLException {
+        // Call the delete method in the UserService
+        String errorMessage = String.valueOf(userService.delete(userId));
+        if (errorMessage == null) {
+            // Deletion successful
+            System.out.println("L'utilisateur a été supprimé avec succès.");
+        } else {
+            // Display an error message
+            System.out.println("Erreur lors de la suppression de l'utilisateur : " + errorMessage);
+        }
     }
 }

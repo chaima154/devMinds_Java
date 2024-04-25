@@ -78,8 +78,19 @@ public class UserService implements IService<User> {
     }
 
     @Override
-    public boolean delete(int id) throws SQLException {
-        return false;
+    public String delete(int id) throws SQLException {
+        String query = "DELETE FROM user WHERE id = ?";
+        try (PreparedStatement pst = cnx.prepareStatement(query)) {
+            pst.setInt(1, id);
+            int rowsAffected = pst.executeUpdate();
+            if (rowsAffected > 0) {
+                return null; // No errors
+            } else {
+                return "No user found with the specified ID.";
+            }
+        } catch (SQLException e) {
+            return "Error while deleting the user: " + e.getMessage();
+        }
     }
 
 
