@@ -9,6 +9,7 @@ import tn.devMinds.entities.Role;
 import tn.devMinds.iservices.UserService;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class AjoutUserController extends BackendHome {
     @FXML
@@ -45,6 +46,27 @@ public class AjoutUserController extends BackendHome {
             System.out.println("Invalid role selection.");
             return;
         }
+        // Vérifier si les champs obligatoires sont vides
+        if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || mdp.isEmpty() || selectedRoleString.isEmpty()) {
+            System.out.println("Veuillez remplir tous les champs obligatoires.");
+            return;
+        }
+
+        // Vérifier si l'email existe déjà dans la base de données
+        UserService userService = new UserService();
+        ArrayList<User> existingUsers = userService.getAllData();
+        for (User user : existingUsers) {
+            if (user.getEmail().equals(email)) {
+                System.out.println("Un utilisateur avec cet e-mail existe déjà.");
+                return;
+            }
+        }
+
+        // Vérifier si l'email est valide
+        if (!email.matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")) {
+            System.out.println("Veuillez saisir une adresse e-mail valide.");
+            return;
+        }
 
         // Create a new User object with the field values
         User newUser = new User();
@@ -56,7 +78,7 @@ public class AjoutUserController extends BackendHome {
 
 
         // Add the user to the database using the UserService
-        UserService userService = new UserService();
+
         String result = userService.add(newUser);
 
         // Handle the result of the addition operation

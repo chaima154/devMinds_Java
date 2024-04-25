@@ -120,25 +120,24 @@ public class UserService implements IService<User> {
 
     public ArrayList<User> getAllData() {
 
-            // Récupérer tous les utilisateurs depuis la base de données
-            ArrayList<User> users = new ArrayList<>();
-            String requete = "SELECT * FROM user";
-            try (Statement st = cnx.createStatement(); ResultSet rs = st.executeQuery(requete)) {
-                while (rs.next()) {
-                    User user = new User();
-                    user.setId(rs.getInt("id"));
-                    user.setNom(rs.getString("nom"));
-                    user.setPrenom(rs.getString("prenom"));
-                    user.setEmail(rs.getString("email"));
-                    user.setMdp(rs.getString("mdp"));
-                    user.setRole(Role.valueOf(rs.getString("role"))); // Convertir la chaîne de caractères en rôle
-                    users.add(user);
-                }
-            } catch (SQLException e) {
-                System.out.println("Erreur lors de la récupération des données: " + e.getMessage());
+        // Récupérer tous les utilisateurs depuis la base de données
+        ArrayList<User> users = new ArrayList<>();
+        String requete = "SELECT * FROM user";
+        try (Statement st = cnx.createStatement(); ResultSet rs = st.executeQuery(requete)) {
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setNom(rs.getString("nom"));
+                user.setPrenom(rs.getString("prenom"));
+                user.setEmail(rs.getString("email"));
+                user.setMdp(rs.getString("mdp"));
+                user.setRole(Role.valueOf(rs.getString("role"))); // Convertir la chaîne de caractères en rôle
+                users.add(user);
             }
-            return users;
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la récupération des données: " + e.getMessage());
+        }
+        return users;
 
     }
 }
-
