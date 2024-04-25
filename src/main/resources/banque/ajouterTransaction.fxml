@@ -5,14 +5,45 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:controller="tn.devMinds.controllers.AjouterTransactionController"
-      xmlns:fx="http://javafx.com/fxml" spacing="10">
-    <ComboBox fx:id="typeTransactionComboBox" promptText="Sélectionnez le type de transaction" onAction="#handleShowForm"/>
-    <VBox fx:id="formContainer" spacing="10" visible="false">
-        <TextField fx:id="compteIdField" promptText="ID Compte"/>
-        <TextField fx:id="destinataireCompteIdField" promptText="ID Compte Destinataire"/>
-        <TextField fx:id="montantField" promptText="Montant"/>
-        <DatePicker fx:id="datePicker" promptText="Date de Transaction"/>
-        <Button text="Valider" onAction="#handleSubmitTransaction"/>
-    </VBox>
-</VBox>
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<BorderPane fx:id="borderPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.AjouterTransactionController">
+    <center>
+        <VBox alignment="CENTER" spacing="10">
+            <children>
+                <Label fx:id="resultat" prefHeight="66.0" prefWidth="461.0" textFill="#960d0d">
+                    <font>
+                        <Font size="26.0" />
+                    </font>
+                </Label>
+                <Label text="Ajouter Transaction" textFill="#3f704d">
+                    <font>
+                        <Font name="System Bold" size="47.0" />
+                    </font>
+                </Label>
+                <HBox alignment="CENTER" spacing="10">
+                    <children>
+                        <Label text="Type de Transaction" />
+                        <ChoiceBox fx:id="typeTransactionChoiceBox" prefWidth="200.0" />
+                    </children>
+                </HBox>
+                <VBox fx:id="dynamicFieldsContainer" alignment="TOP_LEFT" spacing="10" />
+                <Button fx:id="CreateAccount" mnemonicParsing="false" onAction="#AddTransaction" prefHeight="29.0" prefWidth="187.0" style="-fx-background-color: #3f704d;" text="Ajouter " textFill="#fffafa">
+                    <VBox.margin>
+                        <Insets top="40.0" />
+                    </VBox.margin>
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                </Button>
+            </children>
+        </VBox>
+    </center>
+    <bottom>
+        <Button fx:id="retour" mnemonicParsing="false" onAction="#retour" prefHeight="38.0" prefWidth="81.0" style="-fx-background-color: #3f704d;" text="Retour" textFill="WHITE">
+            <font>
+                <Font size="17.0" />
+            </font>
+        </Button>
+    </bottom>
+</BorderPane>

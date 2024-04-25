@@ -39,23 +39,22 @@ public class SideBarre_adminController implements Initializable {
     }
 
     @FXML
-    void goTransaction(MouseEvent event) {
 
-    }
-    /* @FXML
-    void goTransactionType(MouseEvent event) {
-        try {
-            Node node = (Node) event.getSource();
-            Stage stage = (Stage) node.getScene().getWindow();
-            Scene scene = stage.getScene();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("src/main/resources/banque/ListTypeTransaction.fxml"));
-            scene.setRoot(loader.load());
-            stage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
+
+    void goTransaction(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListeTransaction.fxml"));
+        Parent parent = loader.load();
+        TransactionListController transaction = loader.getController();
+        if (loader.getController() instanceof TransactionListController) {
+            ((TransactionListController) transaction).setSidebarController(this);
+            this.borderPane.setCenter(parent);
         }
+    }
 
-    }*/
+
+
+
+
     @FXML
     void goTransactionType(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListTypeTransaction.fxml"));

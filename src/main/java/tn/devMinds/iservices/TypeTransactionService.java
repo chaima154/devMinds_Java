@@ -121,6 +121,7 @@ public class TypeTransactionService implements IService<TypeTransaction> {
             return "Erreur lors de la mise à jour: " + e.getMessage();
         }
     }
+
     public String validateInput(TypeTransaction typeTransaction) {
         // Volet 1: Les champs de texte d'un formulaire ne doivent pas être null/vide
         if (typeTransaction.getLibelle() == null || typeTransaction.getLibelle().isEmpty()) {

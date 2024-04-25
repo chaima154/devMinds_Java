@@ -13,18 +13,15 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import tn.devMinds.entities.TypeTransaction;
 import tn.devMinds.iservices.TypeTransactionService;
 
-
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
 public class TypeTransactionListController implements Initializable {
+
     public SideBarre_adminController backendHome;
     @FXML
     public BorderPane borderPane;
@@ -35,8 +32,6 @@ public class TypeTransactionListController implements Initializable {
     private TableColumn<TypeTransaction, String> libelleColumn;  // Renamed for consistency with FXML
     @FXML
     private TableColumn<TypeTransaction, Void> actionColumn;
-
-
 
     @FXML
     private Button ajout;
@@ -63,18 +58,64 @@ public class TypeTransactionListController implements Initializable {
         });
     }
 
-    private ObservableList<TypeTransaction> getAllList() {
+    ObservableList<TypeTransaction> getAllList() {
         return FXCollections.observableArrayList(typeTransactionService.getAllData());
     }
 
     @FXML
-    void ajout(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/AjoutTypeTransaction.fxml"));
-        Parent parent = loader.load();
-        AjoutTypeTransactionController controller = loader.getController();
-        controller.setTypeTransactionListController(this);
-        this.borderPane.setCenter(parent); // Changed to use 'this'
-        showList(getAllList());  // Refresh list after adding
+    void ajout(ActionEvent event) {
+        openPopup("/banque/AjoutTypeTransaction.fxml", "Ajouter Type Transaction");
+    }
+
+    @FXML
+    void update(ActionEvent event) {
+        TypeTransaction tt = table.getSelectionModel().getSelectedItem();
+        if (tt != null) {
+            openUpdatePopup(tt);
+        } else {
+            // Handle no selection error
+        }
+    }
+
+    private void openPopup(String fxmlPath, String title) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent parent = loader.load();
+
+            // Get the controller
+            AjoutTypeTransactionController controller = loader.getController();
+
+            // Set the reference of TypeTransactionListController
+            controller.setTypeTransactionListController(this);
+
+            // Create a new stage
+            Stage stage = new Stage();
+            stage.setTitle(title);
+            stage.setScene(new Scene(parent));
+            stage.show(); // Show the popup
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void openUpdatePopup(TypeTransaction tt) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/UpdateTypeTransaction.fxml"));
+            Parent root = loader.load();
+
+            UpdateTypeTransactionController controller = loader.getController();
+            controller.initializeData(tt); // Pass the TypeTransaction object to the controller
+
+            // Create a new stage
+            Stage stage = new Stage();
+            stage.setTitle("Modifier Type Transaction");
+            stage.setScene(new Scene(root));
+            stage.showAndWait(); // Show the popup and wait for it to close
+
+            showList(getAllList()); // Reload the list after update
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -82,7 +123,7 @@ public class TypeTransactionListController implements Initializable {
         actionColumn.setCellFactory(param -> new TableCell<TypeTransaction, Void>() {
             private final Button deleteBtn = new Button("Delete");
             private final Button updateBtn = new Button("Update");
-            private final HBox hbox = new HBox(5, updateBtn, deleteBtn);  // Adjust spacing as needed
+            private final HBox hbox = new HBox(5, updateBtn, deleteBtn); // Adjust spacing as needed
 
             {
                 deleteBtn.setOnAction(event -> {
@@ -93,7 +134,7 @@ public class TypeTransactionListController implements Initializable {
 
                 updateBtn.setOnAction(event -> {
                     TypeTransaction tt = getTableView().getItems().get(getIndex());
-                    openUpdateFXML(tt); // Open the update FXML
+                    openUpdatePopup(tt); // Open the update FXML
                 });
             }
 
@@ -104,24 +145,6 @@ public class TypeTransactionListController implements Initializable {
             }
         });
     }
-
-
-    private void openUpdateFXML(TypeTransaction tt) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/UpdateTypeTransaction.fxml"));
-            Parent root = loader.load();
-
-            UpdateTypeTransactionController controller = loader.getController();
-            controller.initializeData(tt); // Pass the TypeTransaction object to the controller
-
-            // Replace the center of the existing BorderPane with the loaded UI
-            borderPane.setCenter(root);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 
     @FXML
     private void delete(ActionEvent event) {
@@ -139,9 +162,9 @@ public class TypeTransactionListController implements Initializable {
             System.err.println("No item selected for deletion.");
         }
     }
+
     public void showList(ObservableList<TypeTransaction> observableList) {
         libelleColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getLibelle()));
         table.setItems(observableList);
     }
 }
-

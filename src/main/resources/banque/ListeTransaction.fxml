@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.TransactionListController">
+    <center>
+        <AnchorPane prefHeight="830.0" prefWidth="1098.0">
+        <children>
+
+           <HBox layoutY="57.0" prefHeight="93.0" prefWidth="1098.0">
+            <children>
+                <Label prefHeight="17.0" prefWidth="263.0" text="Les types de transaction">
+                    <HBox.margin>
+                        <Insets left="90.0" top="40.0" />
+                    </HBox.margin>
+                    <font>
+                        <Font name="Georgia" size="24.0" />
+                    </font>
+                </Label>
+                <Button fx:id="ajout" mnemonicParsing="false" onAction="#ajout" prefHeight="46.0" prefWidth="144.0" style="-fx-background-color: #3f704d;" text="Ajouter une transaction" textFill="WHITE">
+                    <HBox.margin>
+                        <Insets left="500.0" top="50.0" />
+                    </HBox.margin>
+                </Button>
+            </children>
+           </HBox>
+                <TableView fx:id="table">
+                    <columns>
+                        <TableColumn fx:id="idColumn" prefWidth="50.0" text="ID" />
+                        <TableColumn fx:id="dateColumn" prefWidth="100.0" text="Date" />
+                        <TableColumn fx:id="statutColumn" prefWidth="100.0" text="Statut" />
+                        <TableColumn fx:id="montantColumn" prefWidth="100.0" text="Montant" />
+                        <TableColumn fx:id="numChequeColumn" prefWidth="100.0" text="Numéro de chèque" />
+                        <TableColumn fx:id="typeTransactionColumn" prefWidth="100.0" text="Type de Transaction" />
+                        <TableColumn fx:id="compteColumn" prefWidth="100.0" text="Compte" />
+                        <TableColumn fx:id="destinataireColumn" prefWidth="100.0" text="Destinataire" />
+                        <TableColumn fx:id="actionColumn" prefWidth="100.0" text="Actions" />
+                    </columns>
+                </TableView>
+        </children>
+        </AnchorPane>
+    </center>
+</BorderPane>
+
+

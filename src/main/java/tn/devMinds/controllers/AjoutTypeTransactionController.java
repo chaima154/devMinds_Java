@@ -2,20 +2,16 @@ package tn.devMinds.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import tn.devMinds.entities.TypeTransaction;
 import tn.devMinds.iservices.TypeTransactionService;
+
 import java.io.IOException;
 
-public class  AjoutTypeTransactionController extends SideBarre_adminController {
+public class AjoutTypeTransactionController {
     public TypeTransactionListController typeTransactionListController;
-    @FXML
-    public BorderPane borderPane;
     @FXML
     private TextField libelle;
 
@@ -27,20 +23,18 @@ public class  AjoutTypeTransactionController extends SideBarre_adminController {
     }
 
     @FXML
-    void retour(ActionEvent event) throws IOException {
-        retourner();
+    void retour(ActionEvent event) {
+        closePopup();
     }
-    private SideBarre_adminController sidebarController;
 
-    public void setSidebarController(SideBarre_adminController sidebarController) {
-        this.sidebarController = sidebarController;
-    }
-    private void retourner() throws IOException {
-        // Chargez la vue de liste appropriée (ListTypeTransaction.fxml)
+    private void closePopup() {
+        // Get the current stage and close it
+        Stage stage = (Stage) libelle.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
-    void AddTypeTransaction(ActionEvent event) throws IOException {
+    void AddTypeTransaction(ActionEvent event) {
         if (!verif_libelle(libelle)) {
             Alert al = new Alert(Alert.AlertType.WARNING);
             al.setTitle("Alert");
@@ -56,13 +50,12 @@ public class  AjoutTypeTransactionController extends SideBarre_adminController {
                 al.setTitle("Confirmation");
                 al.setContentText("Le type de transaction a été ajouté avec succès.");
                 al.showAndWait();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListTypeTransaction.fxml"));
-                Parent parent = loader.load();
-                TypeTransactionListController typetransaction = loader.getController();
-                if (loader.getController() instanceof TypeTransactionListController) {
-                    ((TypeTransactionListController) typetransaction).setSidebarController(this);
-                    this.borderPane.setCenter(parent);
-                }
+
+                // Close the current window
+                closePopup();
+
+                // Refresh the transaction type list
+                typeTransactionListController.showList(typeTransactionListController.getAllList());
             } else {
                 Alert al = new Alert(Alert.AlertType.ERROR);
                 al.setTitle("Erreur");
@@ -71,7 +64,6 @@ public class  AjoutTypeTransactionController extends SideBarre_adminController {
             }
         }
     }
-
 
     public void setTypeTransactionListController(TypeTransactionListController controller) {
         this.typeTransactionListController = controller;
