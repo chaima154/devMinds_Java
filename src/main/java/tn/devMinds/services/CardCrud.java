@@ -28,7 +28,7 @@ public class CardCrud implements  IService<Card>{
                 carte.setTypeCarte(getTypeCarteById(rs.getInt(3)));
                 carte.setNumero(rs.getString(4));
                 carte.setDateExpiration(rs.getDate(5).toLocalDate());
-                carte.setCsv(rs.getInt(6));
+                carte.setCsv(String.valueOf(rs.getInt(6)));
                 carte.setMdp(rs.getString(7));
                 carte.setStatutCarte(rs.getString(8));
                 data.add(carte);
@@ -43,12 +43,20 @@ public class CardCrud implements  IService<Card>{
 
 
     @Override
-    public boolean add(Card card) throws SQLException {
-        String requete = "INSERT INTO carte (compte_id,type_carte_id,numero,date_expiration,csv,mdp,statut_carte,solde)" +
-                "VALUES ('" + card.getCompte().getId() + "','" + card.getTypeCarte().getId() +"','" +card.getNumero()+"','" +card.getDateExpiration()+"','"+card.getCsv()+"','"+card.getMdp()+"','"+ card.getStatutCarte()+"','"+card.getSolde()+"')";
-        try
-                (Statement st = MyConnection.getInstance().getCnx().createStatement()){
-           int rowsAffected = st.executeUpdate(requete);
+    public boolean add(Card card) {
+        String requete = "INSERT INTO carte (compte_id, type_carte_id, numero, date_expiration, csv, mdp, statut_carte, solde)" +
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)) {
+            pst.setInt(1, card.getCompte().getId());
+            pst.setInt(2, card.getTypeCarte().getId());
+            System.out.println(card.getTypeCarte().getId());
+            pst.setString(3, card.getNumero());
+            pst.setDate(4, java.sql.Date.valueOf(card.getDateExpiration()));
+            pst.setString(5, card.getCsv());
+            pst.setString(6, card.getMdp());
+            pst.setString(7, card.getStatutCarte());
+            pst.setDouble(8, card.getSolde());
+            int rowsAffected = pst.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Carte ajoutée avec succès");
                 return true;
@@ -56,11 +64,13 @@ public class CardCrud implements  IService<Card>{
                 System.out.println("Échec de l'ajout de la carte");
                 return false;
             }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de l'ajout de la carte : " + e.getMessage());
+            return false;
         }
     }
     @Override
     public boolean delete(Card card) throws SQLException {
-
         String requete = "DELETE FROM carte WHERE id=?";
         try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)) {
             pst.setInt(1, card.getId());
@@ -99,7 +109,7 @@ public class CardCrud implements  IService<Card>{
             pst.setInt(1, card.getCompte().getId());
             pst.setString(2,card.getNumero());
             pst.setDate(3,java.sql.Date.valueOf(card.getDateExpiration()));
-            pst.setInt(4,card.getCsv());
+            pst.setString(4,card.getCsv());
             pst.setString(5,card.getMdp());
             pst.setString(6,card.getStatutCarte());
             pst.setDouble(7,card.getSolde());
@@ -158,9 +168,25 @@ public class CardCrud implements  IService<Card>{
         return tc;
     }
 
-
-
-
+    @Override
+    public boolean updateStat(int id, String stat) throws SQLException {
+        String requete="UPDATE `carte` SET `statut_carte`=?" +
+                " WHERE id=?";
+        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)){
+            if(stat.equals("active"))
+            { pst.setString(1,"inactive");}
+            else { pst.setString(1,"active");}
+            pst.setInt(2,id);
+            int rowsAffected = pst.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Statut du Carte with ID " + id + " updated successfully");
+                return true;
+            } else {
+                System.out.println("No carte found with ID: " + id);
+                return false;
+            }
+        }
+    }
 
     @Override
     public ArrayList<Card> getAllNormlaCard() throws SQLException {
@@ -177,7 +203,7 @@ public class CardCrud implements  IService<Card>{
                 carte.setTypeCarte(getTypeCarteById(rs.getInt(3)));
                 carte.setNumero(rs.getString(4));
                 carte.setDateExpiration(rs.getDate(5).toLocalDate());
-                carte.setCsv(rs.getInt(6));
+                carte.setCsv(String.valueOf(rs.getInt(6)));
                 carte.setMdp(rs.getString(7));
                 carte.setStatutCarte(rs.getString(8));
                 data.add(carte);
@@ -211,7 +237,7 @@ public class CardCrud implements  IService<Card>{
                 carte.setTypeCarte(getTypeCarteById(rs.getInt(3)));
                 carte.setNumero(rs.getString(4));
                 carte.setDateExpiration(rs.getDate(5).toLocalDate());
-                carte.setCsv(rs.getInt(6));
+                carte.setCsv(String.valueOf(rs.getInt(6)));
                 carte.setMdp(rs.getString(7));
                 carte.setStatutCarte(rs.getString(8));
                 data.add(carte);
@@ -259,7 +285,6 @@ public class CardCrud implements  IService<Card>{
                 return false; // Return false in case of exception
             }
         }
-
 
 
 

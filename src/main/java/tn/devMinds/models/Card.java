@@ -4,7 +4,7 @@ public class Card {
         private Integer id;
         private String numero;
         private LocalDate dateExpiration;
-        private Integer csv;
+        private String csv;
         private String mdp;
         private String statutCarte;
         private TypeCard typeCarte;
@@ -16,7 +16,7 @@ public class Card {
     public Card() {
     }
 
-    public Card(String numero, LocalDate dateExpiration, Integer csv, String mdp, String statutCarte, TypeCard typeCarte, Compte compte, Double solde) {
+    public Card(String numero, LocalDate dateExpiration, String csv, String mdp, String statutCarte, TypeCard typeCarte, Compte compte, Double solde) {
         this.numero = numero;
         this.dateExpiration = dateExpiration;
         this.csv = csv;
@@ -52,11 +52,11 @@ public class Card {
         this.dateExpiration = dateExpiration;
     }
 
-    public Integer getCsv() {
+    public String getCsv() {
         return csv;
     }
 
-    public void setCsv(Integer csv) {
+    public void setCsv(String csv) {
         this.csv = csv;
     }
 
@@ -101,13 +101,19 @@ public class Card {
     }
 
 
-
-
-
-
-
-
-
-
+    @Override
+    public String toString() {
+        return "Card{" +
+                "id=" + id +
+                ", numero='" + numero + '\'' +
+                ", dateExpiration=" + dateExpiration +
+                ", csv='" + csv + '\'' +
+                ", mdp='" + mdp + '\'' +
+                ", statutCarte='" + statutCarte + '\'' +
+                ", typeCarte=" + typeCarte +
+                ", compte=" + compte +
+                ", solde=" + solde +
+                '}';
+    }
 }
 

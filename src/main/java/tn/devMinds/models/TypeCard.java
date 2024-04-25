@@ -11,6 +11,15 @@ public class TypeCard {
     public TypeCard() {
     }
 
+    public TypeCard(Integer id, String typeCarte) {
+        this.id = id;
+        this.typeCarte = typeCarte;
+    }
+
+    public TypeCard(Integer id) {
+        this.id = id;
+    }
+
     public TypeCard(String typeCarte, String descriptionCarte, Float frais, String statusTypeCarte) {
         this.typeCarte = typeCarte;
         this.descriptionCarte = descriptionCarte;
@@ -55,5 +64,16 @@ public class TypeCard {
 
     public void setFrais(Float frais) {
         this.frais = frais;
+    }
+
+    @Override
+    public String toString() {
+        return "TypeCard{" +
+                "id=" + id +
+                ", typeCarte='" + typeCarte + '\'' +
+                ", descriptionCarte='" + descriptionCarte + '\'' +
+                ", frais=" + frais +
+                ", statusTypeCarte='" + statusTypeCarte + '\'' +
+                '}';
     }
 }

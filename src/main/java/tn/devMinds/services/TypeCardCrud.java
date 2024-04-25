@@ -125,6 +125,10 @@ public class TypeCardCrud implements  IService<TypeCard>{
         return null;
     }
 
+    @Override
+    public boolean updateStat(int id, String stat) throws SQLException {
+        return false;
+    }
 
 
 }

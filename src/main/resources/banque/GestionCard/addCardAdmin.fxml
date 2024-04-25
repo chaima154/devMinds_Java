@@ -17,9 +17,9 @@
             <TextField fx:id="tfcsv" layoutX="91.0" layoutY="55.0" />
             <Label layoutX="5.0" layoutY="59.0" prefHeight="18.0" prefWidth="46.0" text="Csv" />
             <Label layoutX="5.0" layoutY="114.0" prefHeight="18.0" prefWidth="54.0" text="Compte" />
-            <ComboBox fx:id="cbcompte" layoutX="91.0" layoutY="110.0" onAction="#comboCompte" prefWidth="150.0" />
+            <ComboBox fx:id="cbcompte" layoutX="91.0" layoutY="110.0" prefWidth="150.0" />
             <Label layoutX="5.0" layoutY="155.0" text="mot de passe " />
-            <TextField fx:id="tfmdp" layoutX="92.0" layoutY="151.0" />
+            <TextField fx:id="tfmdp" cache="true" editable="false" layoutX="92.0" layoutY="151.0" />
             <Label layoutX="5.0" layoutY="202.0" text="Type carte" />
             <ComboBox fx:id="cbtypecarte" layoutX="90.0" layoutY="198.0" onAction="#comboTypeCarte" prefWidth="150.0" />
             <Label layoutX="5.0" layoutY="246.0" text="Statut carte" />
@@ -27,7 +27,8 @@
             <DatePicker fx:id="dpdate" layoutX="67.0" layoutY="311.0" />
             <Button fx:id="btnsubmit" layoutX="41.0" layoutY="357.0" mnemonicParsing="false" onAction="#savecard" text="Ajouter" />
             <Button fx:id="btncancel" layoutX="139.0" layoutY="357.0" mnemonicParsing="false" text="Annuler" />
-            <ChoiceBox fx:id="cbstatutcarte" layoutX="91.0" layoutY="242.0" prefWidth="150.0" />
+            <ChoiceBox fx:id="cbstatutcarte" layoutX="90.0" layoutY="251.0" onAction="#comboTypeCarte" prefWidth="150.0" />
+
          </children>
       </AnchorPane>
    </children>

@@ -16,6 +16,18 @@ public class Compte {
         this.id = id;
     }
 
+    public Compte() {
+    }
+
+    public Compte(Integer id) {
+        this.id = id;
+    }
+
+    public Compte(Integer id, String rib) {
+        this.id = id;
+        this.rib = rib;
+    }
+
     public void setRib(String rib) {
         this.rib = rib;
     }
@@ -30,5 +42,14 @@ public class Compte {
 
     public Float getSolde() {
         return solde;
+    }
+
+    @Override
+    public String toString() {
+        return "Compte{" +
+                "id=" + id +
+                ", rib='" + rib + '\'' +
+                ", solde=" + solde +
+                '}';
     }
 }

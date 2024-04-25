@@ -16,7 +16,7 @@ public interface IService<T>{
         ArrayList<T> getAllPrepaedCard() throws SQLException;
         Compte getCompteById(int id);
         TypeCard getTypeCarteById(int id);
-
+        boolean updateStat(int id,String stat) throws SQLException;
 
 }
 
