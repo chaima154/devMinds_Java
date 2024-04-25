@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane prefHeight="50.0" prefWidth="750.0" styleClass="client_cell_container" stylesheets="@../css/CreditCell.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <HBox prefHeight="40.0" prefWidth="613.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="132.0" AnchorPane.topAnchor="5.0">
+      <Label fx:id="id" styleClass="acc_display_lbl" text="ID" />
+      <Label fx:id="compteId" styleClass="acc_display_lbl" text="COMPTE ID" />
+      <Label fx:id="montantCredit" text="MONTANT" />
+      <Label fx:id="duree" text="DURÉE" />
+      <Label fx:id="tauxInteret" text="TAUX D'INTERET" />
+      <Label fx:id="dateObtention" text="DATE OBTENTION" />
+      <Label fx:id="montantRestant" text="MONTANT RESTANT" />
+      <Label fx:id="statutCredit" text="STATUT" />
+      <Label fx:id="typeCredit" text="TYPE" />
+   </HBox>
+   <Button fx:id="tranches_btn" layoutX="682.0" layoutY="10.0" mnemonicParsing="false" styleClass="buttons" text="Tranches" />
+   <Button fx:id="edit_btn" layoutX="650.0" layoutY="12.0" mnemonicParsing="false" styleClass="buttons">
+      <graphic>
+         <FontAwesomeIconView glyphName="PENCIL" />
+      </graphic>
+   </Button>
+   <Button fx:id="delete_btn" layoutX="618.0" layoutY="12.0" mnemonicParsing="false" styleClass="delete_btn">
+      <graphic>
+         <FontAwesomeIconView glyphName="TRASH" />
+      </graphic>
+   </Button>
+</AnchorPane>
