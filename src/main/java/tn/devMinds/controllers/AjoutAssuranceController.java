@@ -48,7 +48,7 @@ public class AjoutAssuranceController extends SideBarre_adminController {
         if (!verif_nom(nom)) {
             Alert al = new Alert(Alert.AlertType.WARNING);
             al.setTitle("Alerte");
-            al.setContentText("Veuillez saisir un nom valide.");
+            al.setContentText("Veuillez saisir un nom valide .");
             al.show();
         } else {
             try {
