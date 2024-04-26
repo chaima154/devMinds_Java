@@ -109,4 +109,39 @@ public class CreditCrud implements IService<Credit> {
             System.err.println(e.getMessage());
         }return mylist;
     }
+
+    @Override
+    public List<Credit> readById(int id) {
+        List<Credit> mylist = new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM credit WHERE id = ?";
+            PreparedStatement ps = cnx2.prepareStatement(requete);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Credit credit = new Credit();
+                credit.setId(rs.getInt(1));
+                credit.setMontantCredit(rs.getDouble(2));
+                credit.setDuree(rs.getInt(3));
+                credit.setTauxInteret(rs.getDouble(4));
+                credit.setDateObtention(rs.getDate(5).toLocalDate());
+                credit.setMontantRestant(rs.getDouble(6));
+                credit.setStatutCredit(rs.getString(7));
+                credit.setTypeCredit(rs.getString(8));
+                credit.setCompteId(rs.getInt(9));
+                credit.setDocumentcin(rs.getString(10));
+                credit.setSalaire(rs.getDouble(11));
+                credit.setCategorieProfessionelle(rs.getString(12));
+                credit.setTypeSecteur(rs.getString(13));
+                credit.setSecteurActivite(rs.getString(14));
+
+                mylist.add(credit);
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return mylist;
+    }
+
+
 }

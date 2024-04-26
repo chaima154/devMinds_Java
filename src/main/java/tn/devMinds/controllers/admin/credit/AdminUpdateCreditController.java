@@ -10,6 +10,7 @@ import tn.devMinds.sercices.CreditCrud;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -38,10 +39,10 @@ public class AdminUpdateCreditController implements Initializable {
     }
     private void initializeChoiceBoxes() {
         // Sample data for choice boxes, replace with your actual data
-        ObservableList<String> statutOptions = FXCollections.observableArrayList("Option 1", "Option 2", "Option 3");
-        ObservableList<String> typeOptions = FXCollections.observableArrayList("Type 1", "Type 2", "Type 3");
-        ObservableList<String> categorieOptions = FXCollections.observableArrayList("Category 1", "Category 2", "Category 3");
-        ObservableList<String> secteurOptions = FXCollections.observableArrayList("Sector 1", "Sector 2", "Sector 3");
+        ObservableList<String> statutOptions = FXCollections.observableArrayList("En Attente", "Approuvé", "Réfusé", "Remboursé");
+        ObservableList<String> typeOptions = FXCollections.observableArrayList("Crédit à la consommation ", "Crédit automobile", "Crédit immobilier", "Prêts étudiants", "Prêts commerciaux");
+        ObservableList<String> categorieOptions = FXCollections.observableArrayList("Salarié", "Retraité", "Proffesionel Libéral");
+        ObservableList<String> secteurOptions = FXCollections.observableArrayList("Privé", "Public");
 
         // Set items for choice boxes
         statutCredit.setItems(statutOptions);
@@ -80,6 +81,7 @@ public class AdminUpdateCreditController implements Initializable {
             credit.setTypeSecteur(typeSecteur.getValue());
             credit.setSecteurActivite(secteurActivite.getValue());
             creditCrud.updateCredit(credit);
+            montantCredit.getScene().getWindow().hide();
         }
     }
 

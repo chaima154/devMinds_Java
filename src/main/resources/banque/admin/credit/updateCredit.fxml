@@ -11,8 +11,8 @@
 
    <AnchorPane prefHeight="750.0" prefWidth="850.0" styleClass="create_client_container" stylesheets="@../../css/formCredit.css" xmlns="http://javafx.com/javafx/21"
                xmlns:fx="http://javafx.com/fxml/1"
-               fx:controller="tn.devMinds.controllers.admin.credit.AdminCreateCreditController">
-      <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="create_client_container-Title" text="Créer Un Crédit" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+               fx:controller="tn.devMinds.controllers.admin.credit.AdminUpdateCreditController">
+      <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="create_client_container-Title" text="Modifier Un Crédit" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
       <VBox layoutX="14.0" layoutY="72.0" prefHeight="675.0" prefWidth="600.0" styleClass="create_client_container-VBox">
          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Compte ID" />
          <TextField fx:id="CompteId" />
@@ -53,7 +53,7 @@
          </HBox>
          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cin" />
          <Button fx:id="upload_btn" mnemonicParsing="false" text="Upload" />
-         <Button fx:id="create_btn" mnemonicParsing="false" text="Créer Crédit" />
+         <Button fx:id="create_btn" mnemonicParsing="false" text="Modifier Crédit" onAction="#handleUpdate" />
          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="error_lbl" text="Error:" />
       </VBox>
    </AnchorPane>

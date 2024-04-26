@@ -17,3 +17,12 @@
     -fx-background-color: #EEEEEE;
     -fx-pref-width: 800;
     }
+
+.transactions_container_Button {
+    -fx-background-color: linear-gradient(to right, #132A13, #253F25);
+    -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 8, 8, 3);
+    -fx-pref-width: 250;
+    -fx-font-size: 1.5em;
+    -fx-font-family: "Calibri Light";
+    -fx-text-fill: #FFFFFF;
+}

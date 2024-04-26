@@ -1,5 +1,7 @@
 package tn.devMinds.iservices;
 
+import tn.devMinds.models.Credit;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -11,4 +13,6 @@ public interface IService <T>{
     void deleteCredit(int id) throws SQLException;
 
     List<T> showCredit();
+
+    List<T> readById(int id);
 }

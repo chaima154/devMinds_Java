@@ -12,7 +12,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import tn.devMinds.sercices.CreditCrud;
-import tn.devMinds.views.ViewFactory;
 
 import java.io.IOException;
 import java.net.URL;
@@ -89,7 +88,7 @@ public class AdminCreditCell implements Initializable {
 
     private void handleEdit(Credit credit) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/admin/credit/createCredit.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/admin/credit/updateCredit.fxml"));
             Parent root = loader.load();
             AdminUpdateCreditController controller = loader.getController();
             controller.setIndexCreditController(this);

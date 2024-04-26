@@ -107,7 +107,7 @@ public class ViewFactory {
     public AnchorPane getAdminCreditForm() {
         if (creditView == null){
             try{
-                creditView = new FXMLLoader(getClass().getResource("/banque/admin/credit/createCredit.fxml")).load();
+                creditView = new FXMLLoader(getClass().getResource("/banque/admin/credit/updateCredit.fxml")).load();
             }catch(Exception e){
                 e.printStackTrace();
             }
