@@ -2,10 +2,7 @@ package tn.devMinds.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tn.devMinds.entities.Role;
@@ -30,6 +27,16 @@ public class ModifierUserController extends BackendHome {
     private TextField passwordField;
     @FXML
     private ComboBox<Role> roleComboBox;
+    @FXML
+    private Label firstNameError;
+
+    @FXML
+    private Label lastNameError;
+
+    @FXML
+    private Label emailError;
+    @FXML
+    private Label mdpError;
 
     private UserService userService;
     private User user;
@@ -80,13 +87,41 @@ public class ModifierUserController extends BackendHome {
     }
 
     private boolean validateFields() {
-        if (firstNameField.getText().isEmpty() || lastNameField.getText().isEmpty() ||
-                emailField.getText().isEmpty() || passwordField.getText().isEmpty() ||
-                roleComboBox.getValue() == null) {
-            // Display an error message for empty fields
-            System.out.println("Veuillez remplir tous les champs.");
-            return false;
+
+        if (firstNameField.getText().isEmpty()) {
+            firstNameError.setText("Le prénom est obligatoire");
+
+        } else {
+            firstNameError.setText("");
         }
+
+        if (lastNameField.getText().isEmpty()) {
+            lastNameError.setText("Le nom est obligatoire");
+
+        } else {
+            lastNameError.setText("");
+        }
+
+        if (emailField.getText().isEmpty()) {
+            emailError.setText("L'email est obligatoire");
+
+        } else {
+            emailError.setText("");
+        }
+
+        if (passwordField.getText().isEmpty()) {
+            mdpError.setText("Le mot de passe est obligatoire");
+
+        } else {
+            mdpError.setText("");
+        }
+
+        if (roleComboBox.getValue() == null) {
+            // Display an error message for role selection
+            // You can handle error message for roleComboBox separately if needed
+
+        }
+
 
         // Validate email format using a regular expression
         String email = emailField.getText();

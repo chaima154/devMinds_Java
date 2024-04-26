@@ -8,9 +8,18 @@
 
 <VBox fx:id="container" xmlns:fx="http://javafx.com/fxml" spacing="10" fx:controller="tn.devMinds.controllers.ModifierUserController">
     <TextField fx:id="firstNameField" promptText="Prénom"/>
+    <Label fx:id="firstNameError" styleClass="error" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+
     <TextField fx:id="lastNameField" promptText="Nom"/>
+    <Label fx:id="lastNameError" styleClass="error" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+
     <TextField fx:id="emailField" promptText="Email"/>
+    <Label fx:id="emailError" styleClass="error" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+
     <TextField fx:id="passwordField" promptText="Mot de passe"/>
+    <Label fx:id="mdpError" styleClass="error" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+
+    
     <ComboBox fx:id="roleComboBox" promptText="Rôle"/>
     <Button text="Update" onAction="#handleUpdateUser" />
 </VBox>

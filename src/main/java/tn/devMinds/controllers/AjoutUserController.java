@@ -2,6 +2,7 @@ package tn.devMinds.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import tn.devMinds.entities.User;
@@ -24,6 +25,17 @@ public class AjoutUserController extends BackendHome {
     private TextField passwordField;
     @FXML
     private ComboBox<Role> roleComboBox;
+    @FXML
+    private Label firstNameError;
+
+    @FXML
+    private Label lastNameError;
+
+    @FXML
+    private Label emailError;
+    @FXML
+    private Label mdpError;
+
 
 
     // Méthode appelée lorsque le bouton "Ajouter" est cliqué
@@ -47,10 +59,33 @@ public class AjoutUserController extends BackendHome {
             return;
         }
         // Vérifier si les champs obligatoires sont vides
-        if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || mdp.isEmpty() || selectedRoleString.isEmpty()) {
-            System.out.println("Veuillez remplir tous les champs obligatoires.");
-            return;
+        if (nom.isEmpty()) {
+            firstNameError.setText("Le prénom est obligatoire");
+        } else {
+            firstNameError.setText(""); // Effacez le message d'erreur s'il n'y a pas d'erreur
+            // Autres validations et logique d'ajout de l'utilisateur
         }
+        if (prenom.isEmpty()) {
+            lastNameError.setText("Le nom est obligatoire");
+        } else {
+            lastNameError.setText(""); // Effacez le message d'erreur s'il n'y a pas d'erreur
+            // Autres validations et logique d'ajout de l'utilisateur
+        }
+
+        if (email.isEmpty()) {
+            emailError.setText("L'email est obligatoire");
+        } else {
+            emailError.setText(""); // Effacez le message d'erreur s'il n'y a pas d'erreur
+            // Autres validations et logique d'ajout de l'utilisateur
+        }
+        if (mdp.isEmpty()) {
+            mdpError.setText("Le mot de passe est obligatoire");
+        } else {
+            mdpError.setText(""); // Effacez le message d'erreur s'il n'y a pas d'erreur
+            // Autres validations et logique d'ajout de l'utilisateur
+        }
+
+
 
         // Vérifier si l'email existe déjà dans la base de données
         UserService userService = new UserService();
@@ -58,6 +93,7 @@ public class AjoutUserController extends BackendHome {
         for (User user : existingUsers) {
             if (user.getEmail().equals(email)) {
                 System.out.println("Un utilisateur avec cet e-mail existe déjà.");
+                emailError.setText("Un utilisateur avec cet e-mail existe déjà.");
                 return;
             }
         }
@@ -65,6 +101,7 @@ public class AjoutUserController extends BackendHome {
         // Vérifier si l'email est valide
         if (!email.matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")) {
             System.out.println("Veuillez saisir une adresse e-mail valide.");
+            emailError.setText("Veuillez saisir une adresse e-mail valide.");
             return;
         }
 

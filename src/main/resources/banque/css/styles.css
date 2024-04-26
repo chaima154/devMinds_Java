@@ -146,3 +146,7 @@ Wareth -Job
 .table-row-cell {
     -fx-font-size: 14px; /* Taille de police */
 }
+.error {
+    -fx-text-fill: red;
+    -fx-font-weight: bold;
+}
