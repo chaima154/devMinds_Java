@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import tn.devMinds.models.Card;
@@ -25,6 +26,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 public class AdminCardList implements Initializable {
+
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -68,7 +70,6 @@ public class AdminCardList implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         reload();
     }
-
     private void reload(){
 
         numeroCol.setCellValueFactory(new PropertyValueFactory<>("numero"));
@@ -87,7 +88,7 @@ public class AdminCardList implements Initializable {
         dateExpirationCol1.setCellValueFactory(new PropertyValueFactory<>("dateExpiration"));
         compteCol1.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getCompte().getRib()));
         try {
-            addButtonToTable();
+            addButtonToTablemaincard();
             tableview.setItems(initialData());
             addButtonToTableprepaedcard();
             tableview1.setItems(initialData2());
@@ -119,17 +120,54 @@ public class AdminCardList implements Initializable {
             throw new RuntimeException(e);
         }
     }
-    private void addButtonToTable() {
-        TableColumn<Card, Void> colBtn = new TableColumn("Button Column");
+    private void addButtonToTablemaincard() {
+        TableColumn<Card, Void> colBtn = new TableColumn<>("Button Column");
         Callback<TableColumn<Card, Void>, TableCell<Card, Void>> cellFactory = new Callback<TableColumn<Card, Void>, TableCell<Card, Void>>() {
             @Override
             public TableCell<Card, Void> call(final TableColumn<Card, Void> param) {
                 final TableCell<Card, Void> cell = new TableCell<Card, Void>() {
-                    private final Button btn = new Button("Suprimer");
+                    private final Button btnSupprimer = new Button("Supprimer");
+                    private final Button btnEdit = new Button("Modifier statuts");
+
                     {
-                        btn.setOnAction((ActionEvent event) -> {
+                        btnSupprimer.setOnAction((ActionEvent event) -> {
                             Card data = getTableView().getItems().get(getIndex());
+                            CardCrud cc = new CardCrud();
+                            try {
+                                if (cc.delete(data)) {
+                                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                    alert.setContentText("Carte supprimée");
+                                    alert.showAndWait();
+                                    reloadnormal();
+                                } else {
+                                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                                    alert.setContentText("Vérifiez les données");
+                                    alert.showAndWait();
+                                }
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
                             System.out.println("selectedData: " + data);
+                        });
+                        btnEdit.setOnAction((ActionEvent event) -> {
+                            Card datam = getTableView().getItems().get(getIndex());
+                            CardCrud cc = new CardCrud();
+                            try {
+                                if (cc.updateStat(datam.getId(),datam.getStatutCarte())) {
+                                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                    alert.setContentText("Carte modifiee");
+                                    alert.showAndWait();
+                                    reloadnormal();
+                                } else {
+                                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                                    alert.setContentText("Vérifiez les données");
+                                    alert.showAndWait();
+                                }
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+                            System.out.println("selectedData: " + datam);
+                            // Add your edit action here
                         });
                     }
                     @Override
@@ -138,7 +176,9 @@ public class AdminCardList implements Initializable {
                         if (empty) {
                             setGraphic(null);
                         } else {
-                            setGraphic(btn);
+                            HBox buttons = new HBox(btnSupprimer, btnEdit);
+                            buttons.setSpacing(5);
+                            setGraphic(buttons);
                         }
                     }
                 };
@@ -216,14 +256,20 @@ public class AdminCardList implements Initializable {
         colBtn.setCellFactory(cellFactory);
         tableview1.getColumns().add(colBtn);
     }
-
     @FXML
     void goAdd(ActionEvent event)throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/banque/GestionCard/addCardAdmin.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/banque/GestionCard/addCardAdmin.fxml"));
+        try{
+            Parent root = loader.load();
+            // Get the current stage
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            // Set the scene to the stage
+            stage.setScene(scene);
+            stage.show();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+        }
     }
 }
 

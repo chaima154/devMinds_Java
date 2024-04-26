@@ -10,7 +10,7 @@
    <children>
       <AnchorPane fx:id="ch" layoutX="315.0" layoutY="121.0" prefHeight="600.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TableView fx:id="tableview" layoutX="261.0" layoutY="110.0" prefHeight="148.0" prefWidth="615.0" stylesheets="@../css/showCardAdmin.css">
+            <TableView fx:id="tableview" layoutX="196.0" layoutY="67.0" prefHeight="191.0" prefWidth="680.0" stylesheets="@../css/showCardAdmin.css">
                <columns>
                   <TableColumn fx:id="compteCol" prefWidth="99.20000457763672" text="Compte" />
                   <TableColumn fx:id="csvCol" prefWidth="75.0" text="CSV" />

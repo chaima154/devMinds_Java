@@ -5,16 +5,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 
 
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import tn.devMinds.controllers.GestionCard.AdminCardList;
+
 import java.io.IOException;
 
 public class BackendHome {
-
+    @FXML
+    private Pane container;
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -52,18 +56,24 @@ public class BackendHome {
 
     }
 
+    public Pane getContainer() {
+        return container;
+    }
+
+    public void setContainer(Pane container) {
+        this.container = container;
+    }
+
     @FXML
     void goCard(MouseEvent event){
-        try {
-            root = FXMLLoader.load(getClass().getResource("/banque/GestionCard/showCardAdmin.fxml"));
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        }catch (IOException e)
-        {
-            System.out.println(e.getMessage());
-        }
+            try {
+                FXMLLoader var =new FXMLLoader((getClass().getResource("/banque/GestionCard/showCardAdmin.fxml")));
+
+                Pane page = FXMLLoader.load(getClass().getResource("/banque/GestionCard/showCardAdmin.fxml"));
+                container.getChildren().setAll(page);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
     }
 
     @FXML

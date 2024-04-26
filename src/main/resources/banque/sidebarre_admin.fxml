@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="tn.devMinds.controllers.BackendHome">
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.BackendHome">
     <!-- Balise top avec le titre de l'application -->
     <top>
         <HBox prefHeight="69.0" prefWidth="1315.0" styleClass="header-bar" BorderPane.alignment="CENTER">
@@ -227,7 +227,7 @@
 
     </AnchorPane>
    <center>
-      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <Pane fx:id="container" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Label layoutX="233.0" layoutY="257.0" prefHeight="132.0" prefWidth="404.0" text="Coming soon">
                <font>
