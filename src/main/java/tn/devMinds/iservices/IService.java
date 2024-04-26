@@ -1,12 +1,14 @@
 package tn.devMinds.iservices;
+
 import java.sql.SQLException;
-import java.util.ArrayList;
-public interface IService<T>{
+import java.util.List;
 
-        ArrayList<T> getAll() throws SQLException;
-        boolean add(T t) throws SQLException;
-        boolean delete(T t) throws SQLException;
-        boolean delete(int id) throws SQLException;
-        boolean update(T t) throws SQLException;
+public interface IService <T>{
+    void addCredit(T credit);
+
+    boolean updateCredit(T credit) throws SQLException;
+
+    void deleteCredit(int id) throws SQLException;
+
+    List<T> showCredit();
 }
-

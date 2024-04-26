@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+   <?import javafx.scene.control.Button?>
+   <?import javafx.scene.control.ChoiceBox?>
+   <?import javafx.scene.control.DatePicker?>
+   <?import javafx.scene.control.TextField?>
+   <?import javafx.scene.layout.AnchorPane?>
+   <?import javafx.scene.layout.HBox?>
+   <?import javafx.scene.layout.VBox?>
+   <?import javafx.scene.text.Text?>
+
+   <AnchorPane prefHeight="750.0" prefWidth="850.0" styleClass="create_client_container" stylesheets="@../../css/formCredit.css" xmlns="http://javafx.com/javafx/21"
+               xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.admin.credit.AdminCreateCreditController">
+      <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="create_client_container-Title" text="Créer Un Crédit" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <VBox layoutX="14.0" layoutY="72.0" prefHeight="675.0" prefWidth="600.0" styleClass="create_client_container-VBox">
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Compte ID" />
+         <TextField fx:id="CompteId" />
+         <HBox prefHeight="178.0" prefWidth="578.0" styleClass="create_client_container-VBox2">
+            <VBox prefHeight="54.0" prefWidth="147.0">
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Montant Crédit" />
+               <TextField fx:id="montantCredit" />
+            </VBox>
+            <VBox prefHeight="54.0" prefWidth="138.0">
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Durée" />
+               <TextField fx:id="duree" />
+            </VBox>
+            <VBox prefHeight="54.0" prefWidth="122.0">
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Taux d'Intérêt" />
+               <TextField fx:id="tauxInteret" />
+            </VBox>
+         </HBox>
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date d'obtention" />
+         <DatePicker fx:id="dateObtention" prefHeight="26.0" prefWidth="254.0" />
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Statue de Crédit" />
+         <ChoiceBox fx:id="statutCredit" prefWidth="150.0" />
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type de Crédit" />
+         <ChoiceBox fx:id="typeCredit" prefWidth="150.0" />
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Information utilisateur" />
+         <HBox prefHeight="182.0" styleClass="create_client_container-VBox2">
+            <VBox prefHeight="107.0" prefWidth="267.0">
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Categorie Professionelle" />
+               <ChoiceBox fx:id="categorieProfessionelle" prefWidth="150.0" />
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Salaire" />
+               <TextField fx:id="salaire" />
+            </VBox>
+            <VBox prefHeight="107.0" prefWidth="192.0">
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type de Secteur" />
+               <ChoiceBox fx:id="typeSecteur" prefWidth="150.0" />
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Secteur d'activité" />
+               <ChoiceBox fx:id="secteurActivite" prefWidth="150.0" />
+            </VBox>
+         </HBox>
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cin" />
+         <Button fx:id="upload_btn" mnemonicParsing="false" text="Upload" />
+         <Button fx:id="create_btn" mnemonicParsing="false" text="Créer Crédit" />
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="error_lbl" text="Error:" />
+      </VBox>
+   </AnchorPane>
+

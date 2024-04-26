@@ -49,10 +49,10 @@ public class ViewFactory {
         return dashboardView;
     }
 
-    public AnchorPane getCreditView() {
+    public AnchorPane getClientCreditView() {
         if (creditView == null){
             try{
-                creditView = new FXMLLoader(getClass().getResource("/banque/client/credit.fxml")).load();
+                creditView = new FXMLLoader(getClass().getResource("/banque/client/createcredit.fxml")).load();
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -92,6 +92,16 @@ public class ViewFactory {
             }
         }
         return AdminDashboardView;
+    }
+
+    public AnchorPane getAdminCreditView() {
+        if (creditView == null){
+            try{
+                creditView = new FXMLLoader(getClass().getResource("/banque/admin/credit/credit.fxml")).load();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }return creditView;
     }
 
     public void showAdminWindow(){

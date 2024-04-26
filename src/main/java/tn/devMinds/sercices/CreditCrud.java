@@ -1,5 +1,6 @@
 package tn.devMinds.sercices;
 
+import tn.devMinds.iservices.IService;
 import tn.devMinds.models.Credit;
 import tn.devMinds.tools.MyConnection;
 
@@ -7,11 +8,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreditCrud {
+public class CreditCrud implements IService<Credit> {
     Connection cnx2;
     public CreditCrud(){
         cnx2 = MyConnection.getInstance().getCnx();
     }
+    @Override
     public void addCredit(Credit credit){
         String requete = "INSERT INTO credit (montant_credit, duree, taux_interet,date_obtention,montant_restant, statut_credit, type_credit," +
                 " document_cin, salaire, categorie_professionelle, type_secteur, secteur_activite)"
@@ -28,6 +30,7 @@ public class CreditCrud {
         }
     }
 
+    @Override
     public boolean updateCredit(Credit credit) throws SQLException {
         String requete="UPDATE `credit` SET `id`=?,`montant_credit`=?,`duree`=?,`taux_interet`=?,`date_obtention`=?,`montant_restant`=?," +
                 "`statut_credit`=?,`type_credit`=?,`document_cin`=?,`salaire`=?,`categorie_professionelle`=?,`type_secteur`=?,`secteur_activite`=?"
@@ -59,22 +62,22 @@ public class CreditCrud {
         }
     }
 
-    public boolean deleteCredit(Credit credit) throws SQLException {
+    @Override
+    public void deleteCredit(int id) throws SQLException {
 
         String requete = "DELETE FROM credit WHERE id=?";
         try (PreparedStatement pst = cnx2.prepareStatement(requete)) {
-            pst.setInt(1, credit.getId());
+            pst.setInt(1, id);
             int rowsAffected = pst.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Credit with ID " + credit.getId() + " deleted successfully");
-                return true;
+                System.out.println("Credit with ID " + id + " deleted successfully");
             } else {
-                System.out.println("No credit found with ID: " + credit.getId());
-                return false;
+                System.out.println("No credit found with ID: " + id);
             }
         }
     }
 
+    @Override
     public List<Credit> showCredit() {
         List<Credit> mylist = new ArrayList<>();
         try {

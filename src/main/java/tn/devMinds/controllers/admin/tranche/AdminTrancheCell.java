@@ -1,4 +1,4 @@
-package tn.devMinds.controllers.admin;
+package tn.devMinds.controllers.admin.tranche;
 
 import tn.devMinds.models.Tranche;
 import javafx.fxml.Initializable;

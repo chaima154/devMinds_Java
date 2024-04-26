@@ -1,6 +1,6 @@
 package tn.devMinds.views;
 
-import tn.devMinds.controllers.admin.AdminTrancheCell;
+import tn.devMinds.controllers.admin.tranche.AdminTrancheCell;
 import tn.devMinds.models.Tranche;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListCell;
@@ -13,7 +13,7 @@ public class TrancheCellFactory extends ListCell<Tranche> {
             setText(null);
             setGraphic(null);
         } else {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/admin/trancheCell.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/admin/tranche/trancheCell.fxml"));
             AdminTrancheCell controller = new AdminTrancheCell(tranche);
             loader.setController(controller);
             setText(null);
