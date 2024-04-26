@@ -104,6 +104,17 @@ public class ViewFactory {
         }return creditView;
     }
 
+    public AnchorPane getAdminCreditForm() {
+        if (creditView == null){
+            try{
+                creditView = new FXMLLoader(getClass().getResource("/banque/admin/credit/createCredit.fxml")).load();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }return creditView;
+    }
+
+
     public void showAdminWindow(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/admin/admin.fxml"));
         AdminController adminController = new AdminController();

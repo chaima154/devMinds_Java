@@ -21,9 +21,10 @@ public class Credit {
 
     private Set<Tranche> tranches = new TreeSet<>();
 
-    private Compte compte;
+    private int compteId;
 
-    public Credit( double montantCredit, int duree, double tauxInteret, LocalDate dateObtention, double montantRestant, String statutCredit, String typeCredit, String documentcin, double salaire, String categorieProfessionelle, String typeSecteur, String secteurActivite) {
+    public Credit(int id, double montantCredit, int duree, double tauxInteret, LocalDate dateObtention, double montantRestant, String statutCredit, String typeCredit, String documentcin, double salaire, String categorieProfessionelle, String typeSecteur, String secteurActivite, int compteId) {
+        this.id = id;
         MontantCredit = montantCredit;
         Duree = duree;
         TauxInteret = tauxInteret;
@@ -36,7 +37,9 @@ public class Credit {
         CategorieProfessionelle = categorieProfessionelle;
         TypeSecteur = typeSecteur;
         SecteurActivite = secteurActivite;
+        this.compteId = compteId;
     }
+
     public Credit(){};
 
     public int getId() {
@@ -143,12 +146,12 @@ public class Credit {
         this.tranches = tranches;
     }
 
-    public Compte getCompte() {
-        return compte;
+    public int getCompteId() {
+        return compteId;
     }
 
-    public void setCompte(Compte compte) {
-        this.compte = compte;
+    public void setCompteId(int compteId) {
+        this.compteId = compteId;
     }
 
     public String getDocumentcin() {
@@ -175,10 +178,7 @@ public class Credit {
                 ", CategorieProfessionelle='" + CategorieProfessionelle + '\'' +
                 ", TypeSecteur='" + TypeSecteur + '\'' +
                 ", SecteurActivite='" + SecteurActivite + '\'' +
-                ", tranches=" + tranches +
-                ", compte=" + compte +
+                ", compteId=" + compteId +
                 '}';
     }
-
-
 }

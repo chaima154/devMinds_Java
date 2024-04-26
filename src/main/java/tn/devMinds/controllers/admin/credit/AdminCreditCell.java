@@ -1,13 +1,20 @@
 package tn.devMinds.controllers.admin.credit;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import tn.devMinds.models.Credit;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import tn.devMinds.sercices.CreditCrud;
+import tn.devMinds.views.ViewFactory;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -46,6 +53,7 @@ public class AdminCreditCell implements Initializable {
         this.credit = credit;
 
         id.setText(String.valueOf(credit.getId()));
+        compteId.setText(String.valueOf(credit.getCompteId()));
         montantCredit.setText(String.valueOf(credit.getMontantCredit()));
         duree.setText(String.valueOf(credit.getDuree()));
         tauxInteret.setText(String.valueOf(credit.getTauxInteret()));
@@ -80,11 +88,23 @@ public class AdminCreditCell implements Initializable {
     }
 
     private void handleEdit(Credit credit) {
-        // Edit the credit
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/admin/credit/createCredit.fxml"));
+            Parent root = loader.load();
+            AdminUpdateCreditController controller = loader.getController();
+            controller.setIndexCreditController(this);
+            controller.setCredit(credit); // Pass the offer to update to the update controller
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void handleTranches(int id) {
-        // Show tranches related to the credit
+
     }
 
     public interface CreditDeletedListener {
