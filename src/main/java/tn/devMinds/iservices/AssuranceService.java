@@ -133,5 +133,37 @@ public class AssuranceService implements IService<Assurence> {
         // Add other validation rules as needed
         return null; // Return null if validation passes
     }
+    public Assurence selectOne(int id) throws SQLException {
+        String query = "SELECT * FROM assurance WHERE id = ?";
+        PreparedStatement pstmt = cnx.prepareStatement(query);
+        pstmt.setInt(1, id);
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            Assurence assurance = new Assurence();
+            assurance.setId(rs.getInt("id"));
+            assurance.setNom(rs.getString("nom"));
+            assurance.setDescription(rs.getString("description"));
+            assurance.setFranchise(rs.getInt("franchise"));
+            assurance.setPrime(rs.getInt("prime"));
+            return assurance;
+        }
+        return null; // Retourner null si aucune assurance correspondante n'est trouvée
+    }
+    public Assurence getByNom(String nom) throws SQLException {
+        String query = "SELECT * FROM assurance WHERE nom = ?";
+        PreparedStatement pstmt = cnx.prepareStatement(query);
+            pstmt.setString(1, nom);
+            try (ResultSet resultSet = pstmt.executeQuery()) {
+                if (resultSet.next()) {
+                    Assurence assurance = new Assurence();
+                    assurance.setId(resultSet.getInt("id"));
+                    assurance.setNom(resultSet.getString("nom"));
+                    // Set other attributes as needed
+                    return assurance;
+                }
+            }
 
-}
+        return null; // Assurance with the given name not found
+    }}
+
+

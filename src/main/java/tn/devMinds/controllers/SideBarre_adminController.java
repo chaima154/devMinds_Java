@@ -6,8 +6,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -19,6 +21,11 @@ public class SideBarre_adminController implements Initializable {
     public BorderPane borderPane; // Add @FXML annotation here
     @FXML
     private Button deconnecter;
+    @FXML
+    private Label exit;
+
+    @FXML
+    private StackPane contentArea;
 
     @FXML
     void goAcceuil(MouseEvent event) {
@@ -60,6 +67,26 @@ public class SideBarre_adminController implements Initializable {
         AssuranceListController assuranceListController = loader.getController(); // Corrected variable name
         if (loader.getController() instanceof AssuranceListController) {
             assuranceListController.setSidebarController(this); // Corrected method call
+            this.borderPane.setCenter(parent);
+        }
+    }
+    @FXML
+    void Assurence(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/frontassurance.fxml"));
+        Parent parent = loader.load();
+        tn.devMinds.controllers.frontassurance Frontassurance = loader.getController();
+        if (loader.getController() instanceof tn.devMinds.controllers.frontassurance) {
+            Frontassurance.setSidebarController(this);
+            this.borderPane.setCenter(parent);
+        }
+    }
+    @FXML
+    void demandeback(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListDemande.fxml"));
+        Parent parent = loader.load();
+        tn.devMinds.controllers.DemandeListController Demandelist = loader.getController();
+        if (loader.getController() instanceof tn.devMinds.controllers.DemandeListController) {
+            Demandelist.setSidebarController(this);
             this.borderPane.setCenter(parent);
         }
     }

@@ -75,6 +75,7 @@ public class AssuranceListController implements Initializable {
         showList(getAllList());
     }
 
+
     private void setupActionColumn() {
         actionColumn.setCellFactory(param -> new TableCell<Assurence, Void>() {
             private final Button deleteBtn = new Button("Delete");

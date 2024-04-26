@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="borderPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.DemandeListController">
+   <right>
+        <AnchorPane prefHeight="830.0" prefWidth="1098.0" BorderPane.alignment="CENTER">
+            <children>
+
+                <HBox layoutY="57.0" prefHeight="93.0" prefWidth="1098.0">
+                    <children>
+                        <Label prefHeight="17.0" prefWidth="263.0" text="Les demandes">
+                            <HBox.margin>
+                                <Insets left="90.0" top="40.0" />
+                            </HBox.margin>
+                            <font>
+                                <Font name="Georgia" size="24.0" />
+                            </font>
+                        </Label>
+                        <Button fx:id="ajout" mnemonicParsing="false" onAction="#ajout" prefHeight="43.0" prefWidth="208.0" style="-fx-background-color: #3f704d;" text="Les demandes acceptes et refuses" textFill="WHITE">
+                            <HBox.margin>
+                                <Insets left="500.0" top="50.0" />
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
+
+                <TableView fx:id="table" layoutX="11.0" layoutY="228.0" prefHeight="521.0" prefWidth="1053.0">
+                    <columns>
+                        <TableColumn fx:id="nomClientColumn" prefWidth="175.39999103546143" text="Nom client" />
+                        <TableColumn fx:id="assuranceColumn" minWidth="4.600006103515625" prefWidth="170.99998474121094" text="Type d'assurance" />
+                        <TableColumn fx:id="D_dColumn" prefWidth="193.0" text="Date debut" />
+                        <TableColumn fx:id="D_fColumn" prefWidth="166.79998779296875" text="Date fin" />
+                  <TableColumn fx:id="montantColumn" prefWidth="104.39996337890625" text="Montant" />
+                  <TableColumn fx:id="modeColumn" prefWidth="116.0" text="Mode de paiment" />
+                        <TableColumn fx:id="actionnColumn" prefWidth="131.99993896484375" text="Actions" />
+                    </columns>
+                </TableView>
+
+                <HBox alignment="CENTER" layoutX="111.0" layoutY="179.0" maxHeight="-Infinity" prefHeight="33.0" prefWidth="302.0" styleClass="round-layout" stylesheets="@css/styles.css">
+                    <children>
+                        <TextField fx:id="searchTerm" prefHeight="25.0" prefWidth="237.0" promptText="Recherche.." styleClass="transparent" stylesheets="@css/styles.css" />
+
+                    </children>
+                </HBox>
+
+            </children>
+        </AnchorPane>
+   </right>
+</BorderPane>
