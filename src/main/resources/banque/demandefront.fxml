@@ -30,7 +30,7 @@
    <DatePicker fx:id="ddebuttxt" layoutX="404.0" layoutY="91.0" prefHeight="26.0" prefWidth="122.0" />
    <DatePicker fx:id="dfintxt" layoutX="404.0" layoutY="135.0" prefHeight="26.0" prefWidth="122.0" />
    <TextField fx:id="emailtxt" layoutX="113.0" layoutY="205.0" prefHeight="5.0" prefWidth="122.0" />
-   <Button fx:id="adddembtn" layoutX="425.0" layoutY="338.0" mnemonicParsing="false" onAction="#addDemande" prefHeight="26.0" prefWidth="80.0" style="-fx-background-color: #f7bf16;" text="Confirm" textFill="#202020">
+   <Button fx:id="adddembtn" layoutX="425.0" layoutY="338.0" mnemonicParsing="false" onAction="#addDemande" prefHeight="26.0" prefWidth="80.0" style="-fx-background-color: #9df716;" text="Confirm" textFill="#202020">
       <font>
          <Font name="System Bold" size="11.0" />
       </font>
@@ -40,7 +40,7 @@
          <Font name="Arial Bold" size="12.0" />
       </font>
    </Label>
-   <Text fill="#d7a306" layoutX="199.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Depot de demande ">
+   <Text fill="#33d711" layoutX="199.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Depot de demande ">
       <font>
          <Font name="Arial Bold" size="22.0" />
       </font>
@@ -63,7 +63,7 @@
          <Font name="System Bold" size="12.0" />
       </font>
    </Label>
-   <Button fx:id="retourbtn" layoutX="314.0" layoutY="338.0" mnemonicParsing="false" onAction="#addDemande" prefHeight="26.0" prefWidth="80.0" style="-fx-background-color: #f7bf16;" text="Retour" textFill="#202020">
+   <Button fx:id="retourbtn" layoutX="314.0" layoutY="338.0" mnemonicParsing="false" onAction="#addDemande" prefHeight="26.0" prefWidth="80.0" style="-fx-background-color: #34f716;" text="Retour" textFill="#202020">
       <font>
          <Font name="System Bold" size="11.0" />
       </font>

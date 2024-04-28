@@ -12,11 +12,11 @@
             <Font name="Arial Rounded MT Bold" size="24.0" />
          </font>
       </Text>
-      <Button fx:id="choice" layoutX="547.0" layoutY="428.0" mnemonicParsing="false" onAction="#addchoice" prefHeight="24.0" prefWidth="122.0" style="-fx-background-color: #f7bf16;" text="Choisir l'assurance" textFill="#030000">
+      <Button fx:id="choice" layoutX="547.0" layoutY="428.0" mnemonicParsing="false" onAction="#addchoice" prefHeight="24.0" prefWidth="122.0" style="-fx-background-color: #70f716;" text="Choisir l'assurance" textFill="#030000">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
-      <Button fx:id="choice1" layoutX="399.0" layoutY="428.0" mnemonicParsing="false" onAction="#addchoice" prefHeight="24.0" prefWidth="122.0" style="-fx-background-color: #f7bf16;" text="Mes demandes" textFill="#030000">
+      <Button fx:id="choice1" layoutX="399.0" layoutY="428.0" mnemonicParsing="false" onAction="#addchoice" prefHeight="24.0" prefWidth="122.0" style="-fx-background-color: #59f716;" text="Mes demandes" textFill="#030000">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
