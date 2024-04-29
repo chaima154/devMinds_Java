@@ -30,13 +30,14 @@
 
                 <TableView fx:id="table" layoutX="11.0" layoutY="228.0" prefHeight="521.0" prefWidth="1053.0">
                     <columns>
-                        <TableColumn fx:id="nomClientColumn" prefWidth="175.39999103546143" text="Nom client" />
-                        <TableColumn fx:id="assuranceColumn" minWidth="4.600006103515625" prefWidth="170.99998474121094" text="Type d'assurance" />
-                        <TableColumn fx:id="D_dColumn" prefWidth="193.0" text="Date debut" />
-                        <TableColumn fx:id="D_fColumn" prefWidth="166.79998779296875" text="Date fin" />
-                  <TableColumn fx:id="montantColumn" prefWidth="104.39996337890625" text="Montant" />
-                  <TableColumn fx:id="modeColumn" prefWidth="116.0" text="Mode de paiment" />
-                        <TableColumn fx:id="actionnColumn" prefWidth="131.99993896484375" text="Actions" />
+                        <TableColumn fx:id="nomClientColumn" prefWidth="157.99998474121094" text="Nom client" />
+                        <TableColumn fx:id="assuranceColumn" minWidth="4.600006103515625" prefWidth="162.5999755859375" text="Type d'assurance" />
+                        <TableColumn fx:id="D_dColumn" prefWidth="141.80001831054688" text="Date debut" />
+                        <TableColumn fx:id="D_fColumn" prefWidth="138.4000244140625" text="Date fin" />
+                  <TableColumn fx:id="montantColumn" prefWidth="104.79998779296875" text="Montant" />
+                  <TableColumn fx:id="modeColumn" prefWidth="116.79998779296875" text="Mode de paiment" />
+                        <TableColumn fx:id="etatColumn" prefWidth="95.39996337890625" text="etat" />
+                  <TableColumn fx:id="actionColumn" prefWidth="130.79998779296875" text="Actions" />
                     </columns>
                 </TableView>
 

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ServiceDemande implements IService1<Demande> {
 
-    private Connection cnx;
+    private static Connection cnx;
 
     public ServiceDemande() {
         cnx = MyConnection.getInstance().getCnx();
@@ -84,5 +84,12 @@ public class ServiceDemande implements IService1<Demande> {
             demandes.add(demande);
         }
         return demandes;
+    }
+    public static void updateEtat(Demande demande) throws SQLException {
+        String query = "UPDATE demande SET etat = ? WHERE id = ?";
+        PreparedStatement pstmt = cnx.prepareStatement(query);
+        pstmt.setString(1, demande.getEtat());
+        pstmt.setInt(2, demande.getId());
+        pstmt.executeUpdate();
     }
 }

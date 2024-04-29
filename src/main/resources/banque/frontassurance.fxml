@@ -6,17 +6,25 @@
 
 <AnchorPane prefHeight="471.0" prefWidth="718.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.frontassurance">
    <children>
-      <ListView fx:id="lista" layoutX="8.0" layoutY="42.0" onMouseClicked="#selectA" prefHeight="380.0" prefWidth="698.0" />
-      <Text fill="#009929" layoutX="231.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nos Assurance" wrappingWidth="255.32177734375">
+      <Text fill="#009929" layoutX="231.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nos Assurances" wrappingWidth="255.32177734375">
          <font>
             <Font name="Arial Rounded MT Bold" size="24.0" />
          </font>
       </Text>
-      <Button fx:id="choice" layoutX="547.0" layoutY="428.0" mnemonicParsing="false" onAction="#addchoice" prefHeight="24.0" prefWidth="122.0" style="-fx-background-color: #70f716;" text="Choisir l'assurance" textFill="#030000">
+      <TableView fx:id="table" layoutX="59.0" layoutY="70.0" prefHeight="350.0" prefWidth="600.0">
+         <columns>
+            <TableColumn fx:id="nomColumn" prefWidth="150.0" text="Nom" />
+            <TableColumn fx:id="descriptionColumn" prefWidth="300.0" text="Description" />
+            <TableColumn fx:id="primeColumn" prefWidth="75.0" text="Prime" />
+            <TableColumn fx:id="franchiseColumn" prefWidth="75.0" text="Franchise" />
+         </columns>
+      </TableView>
+      <Button fx:id="choice" layoutX="504.0" layoutY="428.0" mnemonicParsing="false" onAction="#addchoice" prefHeight="24.0" prefWidth="200.0" style="-fx-background-color: #1643f7;" text="Choisir l'assurance" textFill="#030000">
          <font>
             <Font name="System Bold" size="12.0" />
-         </font></Button>
-      <Button fx:id="choice1" layoutX="399.0" layoutY="428.0" mnemonicParsing="false" onAction="#addchoice" prefHeight="24.0" prefWidth="122.0" style="-fx-background-color: #59f716;" text="Mes demandes" textFill="#030000">
+         </font>
+      </Button>
+      <Button fx:id="choice1" layoutX="14.0" layoutY="428.0" mnemonicParsing="false" onAction="#addchoice" prefHeight="24.0" prefWidth="200.0" style="-fx-background-color: #59f716;" text="Mes demandes" textFill="#030000">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

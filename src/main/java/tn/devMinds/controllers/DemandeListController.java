@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import tn.devMinds.entities.Assurence;
 import tn.devMinds.entities.Demande;
 import tn.devMinds.iservices.ServiceDemande;
@@ -35,13 +36,13 @@ public class DemandeListController implements Initializable {
     @FXML
     private TableColumn<Demande, String> modeColumn;
     @FXML
+    private TableColumn<Demande, String> etatColumn;
+    @FXML
     private TableColumn<Demande, Void> actionColumn;
     @FXML
     private TextField searchTerm;
-    private SideBarre_adminController sidebarController;
 
     public void setSidebarController(SideBarre_adminController sidebarController) {
-        this.sidebarController = sidebarController;
     }
 
     private ServiceDemande demandeService = new ServiceDemande();
@@ -53,7 +54,7 @@ public class DemandeListController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
+        setupActionColumn();
         searchTerm.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.isEmpty()) {
                 try {
@@ -88,26 +89,51 @@ public class DemandeListController implements Initializable {
         D_fColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getDureeContrat().toString()));
         montantColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(String.valueOf(data.getValue().getMontantCouverture())));
         modeColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getModePaiement()));
+        etatColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getEtat()));
 
         table.setItems(observableList);
     }
+    private void setupActionColumn() {
+        actionColumn.setCellFactory(param -> new TableCell<Demande, Void>() {
+            private final Button acceptBtn = new Button("Accept");
+            private final Button refuseBtn = new Button("Refuse");
+            private final HBox hbox = new HBox(5, acceptBtn, refuseBtn);
 
+            {
+                acceptBtn.setOnAction(event -> {
+                    Demande demande = getTableView().getItems().get(getIndex());
+                    demande.setEtat("Accepted");
+                    updateDemandeEtat(demande);
+                });
 
+                refuseBtn.setOnAction(event -> {
+                    Demande demande = getTableView().getItems().get(getIndex());
+                    demande.setEtat("Refused");
+                    updateDemandeEtat(demande);
+                });
+            }
 
-
-
-
-    private void openUpdateFXML(Demande demande) {
-        // Implement update functionality here
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(hbox);
+                }
+            }
+        });
     }
 
-    @FXML
-    void ajout(ActionEvent event) {
-        // Implement add functionality here
+    private void updateDemandeEtat(Demande demande) {
+        try {
+            ServiceDemande.updateEtat(demande);
+            showList(getAllList());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    @FXML
-    void delete(ActionEvent event) {
-        // Implement delete functionality here
+    public void ajout(ActionEvent actionEvent) {
     }
 }

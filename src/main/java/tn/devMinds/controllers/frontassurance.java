@@ -1,7 +1,8 @@
 package tn.devMinds.controllers;
 
 
-import javafx.scene.control.TextField;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.control.*;
 import tn.devMinds.entities.Assurence;
 import tn.devMinds.entities.Demande;
 import tn.devMinds.iservices.AssuranceService;
@@ -16,8 +17,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -34,6 +33,16 @@ public class frontassurance implements Initializable {
     private Assurence selectedAssurence;
     @FXML
     private TextField searchTerm;
+    @FXML
+    private TableView<Assurence> table;
+    @FXML
+    private TableColumn<Assurence, String> nomColumn;
+    @FXML
+    private TableColumn<Assurence, String> descriptionColumn;
+    @FXML
+    private TableColumn<Assurence, String> primeColumn;
+    @FXML
+    private TableColumn<Assurence, String> franchiseColumn;
 
     public void setSidebarController(SideBarre_adminController sidebarController) {
     }
@@ -45,12 +54,9 @@ public class frontassurance implements Initializable {
     private Button choice;
 
     @FXML
-    private ListView<Assurence> lista;
-
-    @FXML
     void addchoice(ActionEvent event) throws IOException {
         // Get the selected assurance's name
-        Assurence selectedAssurence = lista.getSelectionModel().getSelectedItem();
+        Assurence selectedAssurence = table.getSelectionModel().getSelectedItem();
         String selectedAssurenceName = selectedAssurence.getNom();
 
         // Load the demandefront.fxml file
@@ -71,18 +77,31 @@ public class frontassurance implements Initializable {
 
     @FXML
     void selectA(MouseEvent event) {
-       Assurence SelectedAssurence = lista.getSelectionModel().getSelectedItem();
+       Assurence SelectedAssurence = table.getSelectionModel().getSelectedItem();
 
 
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        showass();
+        showass(getAllList());
+
     }
-    public void showass() {
+
+    private ObservableList<Assurence> getAllList() {
+        return FXCollections.observableArrayList(assuranceService.getAllData());
+    }
+
+    /*public void showass() {
         lista.setItems(getAssurences());
+    }*/
+    public void showass(ObservableList<Assurence> observableList) {
+        nomColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getNom()));
+        descriptionColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getDescription()));
+        primeColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getPrime()).asString());
+        franchiseColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getFranchise()).asString());
+        table.setItems(observableList);
     }
-    public ObservableList<Assurence> getAssurences() {
+    /*public ObservableList<Assurence> getAssurences() {
         ObservableList<Assurence> assurances = FXCollections.observableArrayList();
         String query = "SELECT * FROM assurance";
         cnx = MyConnection.getInstance().getCnx();
@@ -101,7 +120,7 @@ public class frontassurance implements Initializable {
             throw new RuntimeException(e);
         }
         return assurances;
-    }
+    }*/
 
 }
 
