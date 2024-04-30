@@ -24,12 +24,22 @@
                 </Label>
                 <VBox alignment="TOP_LEFT" spacing="10">
                     <children>
-                        <Label prefHeight="28.0" prefWidth="385.0" text="Nom">
+                        <Label prefHeight="28.0" prefWidth="385.0" text="Libellé">
                             <font>
                                 <Font name="Baskerville Old Face" size="24.0" />
                             </font>
                         </Label>
                         <TextField fx:id="libelle" prefHeight="40.0" prefWidth="400.0">
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </TextField>
+                        <Label prefHeight="28.0" prefWidth="385.0" text="Commission">
+                            <font>
+                                <Font name="Baskerville Old Face" size="24.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="Commission" prefHeight="40.0" prefWidth="400.0">
                             <VBox.margin>
                                 <Insets top="10.0" />
                             </VBox.margin>

@@ -37,7 +37,8 @@
                 <TableView fx:id="table" layoutX="98.0" layoutY="259.0" prefHeight="490.0" prefWidth="870.0">
                     <columns>
                         <TableColumn fx:id="libelleColumn" prefWidth="420.8000030517578" text="Libellé" />
-                        <TableColumn fx:id="actionColumn" prefWidth="448.7999572753906" text="Actions" />
+                        <TableColumn fx:id="commisiontypetransaction" prefWidth="232.0" text="Commission" />
+                        <TableColumn fx:id="actionColumn" prefWidth="420.8000030517578" text="action" />
                     </columns>
                 </TableView>
 

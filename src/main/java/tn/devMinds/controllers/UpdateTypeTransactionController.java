@@ -14,6 +14,8 @@ public class UpdateTypeTransactionController extends SideBarre_adminController {
     private SideBarre_adminController sidebarController;
     @FXML
     private TextField libelle;
+    @FXML
+    private TextField Commission;
 
     public void setSidebarController(SideBarre_adminController sidebarController) {
         this.sidebarController = sidebarController;
@@ -25,6 +27,7 @@ public class UpdateTypeTransactionController extends SideBarre_adminController {
     public void initializeData(TypeTransaction typeTransaction) {
         this.typeTransactionToUpdate = typeTransaction;
         libelle.setText(typeTransaction.getLibelle());
+        Commission.setText(String.valueOf(typeTransaction.getCommission()));
     }
 
     @FXML
@@ -43,19 +46,33 @@ public class UpdateTypeTransactionController extends SideBarre_adminController {
         updatedTypeTransaction.setId(typeTransactionToUpdate.getId());
         updatedTypeTransaction.setLibelle(libelle.getText());
 
-        String validationMessage = typeTransactionService.validateInput(updatedTypeTransaction);
-        if (validationMessage != null) {
-            displayAlert("Alert", validationMessage, Alert.AlertType.WARNING);
-        } else {
-            String updateResult = typeTransactionService.update(updatedTypeTransaction, updatedTypeTransaction.getId());
-            if (updateResult == null) {
-                displayAlert("Confirmation", "Le type de transaction a été mis à jour avec succès.", Alert.AlertType.CONFIRMATION);
-                retourner(); // Close the popup
+        String commissionText = Commission.getText().trim(); // Trim the text
+        if (commissionText.isEmpty()) {
+            displayAlert("Alert", "Veuillez saisir une valeur pour la commission.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        try {
+            Double commissionValue = Double.valueOf(commissionText);
+            updatedTypeTransaction.setCommission(commissionValue);
+
+            String validationMessage = typeTransactionService.validateInput(updatedTypeTransaction);
+            if (validationMessage != null) {
+                displayAlert("Alert", validationMessage, Alert.AlertType.WARNING);
             } else {
-                displayAlert("Erreur", "Une erreur s'est produite lors de la mise à jour du type de transaction: " + updateResult, Alert.AlertType.ERROR);
+                String updateResult = typeTransactionService.update(updatedTypeTransaction, updatedTypeTransaction.getId());
+                if (updateResult == null) {
+                    displayAlert("Confirmation", "Le type de transaction a été mis à jour avec succès.", Alert.AlertType.CONFIRMATION);
+                    retourner(); // Close the popup
+                } else {
+                    displayAlert("Erreur", "Une erreur s'est produite lors de la mise à jour du type de transaction: " + updateResult, Alert.AlertType.ERROR);
+                }
             }
+        } catch (NumberFormatException e) {
+            displayAlert("Alert", "Veuillez saisir une valeur numérique valide pour la commission.", Alert.AlertType.WARNING);
         }
     }
+
 
     private boolean verif_libelle(TextField t) {
         String champ = t.getText().trim();

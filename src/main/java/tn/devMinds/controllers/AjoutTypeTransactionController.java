@@ -14,6 +14,8 @@ public class AjoutTypeTransactionController {
     public TypeTransactionListController typeTransactionListController;
     @FXML
     private TextField libelle;
+    @FXML
+    private TextField Commission;
 
     private TypeTransactionService typetransactionservice = new TypeTransactionService();
 
@@ -40,9 +42,19 @@ public class AjoutTypeTransactionController {
             al.setTitle("Alert");
             al.setContentText("Veuillez saisir un libellé valide.");
             al.show();
+        } else if (!verif_commission(Commission)) {
+            Alert al = new Alert(Alert.AlertType.WARNING);
+            al.setTitle("Alert");
+            al.setContentText("Veuillez saisir une commission valide.");
+            al.show();
         } else {
+            String commissionText = Commission.getText().trim(); // Trim the text
+            Double commissionValue = Double.valueOf(commissionText);
+
             TypeTransaction typeTransaction = new TypeTransaction();
             typeTransaction.setLibelle(libelle.getText());
+            typeTransaction.setCommission(commissionValue);
+            System.out.println(commissionValue);
 
             String errorMessage = typetransactionservice.add(typeTransaction);
             if (errorMessage == null) {
@@ -64,6 +76,15 @@ public class AjoutTypeTransactionController {
             }
         }
     }
+
+
+    public Boolean verif_commission(TextField t) {
+        String champ = t.getText().trim();
+        return !champ.isEmpty() && champ.matches("\\d+(\\.\\d+)?");
+    }
+
+
+
 
     public void setTypeTransactionListController(TypeTransactionListController controller) {
         this.typeTransactionListController = controller;

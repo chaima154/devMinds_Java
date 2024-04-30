@@ -11,14 +11,14 @@
 <?import javafx.scene.control.Button?>
 <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.TransactionListController">
     <center>
-        <AnchorPane prefHeight="830.0" prefWidth="1098.0">
+        <AnchorPane prefHeight="1000.0" prefWidth="1098.0">
         <children>
 
-           <HBox layoutY="57.0" prefHeight="93.0" prefWidth="1098.0">
+           <HBox layoutY="90.0" prefHeight="93.0" prefWidth="1098.0">
             <children>
-                <Label prefHeight="17.0" prefWidth="263.0" text="Les types de transaction">
+                <Label prefHeight="70.0" prefWidth="263.0" text="Liste des transactions">
                     <HBox.margin>
-                        <Insets left="90.0" top="40.0" />
+                        <Insets left="150.0" top="150.0" />
                     </HBox.margin>
                     <font>
                         <Font name="Georgia" size="24.0" />

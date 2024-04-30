@@ -8,43 +8,56 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.UpdateTypeTransactionController">
+<BorderPane fx:id="borderPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.AjoutEncaissementController">
     <center>
         <VBox alignment="CENTER" spacing="10">
             <children>
                 <Label fx:id="resultat" prefHeight="66.0" prefWidth="461.0" textFill="#960d0d">
                     <font>
-                        <Font size="15.0" />
+                        <Font size="26.0" />
                     </font>
                 </Label>
-                <Label text="Modifier Type Transaction" textFill="#3f704d">
+                <Label text="Ajouter un Virement" textFill="#3f704d">
                     <font>
                         <Font name="System Bold" size="47.0" />
                     </font>
                 </Label>
                 <VBox alignment="TOP_LEFT" spacing="10">
                     <children>
-                        <Label prefHeight="28.0" prefWidth="385.0" text="Libelle">
+
+                        <Label prefHeight="28.0" prefWidth="385.0" text="Compte destinataire">
                             <font>
                                 <Font name="Baskerville Old Face" size="24.0" />
                             </font>
                         </Label>
-                        <TextField fx:id="libelle" prefHeight="40.0" prefWidth="400.0">
+                        <TextField fx:id="compteDestinataire" prefHeight="40.0" prefWidth="400.0">
                             <VBox.margin>
                                 <Insets top="10.0" />
                             </VBox.margin>
                         </TextField>
-                        <Label prefHeight="28.0" prefWidth="385.0" text="Commission">
+                        <Label prefHeight="28.0" prefWidth="385.0" text="Numéro de chéque ">
                             <font>
                                 <Font name="Baskerville Old Face" size="24.0" />
                             </font>
                         </Label>
-                        <TextField fx:id="Commission" prefHeight="40.0" prefWidth="400.0">
+                        <TextField fx:id="numerocheque" prefHeight="40.0" prefWidth="400.0">
                             <VBox.margin>
                                 <Insets top="10.0" />
                             </VBox.margin>
                         </TextField>
-                        <Button fx:id="CreateAccount" mnemonicParsing="false" onAction="#UpdateTypeTransaction" prefHeight="29.0" prefWidth="187.0" style="-fx-background-color: #3f704d;" text="Modifier " textFill="#fffafa">
+                        <Label prefHeight="28.0" prefWidth="385.0" text="Montant">
+                            <font>
+                                <Font name="Baskerville Old Face" size="24.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="montant" prefHeight="40.0" prefWidth="400.0">
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </TextField>
+
+
+                        <Button fx:id="CreateAccount"  onAction="#AddTransaction" mnemonicParsing="false"  prefHeight="29.0" prefWidth="187.0" style="-fx-background-color: #3f704d;" text="Ajouter " textFill="#fffafa">
                             <VBox.margin>
                                 <Insets top="40.0" />
                             </VBox.margin>
@@ -58,7 +71,7 @@
         </VBox>
     </center>
     <bottom>
-        <Button fx:id="retour" mnemonicParsing="false" onAction="#retour" prefHeight="38.0" prefWidth="81.0" style="-fx-background-color: #3f704d;" text="Retour" textFill="WHITE">
+        <Button fx:id="retour" mnemonicParsing="false"  prefHeight="38.0" prefWidth="81.0" style="-fx-background-color: #3f704d;" text="Retour" textFill="WHITE">
             <font>
                 <Font size="17.0" />
             </font>

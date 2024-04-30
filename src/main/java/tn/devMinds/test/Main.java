@@ -8,7 +8,7 @@ import tn.devMinds.iservices.TypeTransactionService;
 public class Main {
     public static void main(String[] args) {
         //MyConnection mc = new MyConnection();
-        TypeTransaction typetransaction = new TypeTransaction("hh");
+        TypeTransaction typetransaction = new TypeTransaction();
         TypeTransactionService tt = new TypeTransactionService();
         tt.add(typetransaction);
         System.out.println(tt.getAllData());

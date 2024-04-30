@@ -63,7 +63,7 @@ public class AjouterTransactionController extends SideBarre_adminController {
 
     private void initializeDynamicFields() {
         dynamicFieldsContainer.getChildren().clear();
-
+/*
         if (selectedTypeTransaction != null) {
             ObservableList<Label> labels = FXCollections.observableArrayList();
             ObservableList<TextField> textFields = FXCollections.observableArrayList();
@@ -71,17 +71,17 @@ public class AjouterTransactionController extends SideBarre_adminController {
             // Add specific fields based on the selected type of transaction
             switch (selectedTypeTransaction) {
                 case "Virement":
-                    addField("Montant Transaction", labels, textFields);
+                    addField("Montant Transajjjction", labels, textFields);
                     addField("Date", labels, textFields);
                     addField("Compte ID", labels, textFields);
                     addField("Destinataire Compte ID", labels, textFields);
                     break;
                 case "Versement":
-                    addField("Montant Transaction", labels, textFields);
+                    addField("Montant Trjjjjjjjjjjjjjjjjjjjjjjjjjansaction", labels, textFields);
                     addField("Date", labels, textFields);
                     addField("Destinataire Compte ID", labels, textFields);
                     break;
-                case "Encaissement de chèque":
+                case "Encaissementdecheque":
                     addField("Montant Transaction", labels, textFields);
                     addField("Date", labels, textFields);
                     addField("Numéro de chèque", labels, textFields);
@@ -94,6 +94,7 @@ public class AjouterTransactionController extends SideBarre_adminController {
             fieldContainer.getChildren().addAll(textFields);
             dynamicFieldsContainer.getChildren().add(fieldContainer);
         }
+        */
     }
 
     private void addField(String labelText, ObservableList<Label> labels, ObservableList<TextField> textFields) {
@@ -130,8 +131,8 @@ public class AjouterTransactionController extends SideBarre_adminController {
                 loader.setLocation(getClass().getResource("/banque/AjoutVersement.fxml"));
                 root = loader.load();
                 break;
-            case "Encaissement de chèque":
-                loader.setLocation(getClass().getResource("/banque/AjoutEncaissementCheque.fxml"));
+            case "Encaissementdecheque":
+                loader.setLocation(getClass().getResource("/banque/AjoutEncaissement.fxml"));
                 root = loader.load();
                 break;
             default:

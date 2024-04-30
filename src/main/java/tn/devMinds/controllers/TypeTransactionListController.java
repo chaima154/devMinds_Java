@@ -32,6 +32,8 @@ public class TypeTransactionListController implements Initializable {
     private TableColumn<TypeTransaction, String> libelleColumn;  // Renamed for consistency with FXML
     @FXML
     private TableColumn<TypeTransaction, Void> actionColumn;
+    @FXML
+    private TableColumn<TypeTransaction, Double> commisiontypetransaction;
 
     @FXML
     private Button ajout;
@@ -162,9 +164,11 @@ public class TypeTransactionListController implements Initializable {
             System.err.println("No item selected for deletion.");
         }
     }
-
     public void showList(ObservableList<TypeTransaction> observableList) {
         libelleColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getLibelle()));
+        commisiontypetransaction.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getCommission().doubleValue()));
+
         table.setItems(observableList);
     }
+
 }
