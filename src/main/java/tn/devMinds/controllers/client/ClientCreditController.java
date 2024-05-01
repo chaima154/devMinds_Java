@@ -1,5 +1,6 @@
 package tn.devMinds.controllers.client;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,8 +12,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import tn.devMinds.models.Credit;
-import tn.devMinds.sercices.CreditCrud;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,14 +30,14 @@ public class ClientCreditController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+
     }
 
     @FXML
-    private void showCredits(){
+    private void showCreditInterface(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/client/credit.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/client/Credit/Credit.fxml"));
             Parent root = loader.load();
-            ClientIndexCreditController controller = loader.getController();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(new Scene(root));
@@ -47,4 +46,5 @@ public class ClientCreditController implements Initializable {
             e.printStackTrace();
         }
     }
+
 }

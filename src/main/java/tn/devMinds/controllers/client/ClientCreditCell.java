@@ -1,22 +1,11 @@
 package tn.devMinds.controllers.client;
 
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import tn.devMinds.controllers.admin.credit.AdminUpdateCreditController;
 import tn.devMinds.models.Credit;
 import tn.devMinds.sercices.CreditCrud;
 
-import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ClientCreditCell implements Initializable {
@@ -45,8 +34,6 @@ public class ClientCreditCell implements Initializable {
     }
 
     public void setCredit(Credit credit) {
-        this.credit = credit;
-
         id.setText(String.valueOf(credit.getId()));
         compteId.setText(String.valueOf(credit.getCompteId()));
         montantCredit.setText(String.valueOf(credit.getMontantCredit()));

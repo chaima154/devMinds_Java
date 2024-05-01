@@ -1,6 +1,8 @@
 package tn.devMinds.models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -19,12 +21,13 @@ public class Credit {
     private String TypeSecteur;
     private String SecteurActivite;
 
-    private Set<Tranche> tranches = new TreeSet<>();
+    private List<Tranche> tranches;
 
     private int compteId;
 
-    public Credit(int id, double montantCredit, int duree, double tauxInteret, LocalDate dateObtention, double montantRestant, String statutCredit, String typeCredit, String documentcin, double salaire, String categorieProfessionelle, String typeSecteur, String secteurActivite, int compteId) {
-        this.id = id;
+    public Credit(){};
+
+    public Credit(double montantCredit, int duree, double tauxInteret, LocalDate dateObtention, double montantRestant, String statutCredit, String typeCredit, String documentcin, double salaire, String categorieProfessionelle, String typeSecteur, String secteurActivite, List<Tranche> tranches, int compteId) {
         MontantCredit = montantCredit;
         Duree = duree;
         TauxInteret = tauxInteret;
@@ -37,10 +40,9 @@ public class Credit {
         CategorieProfessionelle = categorieProfessionelle;
         TypeSecteur = typeSecteur;
         SecteurActivite = secteurActivite;
+        this.tranches = tranches;
         this.compteId = compteId;
     }
-
-    public Credit(){};
 
     public int getId() {
         return id;
@@ -138,11 +140,11 @@ public class Credit {
         SecteurActivite = secteurActivite;
     }
 
-    public Set<Tranche> getTranches() {
+    public List<Tranche> getTranches() {
         return tranches;
     }
 
-    public void setTranches(Set<Tranche> tranches) {
+    public void setTranches(List<Tranche> tranches) {
         this.tranches = tranches;
     }
 

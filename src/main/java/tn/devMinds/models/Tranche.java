@@ -6,14 +6,13 @@ public class Tranche {
     private int id;
     private int CreditId;
     private LocalDate DateEcheance;
-    private float MontantPaiement;
+    private double MontantPaiement;
     private String StatutPaiement;
 
     public Tranche(){};
 
-    public Tranche(int id, int CreditId, LocalDate dateEcheance, float montantPaiement, String statutPaiement) {
-        this.id = id;
-        CreditId = CreditId;
+    public Tranche(int CreditId, LocalDate dateEcheance, double montantPaiement, String statutPaiement) {
+        this.CreditId = CreditId;
         DateEcheance = dateEcheance;
         MontantPaiement = montantPaiement;
         StatutPaiement = statutPaiement;
@@ -31,11 +30,11 @@ public class Tranche {
 
     public void setCreditId(int creditId) { CreditId = creditId; }
 
-    public float getMontantPaiement() {
+    public double getMontantPaiement() {
         return MontantPaiement;
     }
 
-    public void setMontantPaiement(float montantPaiement) {
+    public void setMontantPaiement(double montantPaiement) {
         MontantPaiement = montantPaiement;
     }
 

@@ -1,18 +1,16 @@
 package tn.devMinds.iservices;
 
-import tn.devMinds.models.Credit;
-
 import java.sql.SQLException;
 import java.util.List;
 
 public interface IService <T>{
-    void addCredit(T credit);
+    void add(T t);
 
-    boolean updateCredit(T credit) throws SQLException;
+    void update(T t) throws SQLException;
 
-    void deleteCredit(int id) throws SQLException;
+    void delete(int id) throws SQLException;
 
-    List<T> showCredit();
+    List<T> show();
 
     List<T> readById(int id);
 }

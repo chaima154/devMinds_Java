@@ -4,10 +4,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import tn.devMinds.controllers.admin.credit.AdminCreditCell;
 import tn.devMinds.models.Credit;
 import tn.devMinds.sercices.CreditCrud;
-import tn.devMinds.views.CreditCellFactory;
 
 import java.net.URL;
 import java.util.List;
@@ -21,16 +19,16 @@ public class ClientIndexCreditController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
         showCredits();
     }
 
-    private void showCredits() {
+    void showCredits() {
         int id =5;
-        List<Credit> credits = creditCrud.readById(id);
+        List<Credit> credits = creditCrud.show();
         credit_listview.getItems().clear();
-        credit_listview.getItems().addAll(credits);
+        for (Credit credit : credits) {
+            credit_listview.getItems().add(credit);
+        }
 
     }
 

@@ -53,7 +53,7 @@
          </HBox>
          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cin" />
          <Button fx:id="upload_btn" mnemonicParsing="false" text="Upload" />
-         <Button fx:id="create_btn" mnemonicParsing="false" text="Créer Crédit" />
+         <Button fx:id="create_btn" mnemonicParsing="false" text="Créer Crédit" onAction="#handleSave" />
          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="error_lbl" text="Error:" />
       </VBox>
    </AnchorPane>

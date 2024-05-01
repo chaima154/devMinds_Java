@@ -45,8 +45,10 @@
 }
 
 
+
+
 .credit_container_TextField {
-    -fx-pref-width: 150;
+    -fx-pref-width: 200;
     -fx-pref-height: 35;
     -fx-background-color: #FFFFFF;
     -fx-font-size: 1.3em;
