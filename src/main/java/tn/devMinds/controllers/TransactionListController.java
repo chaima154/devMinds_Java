@@ -1,6 +1,8 @@
 package tn.devMinds.controllers;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -8,12 +10,19 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import tn.devMinds.entities.Transaction;
+import tn.devMinds.entities.TypeTransaction;
 import tn.devMinds.iservices.TransactionService;
 import tn.devMinds.iservices.TypeTransactionService;
+import tn.devMinds.tools.MyConnection;
 
 import java.io.IOException;
 import java.net.URL;
@@ -44,6 +53,11 @@ public class TransactionListController implements Initializable {
     @FXML
     private TableColumn<Transaction, Integer> destinataireColumn;
     @FXML
+    private TableColumn<Transaction, Integer> actionColumn;
+    @FXML
+    private TableColumn<Transaction, Double> comissionTransaction; // Changed from Integer to String
+
+    @FXML
     private BorderPane borderPane;
     private Connection connection;
 
@@ -57,9 +71,7 @@ public class TransactionListController implements Initializable {
         setupActionColumn();
     }
 
-    private void setupActionColumn() {
-        // Setup your action column here
-    }
+
 
     @FXML
     void ajout(ActionEvent event) throws IOException {
@@ -83,26 +95,156 @@ public class TransactionListController implements Initializable {
         numChequeColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getNumcheque()));
         // Fetch type transaction name by ID
         typeTransactionColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(typeTransactionService.getTypeTransactionName(data.getValue().getTypetransaction_id())));
-        compteColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getCompte_id()));
-        destinataireColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getDestinataire_compte_id_id()));
+        comissionTransaction.setCellValueFactory(data -> {
+            Double commission = (Double) typeTransactionService.getComissionTypeTransaction(data.getValue().getTypetransaction_id());
+            return commission != null ? new SimpleObjectProperty<>(commission) : new SimpleObjectProperty<>(0.0);
+        });
+
+        compteColumn.setCellValueFactory(data -> new SimpleIntegerProperty(getRibForAccount(data.getValue().getCompte_id())).asObject());
+        destinataireColumn.setCellValueFactory(data -> new SimpleIntegerProperty(getRibForAccount(data.getValue().getDestinataire_compte_id_id())).asObject());
+
         table.setItems(observableList);
     }
 
 
-    private String getRibForAccount(int accountId) {
-        String rib = "";
+    private int getRibForAccount(int accountId) {
+        int rib = 0;
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT rib FROM account WHERE id = ?");
+            Connection connection = MyConnection.getInstance().getCnx();
+            PreparedStatement statement = connection.prepareStatement("SELECT rib FROM compte WHERE id = ?");
             statement.setInt(1, accountId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                rib = resultSet.getString("rib");
+                rib = resultSet.getInt("rib");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return rib;
     }
+
+
+    private void UpdateTransaction(int transactionId) {
+        String query = "UPDATE transaction SET statut = ? WHERE id = ?";
+        String getMontantQuery = "SELECT montant_transaction, compte_id, destinataire_compte_id_id FROM transaction WHERE id = ?";
+        try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query);
+             PreparedStatement getMontantStatement = MyConnection.getInstance().getCnx().prepareStatement(getMontantQuery)) {
+            // Start transaction
+            MyConnection.getInstance().getCnx().setAutoCommit(false);
+
+            // Update transaction status
+            statement.setString(1, "Validé");
+            statement.setInt(2, transactionId);
+            statement.executeUpdate();
+
+            // Get transaction details
+            getMontantStatement.setInt(1, transactionId);
+            ResultSet resultSet = getMontantStatement.executeQuery();
+            if (resultSet.next()) {
+                double montantTransaction = resultSet.getDouble("montant_transaction");
+                int compteId = resultSet.getInt("compte_id");
+                int destinataireId = resultSet.getInt("destinataire_compte_id_id");
+
+                // Deduct from the emitting account
+                PreparedStatement updateCompteStatementIncrease = MyConnection.getInstance().getCnx().prepareStatement("UPDATE compte SET solde = solde - ? WHERE id = ?");
+                PreparedStatement updateCompteStatementDecrease = MyConnection.getInstance().getCnx().prepareStatement("UPDATE compte SET solde = solde + ? WHERE id = ?");
+
+                updateCompteStatementIncrease.setDouble(1, montantTransaction);
+                updateCompteStatementIncrease.setInt(2, compteId);
+                updateCompteStatementIncrease.executeUpdate();
+
+                // Add to the receiving account
+                updateCompteStatementDecrease.setDouble(1, montantTransaction);
+                updateCompteStatementDecrease.setInt(2, destinataireId);
+                updateCompteStatementDecrease.executeUpdate();
+
+                MyConnection.getInstance().getCnx().commit();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                if (MyConnection.getInstance().getCnx() != null) {
+                    MyConnection.getInstance().getCnx().rollback();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+
+
+
+
+    private void setupActionColumn() {
+        actionColumn.setCellFactory(param -> new TableCell<Transaction, Integer>() {
+            private final Button deleteBtn = new Button("Delete");
+            private final Button updateBtn = new Button("Valider");
+            private final HBox hbox = new HBox(5, updateBtn, deleteBtn); // Adjust spacing as needed
+            private final HBox hbox2 = new HBox(5, deleteBtn); // Adjust spacing as needed
+
+            {
+                deleteBtn.setOnAction(event -> {
+                    Transaction transaction = getTableView().getItems().get(getIndex());
+                    boolean deleted = transactionService.delete(transaction);
+                    if (deleted) {
+                        showList(getAllList());  // Refresh list after delete
+                    } else {
+                        System.out.println("Failed to delete transaction");
+                    }
+                });
+
+                updateBtn.setOnAction(event -> {
+                    Transaction transaction = getTableView().getItems().get(getIndex());
+                    if (isTransactionStatusPending(transaction.getId())) {
+                        UpdateTransaction(transaction.getId()); // Pass transaction ID to the update method
+                        showList(getAllList());  // Refresh list after update
+                    } else {
+                        System.out.println("Transaction cannot be validated.");
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    Transaction transaction = getTableView().getItems().get(getIndex());
+                    if (isTransactionStatusPending(transaction.getId())) {
+                        setGraphic(new HBox(5, updateBtn, deleteBtn));
+                    } else {
+                        setGraphic(null);
+                    }
+                }
+            }
+
+
+            private boolean isTransactionStatusPending(int transactionId) {
+                String status = "";
+                try {
+                    Connection connection = MyConnection.getInstance().getCnx();
+                    PreparedStatement statement = connection.prepareStatement("SELECT statut FROM transaction WHERE id = ?");
+                    statement.setInt(1, transactionId);
+                    ResultSet resultSet = statement.executeQuery();
+                    if (resultSet.next()) {
+                        status = resultSet.getString("statut");
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                return status.equals("En attente");
+            }
+        });
+    }
+
+
+
+
+
+
+
 
     public void setSidebarController(SideBarre_adminController sideBarreAdminController) {
         this.sidebarController = sidebarController;

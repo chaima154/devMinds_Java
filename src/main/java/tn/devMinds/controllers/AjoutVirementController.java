@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import tn.devMinds.tools.MyConnection;
 
@@ -24,10 +25,26 @@ public class AjoutVirementController {
     @FXML
     private TextField montant;
 
+    @FXML
+    private Label soldeEmetteurLabel;
+
     private MyConnection cnx;
 
     public AjoutVirementController() {
         cnx = MyConnection.getInstance();
+    }
+
+    @FXML
+    void initialize() {
+        // Add listener to compteEmetteur TextField
+        compteEmetteur.textProperty().addListener((observable, oldValue, newValue) -> {
+            updateSoldeEmetteur(newValue);
+        });
+    }
+
+    private void updateSoldeEmetteur(String rib) {
+        double solde = getSoldeForAccount(rib);
+        soldeEmetteurLabel.setText("Solde émetteur: " + solde);
     }
 
     @FXML
@@ -78,80 +95,46 @@ public class AjoutVirementController {
     }
 
     private boolean checkSoldeSufficient(String rib, double montantTransaction) {
+        double solde = getSoldeForAccount(rib);
+        return solde >= montantTransaction;
+    }
+
+    private double getSoldeForAccount(String rib) {
         String query = "SELECT solde FROM compte WHERE rib = ?";
         try (PreparedStatement preparedStatement = cnx.getCnx().prepareStatement(query)) {
             preparedStatement.setString(1, rib);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                double solde = resultSet.getDouble("solde");
-                return solde >= montantTransaction;
+                return resultSet.getDouble("solde");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return 0.0;
     }
 
     private boolean performTransaction(String compteEmetteurRIB, String compteDestinataireRIB, double montantTransaction) {
-        String updateCompte = "UPDATE compte SET solde = solde - ? WHERE rib = ?";
-        String updateCompteDestinataire = "UPDATE compte SET solde = solde + ? WHERE rib = ?";
         String insertTransaction = "INSERT INTO transaction (date, statut, typetransaction_id, compte_id, destinataire_compte_id_id, montant_transaction) " +
                 "VALUES (?, ?, ?, (SELECT id FROM compte WHERE rib = ?), (SELECT id FROM compte WHERE rib = ?), ?)";
         LocalDate date = LocalDate.now();
-        try (PreparedStatement updateCompteStatement = cnx.getCnx().prepareStatement(updateCompte);
-             PreparedStatement updateCompteDestinataireStatement = cnx.getCnx().prepareStatement(updateCompteDestinataire);
-             PreparedStatement insertTransactionStatement = cnx.getCnx().prepareStatement(insertTransaction)) {
-
-            cnx.getCnx().setAutoCommit(false);
-
-            // Deduct from the emitting account
-            updateCompteStatement.setDouble(1, montantTransaction);
-            updateCompteStatement.setString(2, compteEmetteurRIB);
-            int updatedCompteRows = updateCompteStatement.executeUpdate();
-
-            // Add to the receiving account
-            updateCompteDestinataireStatement.setDouble(1, montantTransaction);
-            updateCompteDestinataireStatement.setString(2, compteDestinataireRIB);
-            int updatedCompteDestinataireRows = updateCompteDestinataireStatement.executeUpdate();
-
-            // Get the typetransaction_id for virement
-            int typetransaction_id = getTypeTransactionId("virement");
-            if (typetransaction_id == -1) {
-                displayAlert("Alerte", "Type de transaction non trouvé.", Alert.AlertType.ERROR);
-                cnx.getCnx().rollback();
-                return false;
-            }
+        try (PreparedStatement insertTransactionStatement = MyConnection.getInstance().getCnx().prepareStatement(insertTransaction)) {
 
             // Add a new line to the transaction table
             insertTransactionStatement.setString(1, date.toString());
             insertTransactionStatement.setString(2, "En attente");
-            insertTransactionStatement.setInt(3, typetransaction_id);
+            insertTransactionStatement.setInt(3, getTypeTransactionId("virement"));
             insertTransactionStatement.setString(4, compteEmetteurRIB);
             insertTransactionStatement.setString(5, compteDestinataireRIB);
             insertTransactionStatement.setDouble(6, montantTransaction);
             int insertedTransactionRows = insertTransactionStatement.executeUpdate();
 
-            if (updatedCompteRows > 0 && updatedCompteDestinataireRows > 0 && insertedTransactionRows > 0) {
-                cnx.getCnx().commit();
-                return true;
-            } else {
-                cnx.getCnx().rollback();
-                return false;
-            }
+            return insertedTransactionRows > 0;
 
         } catch (SQLException e) {
             e.printStackTrace();
-            try {
-                if (cnx.getCnx() != null) {
-                    cnx.getCnx().rollback();
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
             return false;
         }
     }
-
 
     private int getTypeTransactionId(String type) {
         String query = "SELECT id FROM type_transaction WHERE libelle = ?";
@@ -166,7 +149,6 @@ public class AjoutVirementController {
         }
         return -1;
     }
-
 
     private void displayAlert(String title, String content, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);

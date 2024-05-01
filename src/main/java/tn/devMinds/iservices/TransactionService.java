@@ -67,8 +67,17 @@ public class TransactionService implements IService<Transaction> {
 
     @Override
     public boolean delete(Transaction transaction) {
-        return false;
+        try {
+            PreparedStatement statement = cnx.prepareStatement("DELETE FROM transaction WHERE id = ?");
+            statement.setInt(1, transaction.getId());
+            int rowsDeleted = statement.executeUpdate();
+            return rowsDeleted > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
+
 
     @Override
     public String update(Transaction transaction, int id) {

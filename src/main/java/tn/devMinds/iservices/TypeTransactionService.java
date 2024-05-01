@@ -195,4 +195,18 @@ public class TypeTransactionService implements IService<TypeTransaction> {
         }
         return null;
     }
+    public Object getComissionTypeTransaction(int typeId) {
+        String query = "SELECT Commission FROM type_transaction WHERE id = ?";
+        try (PreparedStatement pst = cnx.prepareStatement(query)) {
+            pst.setInt(1, typeId);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("Commission");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

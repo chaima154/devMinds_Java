@@ -12,7 +12,7 @@
     <center>
         <VBox alignment="CENTER" spacing="10">
             <children>
-                <Label fx:id="resultat" prefHeight="66.0" prefWidth="461.0" textFill="#960d0d">
+                <Label textFill="#960d0d">
                     <font>
                         <Font size="26.0" />
                     </font>
@@ -24,9 +24,7 @@
                 </Label>
                 <VBox alignment="TOP_LEFT" spacing="10">
                     <children>
-
-
-                        <Label prefHeight="28.0" prefWidth="385.0" text="Compte émétteur">
+                        <Label prefHeight="28.0" prefWidth="385.0" text="Compte émetteur">
                             <font>
                                 <Font name="Baskerville Old Face" size="24.0" />
                             </font>
@@ -36,7 +34,11 @@
                                 <Insets top="10.0" />
                             </VBox.margin>
                         </TextField>
-
+                        <Label fx:id="soldeEmetteurLabel" prefHeight="28.0" prefWidth="385.0" text="Solde émetteur: ">
+                            <font>
+                                <Font name="Baskerville Old Face" size="24.0" />
+                            </font>
+                        </Label>
                         <Label prefHeight="28.0" prefWidth="385.0" text="Compte destinataire">
                             <font>
                                 <Font name="Baskerville Old Face" size="24.0" />
@@ -57,8 +59,6 @@
                                 <Insets top="10.0" />
                             </VBox.margin>
                         </TextField>
-
-
                         <Button fx:id="CreateAccount"  onAction="#AddTransaction" mnemonicParsing="false"  prefHeight="29.0" prefWidth="187.0" style="-fx-background-color: #3f704d;" text="Ajouter " textFill="#fffafa">
                             <VBox.margin>
                                 <Insets top="40.0" />
