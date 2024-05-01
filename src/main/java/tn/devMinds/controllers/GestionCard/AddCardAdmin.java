@@ -24,6 +24,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 public class AddCardAdmin implements Initializable {
     private Stage stage;
@@ -67,6 +68,21 @@ public class AddCardAdmin implements Initializable {
         TypeCard tc=new TypeCard(y);
         Card c=new Card(tfnumero.getText(),dpdate.getValue(),tfcsv.getText(), tfmdp.getText(),statuts,tc,compte,0.0 );
         CardCrud cc=new CardCrud();
+        if ( Objects.equals(cbstatutcarte.getValue(), null)|| Objects.equals(cbtypecarte.getValue(), null) || Objects.equals(cbcompte.getValue(), null)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Remplir tous les données");
+            alert.showAndWait();
+        }
+
+        else {
+
+            if(cc.containstypeValue(tfnumero.getText()))
+            {   Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("numero déja existe");
+                alert.showAndWait();}
+            else{
         if(cc.add(c))
         {
         Alert alert=new Alert(Alert.AlertType.INFORMATION);
@@ -76,7 +92,7 @@ public class AddCardAdmin implements Initializable {
         else {Alert alert=new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Verifier les donneés");
             alert.showAndWait();}
-        FXMLLoader loader =new FXMLLoader(getClass().getResource("/banque/GestionCard/showCardAdmin.fxml"));
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/banque/sidebarre_Admin.fxml"));
         try{
             Parent root = loader.load();
             // Get the current stage
@@ -87,7 +103,7 @@ public class AddCardAdmin implements Initializable {
             stage.show();
         }catch(IOException e){
             System.out.println(e.getMessage());
-        }
+        }}}
     }
     @FXML
     public void comboCompte() {
@@ -132,11 +148,8 @@ public class AddCardAdmin implements Initializable {
     }
    @FXML
     void getDate1() {
-        // Get today's date
         LocalDate today = LocalDate.now();
-// Add 2 years to today's date
         LocalDate futureDate = today.plusYears(2);
-// Set the DatePicker value to the future date
         dpdate.setValue(futureDate);
     }
     @Override
@@ -169,5 +182,22 @@ public class AddCardAdmin implements Initializable {
     {
         statuts=cbstatutcarte.getValue();
         System.out.println(statuts);
+    }
+
+
+    @FXML
+    public void retour(ActionEvent event) {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/banque/sidebarre_Admin.fxml"));
+        try{
+            Parent root = loader.load();
+            // Get the current stage
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            // Set the scene to the stage
+            stage.setScene(scene);
+            stage.show();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+        }
     }
 }

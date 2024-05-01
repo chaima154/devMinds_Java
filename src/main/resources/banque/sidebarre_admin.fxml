@@ -164,7 +164,7 @@
                                         <Insets left="7.0" top="12.0" />
                                     </HBox.margin>
                                 </ImageView>
-                                <Button mnemonicParsing="false" onMouseClicked="#goDonation" prefHeight="50.0" prefWidth="169.0" styleClass="transparent" text="Crédit">
+                                <Button mnemonicParsing="false" onMouseClicked="#goDonation" prefHeight="50.0" prefWidth="169.0" styleClass="transparent" text="TypeCarte">
                                     <font>
                                         <Font name="Georgia" size="13.0" />
                                     </font>

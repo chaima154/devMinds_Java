@@ -5,12 +5,13 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.GestionCard.AdminCardList">
    <children>
       <AnchorPane fx:id="ch" layoutX="315.0" layoutY="121.0" prefHeight="600.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TableView fx:id="tableview" layoutX="196.0" layoutY="67.0" prefHeight="191.0" prefWidth="680.0" stylesheets="@../css/showCardAdmin.css">
+            <TableView fx:id="tableview" layoutX="174.0" layoutY="125.0" prefHeight="191.0" prefWidth="680.0" stylesheets="@../css/showCardAdmin.css">
                <columns>
                   <TableColumn fx:id="compteCol" prefWidth="99.20000457763672" text="Compte" />
                   <TableColumn fx:id="csvCol" prefWidth="75.0" text="CSV" />
@@ -22,7 +23,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <TableView fx:id="tableview1" layoutX="198.0" layoutY="300.0" prefHeight="191.0" prefWidth="664.0" stylesheets="@../css/showCardAdmin.css">
+            <TableView fx:id="tableview1" layoutX="182.0" layoutY="381.0" prefHeight="191.0" prefWidth="664.0" stylesheets="@../css/showCardAdmin.css">
                <columns>
                   <TableColumn fx:id="compteCol1" prefWidth="99.20000457763672" text="Compte" />
                   <TableColumn fx:id="csvCol1" prefWidth="75.0" text="CSV" />
@@ -34,8 +35,21 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Button fx:id="btnpenadd" layoutX="67.0" layoutY="127.0" mnemonicParsing="false" onAction="#goAdd" text="Ajout" />
-            <Label layoutX="261.0" layoutY="272.0" text="Prepaed" />
+            <Button fx:id="btnpenadd" layoutX="43.0" layoutY="247.0" mnemonicParsing="false" onAction="#goAdd" text="Ajout">
+               <font>
+                  <Font size="19.0" />
+               </font></Button>
+            <Label layoutX="407.0" layoutY="324.0" text="Cartes prépayées">
+               <font>
+                  <Font name="Bell MT" size="27.0" />
+               </font></Label>
+            <AnchorPane layoutX="397.0" layoutY="356.0" prefHeight="5.0" prefWidth="200.0" style="-fx-background-color: brown;" />
+            <AnchorPane layoutX="397.0" layoutY="98.0" prefHeight="5.0" prefWidth="200.0" style="-fx-background-color: brown;" />
+            <Label layoutX="397.0" layoutY="64.0" text="Cartes principales">
+               <font>
+                  <Font name="Bell MT" size="27.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>

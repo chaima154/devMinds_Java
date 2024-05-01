@@ -39,6 +39,15 @@ public class BackendHome {
     @FXML
     void goDonation(MouseEvent event) {
 
+        try {
+            FXMLLoader var =new FXMLLoader((getClass().getResource("/banque/GestionCard/addTypeCardAdmin.fxml")));
+
+            Pane page = FXMLLoader.load(getClass().getResource("/banque/GestionCard/addTypeCardAdmin.fxml"));
+            container.getChildren().setAll(page);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @FXML

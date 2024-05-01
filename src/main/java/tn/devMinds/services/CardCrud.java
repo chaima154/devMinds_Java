@@ -288,5 +288,22 @@ public class CardCrud implements  IService<Card>{
 
 
 
+    public boolean containstypeValue(String value) {
+        String query = "SELECT COUNT(*) FROM type_carte WHERE numero = ?";
+        try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query)) {
+            statement.setString(1, value);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int count = resultSet.getInt(1);
+                    return count > 0; // If count > 0, the value exists in the table
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
+
 
 }
