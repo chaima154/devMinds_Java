@@ -28,6 +28,8 @@ public class AjoutVirementController {
     @FXML
     private Label soldeEmetteurLabel;
 
+    private Double Commission ;
+
     private MyConnection cnx;
 
     public AjoutVirementController() {
@@ -114,9 +116,11 @@ public class AjoutVirementController {
     }
 
     private boolean performTransaction(String compteEmetteurRIB, String compteDestinataireRIB, double montantTransaction) {
-        String insertTransaction = "INSERT INTO transaction (date, statut, typetransaction_id, compte_id, destinataire_compte_id_id, montant_transaction) " +
-                "VALUES (?, ?, ?, (SELECT id FROM compte WHERE rib = ?), (SELECT id FROM compte WHERE rib = ?), ?)";
+        String insertTransaction = "INSERT INTO transaction (date, statut, typetransaction_id, compte_id, destinataire_compte_id_id, montant_transaction, commission) " +
+                "VALUES (?, ?, ?, (SELECT id FROM compte WHERE rib = ?), (SELECT id FROM compte WHERE rib = ?), ?, ?)";
+
         LocalDate date = LocalDate.now();
+        Commission = getCommissionTransactionType(getTypeTransactionId("virement"));
         try (PreparedStatement insertTransactionStatement = MyConnection.getInstance().getCnx().prepareStatement(insertTransaction)) {
 
             // Add a new line to the transaction table
@@ -126,6 +130,7 @@ public class AjoutVirementController {
             insertTransactionStatement.setString(4, compteEmetteurRIB);
             insertTransactionStatement.setString(5, compteDestinataireRIB);
             insertTransactionStatement.setDouble(6, montantTransaction);
+            insertTransactionStatement.setDouble(7, Commission);
             int insertedTransactionRows = insertTransactionStatement.executeUpdate();
 
             return insertedTransactionRows > 0;
@@ -148,6 +153,19 @@ public class AjoutVirementController {
             e.printStackTrace();
         }
         return -1;
+    }
+    private Double getCommissionTransactionType(int id) {
+        String query = "SELECT Commission FROM type_transaction WHERE id = ?";
+        try (PreparedStatement preparedStatement = cnx.getCnx().prepareStatement(query)) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getDouble("Commission");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (double) -1;
     }
 
     private void displayAlert(String title, String content, Alert.AlertType alertType) {

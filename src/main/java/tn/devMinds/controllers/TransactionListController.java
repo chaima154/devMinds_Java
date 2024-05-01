@@ -126,7 +126,7 @@ public class TransactionListController implements Initializable {
 
     private void UpdateTransaction(int transactionId) {
         String query = "UPDATE transaction SET statut = ? WHERE id = ?";
-        String getMontantQuery = "SELECT montant_transaction, compte_id, destinataire_compte_id_id FROM transaction WHERE id = ?";
+        String getMontantQuery = "SELECT montant_transaction, compte_id, destinataire_compte_id_id, commission FROM transaction WHERE id = ?";
         try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query);
              PreparedStatement getMontantStatement = MyConnection.getInstance().getCnx().prepareStatement(getMontantQuery)) {
             // Start transaction
@@ -142,21 +142,23 @@ public class TransactionListController implements Initializable {
             ResultSet resultSet = getMontantStatement.executeQuery();
             if (resultSet.next()) {
                 double montantTransaction = resultSet.getDouble("montant_transaction");
+                double commission = resultSet.getDouble("Commission");
+                double totalTransactionAmount = montantTransaction + commission;
+
                 int compteId = resultSet.getInt("compte_id");
                 int destinataireId = resultSet.getInt("destinataire_compte_id_id");
 
                 // Deduct from the emitting account
-                PreparedStatement updateCompteStatementIncrease = MyConnection.getInstance().getCnx().prepareStatement("UPDATE compte SET solde = solde - ? WHERE id = ?");
-                PreparedStatement updateCompteStatementDecrease = MyConnection.getInstance().getCnx().prepareStatement("UPDATE compte SET solde = solde + ? WHERE id = ?");
-
-                updateCompteStatementIncrease.setDouble(1, montantTransaction);
-                updateCompteStatementIncrease.setInt(2, compteId);
-                updateCompteStatementIncrease.executeUpdate();
+                PreparedStatement updateCompteStatementDecrease = MyConnection.getInstance().getCnx().prepareStatement("UPDATE compte SET solde = solde - ? WHERE id = ?");
+                updateCompteStatementDecrease.setDouble(1, totalTransactionAmount);
+                updateCompteStatementDecrease.setInt(2, compteId);
+                updateCompteStatementDecrease.executeUpdate();
 
                 // Add to the receiving account
-                updateCompteStatementDecrease.setDouble(1, montantTransaction);
-                updateCompteStatementDecrease.setInt(2, destinataireId);
-                updateCompteStatementDecrease.executeUpdate();
+                PreparedStatement updateCompteStatementIncrease = MyConnection.getInstance().getCnx().prepareStatement("UPDATE compte SET solde = solde + ? WHERE id = ?");
+                updateCompteStatementIncrease.setDouble(1, montantTransaction);
+                updateCompteStatementIncrease.setInt(2, destinataireId);
+                updateCompteStatementIncrease.executeUpdate();
 
                 MyConnection.getInstance().getCnx().commit();
             }
