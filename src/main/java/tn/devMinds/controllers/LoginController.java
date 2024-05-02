@@ -66,7 +66,17 @@ public class LoginController {
                 } else if ("ROLE_USER".equals(selectedRole)) {
                     // Redirection vers la page client
                     System.out.println("Authentification réussie pour le client");
-                    // Ici, vous pouvez charger la page client (client.fxml)
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/client.fxml"));
+                    Parent clientPage = null;
+                    try {
+                        clientPage = loader.load();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    Scene scene = new Scene(clientPage);
+                    Stage stage = (Stage) login_btn.getScene().getWindow(); // Assuming login_btn is a control in your login.fxml file
+                    stage.setScene(scene);
+                    stage.show();
                 }
             } else {
                 // Afficher un message d'erreur si l'authentification échoue
