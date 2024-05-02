@@ -133,7 +133,8 @@
                                 <SplitMenuButton mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Transactions" styleClass="transparent">
                                     <items>
                                         <MenuItem text="Transaction" onAction="#goTransaction"/>
-                                        <MenuItem text="Type de Transaction" onAction="#goTransactionType">
+                                        <MenuItem text="Type de Transaction" onAction="#goTransactionType"></MenuItem>
+                                        <MenuItem text="Convertisseur" onAction="#goConvertisseur">
                                         </MenuItem>
                                     </items>
                                     <font>

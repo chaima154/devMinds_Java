@@ -51,6 +51,17 @@ public class SideBarre_adminController implements Initializable {
         }
     }
 
+    @FXML
+    void goConvertisseur(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ConvertisseurApi.fxml"));
+        Parent parent = loader.load();
+        ConvertisseurApi convertisseurApi = loader.getController();
+        if (loader.getController() instanceof ConvertisseurApi) {
+            ((ConvertisseurApi) convertisseurApi).setSidebarController(this);
+            this.borderPane.setCenter(parent);
+        }
+    }
+
 
 
 
