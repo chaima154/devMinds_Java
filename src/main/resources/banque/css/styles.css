@@ -150,3 +150,10 @@ Wareth -Job
     -fx-text-fill: red;
     -fx-font-weight: bold;
 }
+
+.form-container {
+    -fx-padding: 20px; /* Ajoute un espacement intérieur */
+    -fx-border-color: #ccc; /* Couleur de la bordure */
+    -fx-border-width: 1px; /* Largeur de la bordure */
+    -fx-border-radius: 5px; /* Rayon des coins de la bordure */
+}

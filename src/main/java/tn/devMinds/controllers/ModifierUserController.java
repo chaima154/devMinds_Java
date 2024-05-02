@@ -3,20 +3,20 @@ package tn.devMinds.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tn.devMinds.entities.Role;
 import tn.devMinds.entities.User;
 import tn.devMinds.iservices.UserService;
-
+import javafx.scene.layout.VBox;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
 public class ModifierUserController extends BackendHome {
-    @FXML
-    private VBox container;
+
     @FXML
     private TextField firstNameField;
     @FXML
@@ -37,6 +37,9 @@ public class ModifierUserController extends BackendHome {
     private Label emailError;
     @FXML
     private Label mdpError;
+    @FXML
+    private GridPane container;
+
 
     private UserService userService;
     private User user;
