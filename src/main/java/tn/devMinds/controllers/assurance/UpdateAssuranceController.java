@@ -1,4 +1,4 @@
-package tn.devMinds.controllers;
+package tn.devMinds.controllers.assurance;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import tn.devMinds.controllers.SideBarre_adminController;
 import tn.devMinds.entities.Assurence;
 import tn.devMinds.iservices.AssuranceService;
 
@@ -47,7 +48,7 @@ public class UpdateAssuranceController extends SideBarre_adminController {
     }
 
     private void retourner() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListAssurance.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ASSURANCE/ListAssurance.fxml"));
         Parent parent = loader.load();
         AssuranceListController assuranceListController = loader.getController();
         assuranceListController.setSidebarController(this.sidebarController);

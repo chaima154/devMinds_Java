@@ -53,16 +53,21 @@ public class ServiceDemande implements IService1<Demande> {
         pstmt.executeUpdate();
     }
 
-    @Override
-    public void deleteOne(Demande demande) throws SQLException {
-        String query = "DELETE FROM demande WHERE id = ?";
-        PreparedStatement pstmt = cnx.prepareStatement(query);
-        pstmt.setInt(1, demande.getId());
-        pstmt.executeUpdate();
+    public boolean deleteOne(Demande demande) {
+        String req = "DELETE FROM demande WHERE id=?";
+        try (PreparedStatement pst = cnx.prepareStatement(req)) {
+            pst.setInt(1, demande.getId());
+            int rowsAffected = pst.executeUpdate();
+            System.out.println("Suppression effectuée");
+            return rowsAffected == 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
-    public List<Demande> selectAll() throws SQLException {
+    public ArrayList<Demande> selectAll() throws SQLException {
         List<Demande> demandes = new ArrayList<>();
         String query = "SELECT * FROM demande";
         PreparedStatement pstmt = cnx.prepareStatement(query);
@@ -83,7 +88,7 @@ public class ServiceDemande implements IService1<Demande> {
             demande.setEtat(rs.getString("etat"));
             demandes.add(demande);
         }
-        return demandes;
+        return (ArrayList<Demande>) demandes;
     }
     public static void updateEtat(Demande demande) throws SQLException {
         String query = "UPDATE demande SET etat = ? WHERE id = ?";

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.demande.ModifDemandeController">
+    <TextField fx:id="assuranceField" layoutX="113.0" layoutY="85.0" prefHeight="26.0" prefWidth="122.0" />
+    <TextField fx:id="montanttxt" layoutX="113.0" layoutY="146.0" prefHeight="26.0" prefWidth="122.0" />
+    <Label layoutX="45.0" layoutY="149.0" text="Montant:">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Label>
+    <Label layoutX="311.0" layoutY="95.0" prefHeight="18.0" prefWidth="85.0" text="Date de debut:">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Label>
+    <Label layoutX="343.0" layoutY="140.0" text="Date fin:">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Label>
+    <Label layoutX="290.0" layoutY="235.0" prefHeight="18.0" prefWidth="106.0" text="Mode de paiment:">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Label>
+    <DatePicker fx:id="ddebuttxt" layoutX="404.0" layoutY="91.0" prefHeight="26.0" prefWidth="122.0" />
+    <DatePicker fx:id="dfintxt" layoutX="404.0" layoutY="135.0" prefHeight="26.0" prefWidth="122.0" />
+    <TextField fx:id="emailtxt" layoutX="113.0" layoutY="205.0" prefHeight="5.0" prefWidth="122.0" />
+    <Button fx:id="moddembtn" layoutX="425.0" layoutY="338.0" mnemonicParsing="false" onAction="#UpdateDemande" prefHeight="26.0" prefWidth="80.0" style="-fx-background-color: #9df716;" text="Modifier" textFill="#202020">
+        <font>
+            <Font name="System Bold" size="11.0" />
+        </font>
+    </Button>
+    <Label layoutX="38.0" layoutY="91.0" text="Assurance:">
+        <font>
+            <Font name="Arial Bold" size="12.0" />
+        </font>
+    </Label>
+    <Text fill="#33d711" layoutX="199.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Depot de demande ">
+        <font>
+            <Font name="Arial Bold" size="22.0" />
+        </font>
+    </Text>
+    <Label layoutX="55.0" layoutY="275.0" text="Nom:">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Label>
+    <TextField fx:id="nomtxt" layoutX="113.0" layoutY="271.0" prefHeight="5.0" prefWidth="122.0" />
+    <ChoiceBox fx:id="modepaimenttxt" layoutX="404.0" layoutY="231.0" prefHeight="26.0" prefWidth="122.0" />
+    <Label layoutX="54.0" layoutY="209.0" text="email:">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Label>
+    <DatePicker fx:id="datenaissancetxt" layoutX="404.0" layoutY="178.0" prefHeight="26.0" prefWidth="122.0" />
+    <Label layoutX="290.0" layoutY="182.0" prefHeight="18.0" prefWidth="106.0" text="Date de naissance:">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Label>
+    <Button fx:id="retourbtn" layoutX="314.0" layoutY="338.0" mnemonicParsing="false" onAction="#retour" prefHeight="26.0" prefWidth="80.0" style="-fx-background-color: #34f716;" text="Retour" textFill="#202020">
+        <font>
+            <Font name="System Bold" size="11.0" />
+        </font>
+    </Button>
+</AnchorPane>

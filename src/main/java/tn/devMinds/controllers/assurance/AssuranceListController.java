@@ -1,4 +1,4 @@
-package tn.devMinds.controllers;
+package tn.devMinds.controllers.assurance;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import tn.devMinds.controllers.SideBarre_adminController;
 import tn.devMinds.entities.Assurence;
 import tn.devMinds.iservices.AssuranceService;
 
@@ -67,7 +68,7 @@ public class AssuranceListController implements Initializable {
 
     @FXML
     void ajout(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/AjoutAssurance.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ASSURANCE/AjoutAssurance.fxml"));
         Parent parent = loader.load();
         AjoutAssuranceController controller = loader.getController();
         controller.setAssuranceListController(this);
@@ -105,7 +106,7 @@ public class AssuranceListController implements Initializable {
 
     private void openUpdateFXML(Assurence assurance) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/UpdateAssurance.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ASSURANCE/UpdateAssurance.fxml"));
             Parent root = loader.load();
 
             UpdateAssuranceController controller = loader.getController();

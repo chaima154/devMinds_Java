@@ -1,4 +1,4 @@
-package tn.devMinds.controllers;
+package tn.devMinds.controllers.demande;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import tn.devMinds.controllers.SideBarre_adminController;
 import tn.devMinds.entities.Assurence;
 import tn.devMinds.entities.Demande;
 import tn.devMinds.iservices.ServiceDemande;
@@ -18,7 +19,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class DemandeListController implements Initializable {
+public class DemandebackListController implements Initializable {
     @FXML
     private BorderPane borderPane;
     @FXML

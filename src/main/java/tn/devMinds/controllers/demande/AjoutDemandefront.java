@@ -1,6 +1,5 @@
-package tn.devMinds.controllers;
+package tn.devMinds.controllers.demande;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,7 +21,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
-public class Demandefront {
+public class AjoutDemandefront {
     ObservableList<String> modeplist = FXCollections.observableArrayList("mensuel","trimestiel","annual");
     @FXML
     private Button retourbtn;

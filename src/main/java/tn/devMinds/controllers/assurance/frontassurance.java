@@ -1,13 +1,12 @@
-package tn.devMinds.controllers;
+package tn.devMinds.controllers.assurance;
 
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.*;
+import tn.devMinds.controllers.demande.AjoutDemandefront;
+import tn.devMinds.controllers.SideBarre_adminController;
 import tn.devMinds.entities.Assurence;
-import tn.devMinds.entities.Demande;
 import tn.devMinds.iservices.AssuranceService;
-import tn.devMinds.iservices.ServiceDemande;
-import tn.devMinds.tools.MyConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,9 +22,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class frontassurance implements Initializable {
@@ -60,12 +56,12 @@ public class frontassurance implements Initializable {
         String selectedAssurenceName = selectedAssurence.getNom();
 
         // Load the demandefront.fxml file
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/demandefront.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/DEMANDE/demandefront.fxml"));
         Parent demandefrontParent = loader.load();
 
         // Pass the selected assurance's name to the demandefront controller
-        Demandefront demandefrontController = loader.getController();
-        demandefrontController.setSelectedAssuranceName(selectedAssurenceName);
+        AjoutDemandefront ajoutDemandefrontController = loader.getController();
+        ajoutDemandefrontController.setSelectedAssuranceName(selectedAssurenceName);
 
         // Set up the scene and stage
         Scene demandefrontScene = new Scene(demandefrontParent);

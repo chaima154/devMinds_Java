@@ -10,6 +10,10 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import tn.devMinds.controllers.assurance.AssuranceListController;
+import tn.devMinds.controllers.assurance.frontassurance;
+import tn.devMinds.controllers.demande.DemandebackListController;
+import tn.devMinds.controllers.demande.DemandefrontListController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -62,7 +66,7 @@ public class SideBarre_adminController implements Initializable {
     }*/
     @FXML
     void goAssurance(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListAssurance.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ASSURANCE/ListAssurance.fxml"));
         Parent parent = loader.load();
         AssuranceListController assuranceListController = loader.getController(); // Corrected variable name
         if (loader.getController() instanceof AssuranceListController) {
@@ -72,24 +76,35 @@ public class SideBarre_adminController implements Initializable {
     }
     @FXML
     void Assurence(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/frontassurance.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ASSURANCE/frontassurance.fxml"));
         Parent parent = loader.load();
-        tn.devMinds.controllers.frontassurance Frontassurance = loader.getController();
-        if (loader.getController() instanceof tn.devMinds.controllers.frontassurance) {
+        frontassurance Frontassurance = loader.getController();
+        if (loader.getController() instanceof frontassurance) {
             Frontassurance.setSidebarController(this);
             this.borderPane.setCenter(parent);
         }
     }
     @FXML
     void demandeback(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListDemande.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/DEMANDE/ListDemande.fxml"));
         Parent parent = loader.load();
-        tn.devMinds.controllers.DemandeListController Demandelist = loader.getController();
-        if (loader.getController() instanceof tn.devMinds.controllers.DemandeListController) {
+        DemandebackListController Demandelist = loader.getController();
+        if (loader.getController() instanceof DemandebackListController) {
             Demandelist.setSidebarController(this);
             this.borderPane.setCenter(parent);
         }
     }
+    @FXML
+    void demandefront(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/DEMANDE/ListDemandeFront.fxml"));
+        Parent parent = loader.load();
+        DemandefrontListController Demandelist = loader.getController();
+        if (loader.getController() instanceof DemandefrontListController) {
+            Demandelist.setSidebarController(this);
+            this.borderPane.setCenter(parent);
+        }
+    }
+
 
 
     @FXML

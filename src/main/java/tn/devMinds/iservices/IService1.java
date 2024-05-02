@@ -9,7 +9,7 @@ public interface IService1<T> {
 
     void updateOne(T t) throws SQLException;
 
-    void deleteOne(T t) throws SQLException;
+    boolean deleteOne(T t);
 
-    List<T> selectAll() throws SQLException;
+    ArrayList<T> selectAll() throws SQLException;
 }

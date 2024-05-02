@@ -219,7 +219,7 @@
                                 <SplitMenuButton mnemonicParsing="false" prefHeight="43.0" prefWidth="165.0" styleClass="transparent" text="Assurance front">
                                     <items>
                                         <MenuItem onAction="#Assurence" text="Assurance" />
-                                        <MenuItem onAction="#demandeback" text="Les demandes">
+                                        <MenuItem onAction="#demandefront" text="Les demandes">
                                         </MenuItem>
                                     </items>
                                     <font>

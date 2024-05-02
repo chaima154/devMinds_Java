@@ -1,4 +1,4 @@
-package tn.devMinds.controllers;
+package tn.devMinds.controllers.assurance;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import tn.devMinds.controllers.SideBarre_adminController;
 import tn.devMinds.entities.Assurence;
 import tn.devMinds.iservices.AssuranceService;
 
@@ -65,7 +66,7 @@ public class AjoutAssuranceController extends SideBarre_adminController {
                     al.setContentText("L'Assurance a été ajoutée avec succès.");
                     al.showAndWait();
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListAssurance.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ASSURANCE/ListAssurance.fxml"));
                     Parent parent = loader.load();
                     AssuranceListController assuranceListController = loader.getController();
                     if (loader.getController() instanceof AssuranceListController) {

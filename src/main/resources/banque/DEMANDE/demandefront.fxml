@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.Demandefront">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.demande.AjoutDemandefront">
    <TextField fx:id="assuranceField" layoutX="113.0" layoutY="85.0" prefHeight="26.0" prefWidth="122.0" />
    <TextField fx:id="montanttxt" layoutX="113.0" layoutY="146.0" prefHeight="26.0" prefWidth="122.0" />
    <Label layoutX="45.0" layoutY="149.0" text="Montant:">

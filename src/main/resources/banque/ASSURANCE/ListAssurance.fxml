@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="borderPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.AssuranceListController">
+<BorderPane fx:id="borderPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.assurance.AssuranceListController">
    <right>
         <AnchorPane prefHeight="830.0" prefWidth="1098.0" BorderPane.alignment="CENTER">
             <children>
@@ -38,9 +38,9 @@
                     </columns>
                 </TableView>
 
-                <HBox alignment="CENTER" layoutX="111.0" layoutY="179.0" maxHeight="-Infinity" prefHeight="33.0" prefWidth="302.0" styleClass="round-layout" stylesheets="@css/styles.css">
+                <HBox alignment="CENTER" layoutX="111.0" layoutY="179.0" maxHeight="-Infinity" prefHeight="33.0" prefWidth="302.0" styleClass="round-layout" stylesheets="@../css/styles.css">
                     <children>
-                        <TextField fx:id="searchTerm" prefHeight="25.0" prefWidth="237.0" promptText="Recherche.." styleClass="transparent" stylesheets="@css/styles.css" />
+                        <TextField fx:id="searchTerm" prefHeight="25.0" prefWidth="237.0" promptText="Recherche.." styleClass="transparent" stylesheets="@../css/styles.css" />
 
                     </children>
                 </HBox>
