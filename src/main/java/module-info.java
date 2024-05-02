@@ -21,4 +21,6 @@ module com.example.projet {
     opens tn.devMinds.controllers.admin.credit to javafx.fxml;
     exports tn.devMinds.controllers.admin.tranche;
     opens tn.devMinds.controllers.admin.tranche to javafx.fxml;
+    exports tn.devMinds.controllers.client.credit;
+    opens tn.devMinds.controllers.client.credit to javafx.fxml;
 }

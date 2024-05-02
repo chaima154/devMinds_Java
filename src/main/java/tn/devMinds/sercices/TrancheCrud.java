@@ -7,12 +7,10 @@ import tn.devMinds.models.Credit;
 import tn.devMinds.models.Tranche;
 import tn.devMinds.tools.MyConnection;
 
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,7 +25,7 @@ public class TrancheCrud implements IService<Tranche> {
         try {
             Statement st = cnx2.createStatement();
             st.executeUpdate(requete);
-            System.out.println("Tranche ajouté avec succés");
+            System.out.println("Tranche ajouté avec succès");
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
@@ -36,14 +34,13 @@ public class TrancheCrud implements IService<Tranche> {
     public void create(Credit credit){
         double pay = ((((credit.getMontantCredit() * credit.getTauxInteret()) / 100) + credit.getMontantCredit()) / credit.getDuree());
         LocalDate currentDate = credit.getDateObtention();
-        final DecimalFormat decfor = new DecimalFormat("0.00");
+        final DecimalFormat decimalForm = new DecimalFormat("0.00");
         for (int duree = 1; duree <= credit.getDuree(); duree++){
             Tranche tranche = new Tranche();
             tranche.setCreditId(credit.getId());
-            tranche.setMontantPaiement(Double.parseDouble(decfor.format(pay)));
+            tranche.setMontantPaiement(Double.parseDouble(decimalForm.format(pay)));
             tranche.setStatutPaiement("Non Payée");
             tranche.setDateEcheance(currentDate);
-            System.out.println("here is what you want" + credit.getId());
             tranche.setCreditId(credit.getId());
             currentDate = currentDate.plusMonths(1);
             add(tranche);

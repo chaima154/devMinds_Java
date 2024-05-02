@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="750.0" prefWidth="850.0" styleClass="create_client_container" stylesheets="@../../css/ClientformCredit.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="tn.devMinds.controllers.client.ClientCreditController">
+            fx:controller="tn.devMinds.controllers.client.credit.ClientCreditController">
    <VBox alignment="CENTER" layoutX="236.0" layoutY="67.0" prefHeight="500.0" prefWidth="350.0" styleClass="create_client_container-VBox" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="236.0">
       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="create_client_container-Title" text="Simuler Un Crédit" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type de Crédit" />

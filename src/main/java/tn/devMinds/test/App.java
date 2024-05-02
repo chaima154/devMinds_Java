@@ -7,12 +7,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class App extends Application {
-    // MyConnection mc = new MyConnection();
     public static void main(String[] args) {
         launch(args);
     }
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage){
         Model.getInstance().getViewFactory().showLoginWindow();
 
     }

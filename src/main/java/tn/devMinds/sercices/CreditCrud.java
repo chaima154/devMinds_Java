@@ -22,7 +22,7 @@ public class CreditCrud implements IService<Credit> {
         try {
             Statement st = cnx2.createStatement();
             st.executeUpdate(requete);
-            System.out.println("Crédit ajouté avec succés");
+            System.out.println("Crédit ajouté avec succès");
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
@@ -81,29 +81,33 @@ public class CreditCrud implements IService<Credit> {
             String requete = "SELECT * FROM credit";
             Statement st = cnx2.createStatement();
             ResultSet rs = st.executeQuery(requete);
-            while (rs.next())
-            {
-                Credit credit=new Credit();
-                credit.setId(rs.getInt(1));
-                credit.setMontantCredit(rs.getDouble(2));
-                credit.setDuree(rs.getInt(3));
-                credit.setTauxInteret(rs.getDouble(4));
-                credit.setDateObtention(rs.getDate(5).toLocalDate());
-                credit.setMontantRestant(rs.getDouble(6));
-                credit.setStatutCredit(rs.getString(7));
-                credit.setTypeCredit(rs.getString(8));
-                credit.setCompteId(rs.getInt(9));
-                credit.setDocumentcin(rs.getString(10));
-                credit.setSalaire(rs.getDouble(11));
-                credit.setCategorieProfessionelle(rs.getString(12));
-                credit.setTypeSecteur(rs.getString(13));
-                credit.setSecteurActivite(rs.getString(14));
-
-                mylist.add(credit);
-            }
+            showItems(mylist, rs);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }return mylist;
+    }
+
+    private void showItems(ObservableList<Credit> mylist, ResultSet rs) throws SQLException {
+        while (rs.next())
+        {
+            Credit credit=new Credit();
+            credit.setId(rs.getInt(1));
+            credit.setMontantCredit(rs.getDouble(2));
+            credit.setDuree(rs.getInt(3));
+            credit.setTauxInteret(rs.getDouble(4));
+            credit.setDateObtention(rs.getDate(5).toLocalDate());
+            credit.setMontantRestant(rs.getDouble(6));
+            credit.setStatutCredit(rs.getString(7));
+            credit.setTypeCredit(rs.getString(8));
+            credit.setCompteId(rs.getInt(9));
+            credit.setDocumentcin(rs.getString(10));
+            credit.setSalaire(rs.getDouble(11));
+            credit.setCategorieProfessionelle(rs.getString(12));
+            credit.setTypeSecteur(rs.getString(13));
+            credit.setSecteurActivite(rs.getString(14));
+
+            mylist.add(credit);
+        }
     }
 
     @Override
@@ -114,25 +118,7 @@ public class CreditCrud implements IService<Credit> {
             PreparedStatement ps = cnx2.prepareStatement(requete);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Credit credit = new Credit();
-                credit.setId(rs.getInt(1));
-                credit.setMontantCredit(rs.getDouble(2));
-                credit.setDuree(rs.getInt(3));
-                credit.setTauxInteret(rs.getDouble(4));
-                credit.setDateObtention(rs.getDate(5).toLocalDate());
-                credit.setMontantRestant(rs.getDouble(6));
-                credit.setStatutCredit(rs.getString(7));
-                credit.setTypeCredit(rs.getString(8));
-                credit.setCompteId(rs.getInt(9));
-                credit.setDocumentcin(rs.getString(10));
-                credit.setSalaire(rs.getDouble(11));
-                credit.setCategorieProfessionelle(rs.getString(12));
-                credit.setTypeSecteur(rs.getString(13));
-                credit.setSecteurActivite(rs.getString(14));
-
-                mylist.add(credit);
-            }
+            showItems(mylist, rs);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }

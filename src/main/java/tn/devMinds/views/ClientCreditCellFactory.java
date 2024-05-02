@@ -2,13 +2,10 @@ package tn.devMinds.views;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListCell;
-import tn.devMinds.controllers.client.ClientCreditCell;
+import tn.devMinds.controllers.client.credit.ClientCreditCell;
 import tn.devMinds.models.Credit;
 
 public class ClientCreditCellFactory extends ListCell <Credit> {
-    public ClientCreditCellFactory(Credit credit) {
-    }
-
     @Override
     protected void updateItem(Credit credit, boolean empty) {
         super.updateItem(credit, empty);
@@ -23,7 +20,7 @@ public class ClientCreditCellFactory extends ListCell <Credit> {
             try {
                 setGraphic(loader.load());
             }catch (Exception e){
-                e.printStackTrace();
+                e.printStackTrace(System.out);
             }
         }
     }

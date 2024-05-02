@@ -6,7 +6,7 @@
 
 .client_cell_container HBox {
     -fx-spacing: 10;
-    -fx-alignment: Center;
+    -fx-alignment: Center_Left;
 }
 
 .client_cell_container HBox Label {
@@ -19,10 +19,6 @@
     -fx-font-family: Calibri;
     -fx-font-weight: bold;
     -fx-font-size: 1.1em;
-}
-
-.delete_btn {
-    -fx-background-color: #EF7C7C;
 }
 
 .buttons {

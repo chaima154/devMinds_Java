@@ -92,89 +92,24 @@ public class AdminIndexCreditController implements Initializable {
     public TableColumn <Credit, String> creditTableView_StatutCredit;
     @FXML
     public TableColumn <Credit, String> creditTableView_TypeCredit;
-
     private Image image;
-
-
+    ObservableList<Credit> credits;
     private final CreditCrud creditCrud = new CreditCrud();
     private final TrancheCrud trancheCrud = new TrancheCrud();
-    ObservableList<Credit> credits;
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showCredits();
         initializeChoiceBoxes();
     }
-    public void showCredits(){
-        credits = creditCrud.show();
-        creditTableView_Id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        creditTableView_CompteId.setCellValueFactory(new PropertyValueFactory<>("compteId"));
-        creditTableView_MontantCredit.setCellValueFactory(new PropertyValueFactory<>("montantCredit"));
-        creditTableView_Duree.setCellValueFactory(new PropertyValueFactory<>("duree"));
-        creditTableView_TauxInteret.setCellValueFactory(new PropertyValueFactory<>("tauxInteret"));
-        creditTableView_DateObtention.setCellValueFactory(new PropertyValueFactory<>("dateObtention"));
-        creditTableView_StatutCredit.setCellValueFactory(new PropertyValueFactory<>("statutCredit"));
-        creditTableView_TypeCredit.setCellValueFactory(new PropertyValueFactory<>("typeCredit"));
-
-        creditTableView.setItems(credits);
-
-        FilteredList<Credit> filter = new FilteredList<>(credits, e -> true);
-
-        creditSearchBar.textProperty().addListener((Observable, oldValue, newValue) -> {
-
-            filter.setPredicate(predicateCredit -> {
-
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-
-                String searchKey = newValue.toLowerCase();
-
-                if (String.valueOf(predicateCredit.getId()).contains(searchKey)) {
-                    System.out.println("id True");
-                    return true;
-                } else if (String.valueOf(predicateCredit.getCompteId()).contains(searchKey)) {
-                    System.out.println("getCompteId True");
-                    return true;
-                } else if (String.valueOf(predicateCredit.getMontantCredit()).contains(searchKey)) {
-                    System.out.println("getMontantCredit True");
-                    return true;
-                } else if (String.valueOf(predicateCredit.getDuree()).contains(searchKey)) {
-                    System.out.println("getDuree True");
-                    return true;
-                } else if (String.valueOf(predicateCredit.getTauxInteret()).contains(searchKey)) {
-                    System.out.println("getTauxInteret True");
-                    return true;
-                } else if (predicateCredit.getDateObtention().toString().contains(searchKey)) {
-                    System.out.println("getDateObtention True");
-                    return true;
-                } else if (predicateCredit.getStatutCredit().toLowerCase().contains(searchKey)) {
-                    System.out.println("getStatutCredit True");
-                    return true;
-                } else if (predicateCredit.getTypeCredit().toLowerCase().contains(searchKey)){
-                    System.out.println("getTypeCredit True");
-                    return true;
-                }else return false;
-            });
-        });
-
-        SortedList<Credit> sortList = new SortedList<>(filter);
-        creditTableView.setItems(sortList);
-
-        sortList.comparatorProperty().bind(creditTableView.comparatorProperty());
-        System.out.println(sortList);
-        creditTableView.setItems(sortList);
-
-    }
 
     private void initializeChoiceBoxes() {
 
         ObservableList<String> statutOptions = FXCollections.observableArrayList("En Attente", "Approuvé", "Réfusé", "Remboursé");
         ObservableList<String> typeOptions = FXCollections.observableArrayList("Crédit à la consommation ", "Crédit automobile", "Crédit immobilier", "Prêts étudiants", "Prêts commerciaux");
-        ObservableList<String> categorieOptions = FXCollections.observableArrayList("Salarié", "Retraité", "Proffesionel Libéral");
+        ObservableList<String> categorieOptions = FXCollections.observableArrayList("Salarié", "Retraité", "Professionnel Libéral");
         ObservableList<String> secteurOptions = FXCollections.observableArrayList("Privé", "Public");
-        ObservableList<String> activiteOptions = FXCollections.observableArrayList("Hotels et restaurants", "Transport", "Activités immobiliéres", "Administration publiques", "Educations", "Santé", "Construction", "Industrie", "Services");
+        ObservableList<String> activiteOptions = FXCollections.observableArrayList("Hotels et restaurants", "Transport", "Activités immobilières", "Administration publiques", "Educations", "Santé", "Construction", "Industrie", "Services");
 
         statutCredit.setItems(statutOptions);
         typeCredit.setItems(typeOptions);
@@ -227,7 +162,6 @@ public class AdminIndexCreditController implements Initializable {
         cinImage.setImage(null);
     }
 
-
     public void addClientInsertImage() {
 
         FileChooser open = new FileChooser();
@@ -240,7 +174,6 @@ public class AdminIndexCreditController implements Initializable {
             cinImage.setImage(image);
         }
     }
-
 
     public String addClientUploadImage() {
         Credit credit = creditTableView.getSelectionModel().getSelectedItem();
@@ -268,13 +201,69 @@ public class AdminIndexCreditController implements Initializable {
                 System.out.println("successfully copied cin" + cinCopy.getAbsolutePath());
                 return (cinCopy.getAbsolutePath());
             } catch (IOException e) {
-                e.printStackTrace();
+                e.printStackTrace(System.out);
             }
         }return null;
     }
 
+    public void showCredits(){
+        credits = creditCrud.show();
+        creditTableView_Id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        creditTableView_CompteId.setCellValueFactory(new PropertyValueFactory<>("compteId"));
+        creditTableView_MontantCredit.setCellValueFactory(new PropertyValueFactory<>("montantCredit"));
+        creditTableView_Duree.setCellValueFactory(new PropertyValueFactory<>("duree"));
+        creditTableView_TauxInteret.setCellValueFactory(new PropertyValueFactory<>("tauxInteret"));
+        creditTableView_DateObtention.setCellValueFactory(new PropertyValueFactory<>("dateObtention"));
+        creditTableView_StatutCredit.setCellValueFactory(new PropertyValueFactory<>("statutCredit"));
+        creditTableView_TypeCredit.setCellValueFactory(new PropertyValueFactory<>("typeCredit"));
 
+        creditTableView.setItems(credits);
 
+        FilteredList<Credit> filter = new FilteredList<>(credits, e -> true);
+
+        creditSearchBar.textProperty().addListener((Observable, oldValue, newValue) -> filter.setPredicate(predicateCredit -> {
+
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
+
+            String searchKey = newValue.toLowerCase();
+
+            if (String.valueOf(predicateCredit.getId()).contains(searchKey)) {
+                System.out.println("id True");
+                return true;
+            } else if (String.valueOf(predicateCredit.getCompteId()).contains(searchKey)) {
+                System.out.println("getCompteId True");
+                return true;
+            } else if (String.valueOf(predicateCredit.getMontantCredit()).contains(searchKey)) {
+                System.out.println("getMontantCredit True");
+                return true;
+            } else if (String.valueOf(predicateCredit.getDuree()).contains(searchKey)) {
+                System.out.println("getDuree True");
+                return true;
+            } else if (String.valueOf(predicateCredit.getTauxInteret()).contains(searchKey)) {
+                System.out.println("getTauxInteret True");
+                return true;
+            } else if (predicateCredit.getDateObtention().toString().contains(searchKey)) {
+                System.out.println("getDateObtention True");
+                return true;
+            } else if (predicateCredit.getStatutCredit().toLowerCase().contains(searchKey)) {
+                System.out.println("getStatutCredit True");
+                return true;
+            } else if (predicateCredit.getTypeCredit().toLowerCase().contains(searchKey)){
+                System.out.println("getTypeCredit True");
+                return true;
+            }else return false;
+        }));
+
+        SortedList<Credit> sortList = new SortedList<>(filter);
+        creditTableView.setItems(sortList);
+
+        sortList.comparatorProperty().bind(creditTableView.comparatorProperty());
+        System.out.println(sortList);
+        creditTableView.setItems(sortList);
+
+    }
 
     //////////////////////////////////////////////////ADD_CREDIT///////////////////////////////////////////////
     @FXML
@@ -310,9 +299,6 @@ public class AdminIndexCreditController implements Initializable {
             String DocumentCin = uri;
             Credit credit = new Credit(MontantCredit, Duree, TauxInteret, DateObtention, MontantRestant, StatutCredit, TypeCredit, DocumentCin, Salaire, CategorieProfessionelle, TypeSecteur, SecteurActivite, null, Compteid);
             creditCrud.add(credit);
-            if (StatutCredit.equals("Approuvé")){
-                trancheCrud.create(credit);
-            }
             return true;
         }else return false;
     }
@@ -387,9 +373,6 @@ public class AdminIndexCreditController implements Initializable {
     }
 
     void handleUpdate(Credit credit) throws SQLException {
-        String uri = addClientUploadImage();
-        uri = uri.replace("\\", "\\\\");
-
         if (isInputValid()) {
             credit.setCompteId(Integer.parseInt(compteId.getText()));
             credit.setMontantCredit(Double.parseDouble(montantCredit.getText()));
@@ -402,11 +385,9 @@ public class AdminIndexCreditController implements Initializable {
             credit.setCategorieProfessionelle(categorieProfessionelle.getValue());
             credit.setTypeSecteur(typeSecteur.getValue());
             credit.setSecteurActivite(secteurActivite.getValue());
+            String uri = addClientUploadImage();
+            uri = uri.replace("\\", "\\\\");
             credit.setDocumentcin(uri);
-
-            if(credit.getStatutCredit().equals("Approuvé") && trancheCrud.readById(credit.getId()).isEmpty()){
-                trancheCrud.create(credit);
-            }
             creditCrud.update(credit);
             showCredits();
             addCreditReset();
@@ -433,7 +414,7 @@ public class AdminIndexCreditController implements Initializable {
                 }
             } catch (SQLException e) {
                 errorMessage += "Erreur lors de la vérification de l'ID de compte dans la base de données!\n";
-                e.printStackTrace(); // Handle the exception appropriately in your application
+                e.printStackTrace(System.out); // Handle the exception appropriately in your application
             }
 
         }
@@ -548,11 +529,9 @@ public class AdminIndexCreditController implements Initializable {
         }
 
         //documentCin vide
-        if (getData.path == null){
+        if (addClientUploadImage() == null){
             errorMessage += "Veuillez choisir une image de CIN!\n";
         }
-
-
 
         if (errorMessage.isEmpty()) {
             return true;
@@ -574,7 +553,9 @@ public class AdminIndexCreditController implements Initializable {
     @FXML
     private void handleTranche (){
         Credit credit = creditTableView.getSelectionModel().getSelectedItem();
-
+        if(credit.getStatutCredit().equals("Approuvé") && trancheCrud.readById(credit.getId()).isEmpty()){
+            trancheCrud.create(credit);
+        }
         if (credit == null) {
             return;
         }
@@ -597,7 +578,7 @@ public class AdminIndexCreditController implements Initializable {
                 stage.setScene(new Scene(root));
                 stage.showAndWait();
             } catch (IOException e) {
-                e.printStackTrace();
+                e.printStackTrace(System.out);
             }
         }
     }

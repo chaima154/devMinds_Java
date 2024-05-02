@@ -43,7 +43,7 @@ public class ViewFactory {
             try{
                 dashboardView = new FXMLLoader(getClass().getResource("/banque/client/dashboard.fxml")).load();
             }catch(Exception e){
-                e.printStackTrace();
+                e.printStackTrace(System.out);
             }
         }
         return dashboardView;
@@ -54,7 +54,7 @@ public class ViewFactory {
             try{
                 creditView = new FXMLLoader(getClass().getResource("/banque/client/Credit/ClientCreditSimulation.fxml")).load();
             }catch(Exception e){
-                e.printStackTrace();
+                e.printStackTrace(System.out);
             }
         }return creditView;
     }
@@ -88,7 +88,7 @@ public class ViewFactory {
             try{
                 AdminDashboardView = new FXMLLoader(getClass().getResource("/banque/admin/dashboard.fxml")).load();
             }catch(Exception e){
-                e.printStackTrace();
+                e.printStackTrace(System.out);
             }
         }
         return AdminDashboardView;
@@ -99,21 +99,10 @@ public class ViewFactory {
             try{
                 creditView = new FXMLLoader(getClass().getResource("/banque/admin/credit/credit.fxml")).load();
             }catch(Exception e){
-                e.printStackTrace();
+                e.printStackTrace(System.out);
             }
         }return creditView;
     }
-
-    public AnchorPane getAdminTrancheView() {
-        if (creditView == null){
-            try{
-                creditView = new FXMLLoader(getClass().getResource("/banque/admin/tranche/tranche.fxml")).load();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }return creditView;
-    }
-
 
     public void showAdminWindow(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/admin/admin.fxml"));
@@ -136,7 +125,7 @@ public class ViewFactory {
         try {
             scene = new Scene (loader.load());
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.out);
         }
         Stage stage = new Stage();
         stage.setScene (scene);

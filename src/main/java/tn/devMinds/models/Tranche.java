@@ -9,7 +9,7 @@ public class Tranche {
     private double MontantPaiement;
     private String StatutPaiement;
 
-    public Tranche(){};
+    public Tranche(){}
 
     public Tranche(int CreditId, LocalDate dateEcheance, double montantPaiement, String statutPaiement) {
         this.CreditId = CreditId;

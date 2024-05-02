@@ -4,10 +4,6 @@ public class Compte {
 
     private Integer id;
 
-    private String rib;
-
-    private Float solde;
-
     public Integer getId() {
         return id;
     }
@@ -16,19 +12,4 @@ public class Compte {
         this.id = id;
     }
 
-    public void setRib(String rib) {
-        this.rib = rib;
-    }
-
-    public void setSolde(Float solde) {
-        this.solde = solde;
-    }
-
-    public String getRib() {
-        return rib;
-    }
-
-    public Float getSolde() {
-        return solde;
-    }
 }
