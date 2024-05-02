@@ -304,6 +304,32 @@ public class CardCrud implements  IService<Card>{
         return false;
     }
 
-
+    public ArrayList<Card> getAllNormlaCardByCompteid(int id) throws SQLException {
+        ArrayList<Card> data =new ArrayList<>();
+        String requet = "SELECT c.* FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE tc.type_carte != 'carte prépayée' AND c.compte_id = ?";
+        try(
+            PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(requet)) {
+                statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next())
+            {
+                Card carte=new Card();
+                carte.setId(rs.getInt(1));
+                carte.setCompte(getCompteById(rs.getInt(2)));
+                carte.setTypeCarte(getTypeCarteById(rs.getInt(3)));
+                carte.setNumero(rs.getString(4));
+                carte.setDateExpiration(rs.getDate(5).toLocalDate());
+                carte.setCsv(String.valueOf(rs.getInt(6)));
+                carte.setMdp(rs.getString(7));
+                carte.setStatutCarte(rs.getString(8));
+                data.add(carte);
+            }
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return data;
+    }
 
 }
