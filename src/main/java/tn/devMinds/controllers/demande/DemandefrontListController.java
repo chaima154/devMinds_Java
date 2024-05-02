@@ -49,7 +49,7 @@ public class DemandefrontListController implements Initializable {
     public void setSidebarController(SideBarre_adminController sidebarController) {
     }
 
-    private ServiceDemande demandeService = new ServiceDemande();
+    private final ServiceDemande demandeService = new ServiceDemande();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -73,7 +73,7 @@ public class DemandefrontListController implements Initializable {
     }
 
     private ObservableList<Demande> getAllList() throws SQLException {
-        return FXCollections.observableArrayList(demandeService.selectAll());
+        return FXCollections.observableArrayList(demandeService.getAllData());
     }
 
     private void setupActionColumn() {
@@ -86,7 +86,7 @@ public class DemandefrontListController implements Initializable {
                 deleteBtn.setOnAction(event -> {
                     Demande demande = getTableView().getItems().get(getIndex());
                     try {
-                        demandeService.deleteOne(demande);
+                        demandeService.delete(demande);
                         showList(getAllList());
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
@@ -127,7 +127,7 @@ public class DemandefrontListController implements Initializable {
         Demande demande = table.getSelectionModel().getSelectedItem();
         if (demande != null) {
             try {
-                if (demandeService.deleteOne(demande)) {
+                if (demandeService.delete(demande)) {
                     showList(getAllList());
                 } else {
                     System.err.println("Deletion failed.");
@@ -144,14 +144,13 @@ public class DemandefrontListController implements Initializable {
         nomClientColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getNomClient()));
         assuranceColumn.setCellValueFactory(cellData -> {
             // Access the Assurence object associated with the Demande
-            Demande demande = cellData.getValue();
-            Assurence assurance = demande.getA();
+            Assurence assurance = cellData.getValue().getA();
             if (assurance != null) {
                 // Return the name of the assurance
                 return new SimpleStringProperty(assurance.getNom());
             } else {
                 // If assurance is null, return an empty string
-                return new SimpleStringProperty("");
+                return new SimpleStringProperty("assurance is null");
             }
         });
         D_dColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getDateDebutContrat().toString()));
@@ -163,4 +162,12 @@ public class DemandefrontListController implements Initializable {
         table.setItems(observableList);
     }
 
+
+    public void ajout(ActionEvent actionEvent) {
+    }
+
+
+    public void setBorderPane(BorderPane borderPane) {
+        this.borderPane = borderPane;
+    }
 }

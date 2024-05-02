@@ -73,7 +73,7 @@ public class AjoutDemandefront {
         try {
             montant = Double.parseDouble(montantStr);
         } catch (NumberFormatException e) {
-            showAlert("Erreur", "Le champ Montant doit être un nombre valide !");
+            showAlert("Le champ Montant doit être un nombre valide !");
             return;}
 
 
@@ -93,19 +93,19 @@ public class AjoutDemandefront {
         }
         // Validate nomtxt
         if (nm.isEmpty()) {
-            showAlert("Erreur", "Le champ Nom est vide !");
+            showAlert("Le champ Nom est vide !");
             return;
         }
 
         // Validate emailtxt
         if (email.isEmpty()) {
-            showAlert("Erreur", "Le champ Email est vide !");
+            showAlert("Le champ Email est vide !");
             return;
         }
 
         // Validate montanttxt
         if (montantStr.isEmpty()) {
-            showAlert("Erreur", "Le champ Montant est vide !");
+            showAlert("Le champ Montant est vide !");
             return;
         }
 
@@ -132,16 +132,16 @@ public class AjoutDemandefront {
 
         try {
             ServiceDemande serviceDemande = new ServiceDemande();
-            serviceDemande.insertOne(demande);
+            serviceDemande.add(demande);
             System.out.println("Demande ajoutée avec succès !");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private void showAlert(String title, String message) {
+    private void showAlert(String message) {
         Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle(title);
+        alert.setTitle("Erreur");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();

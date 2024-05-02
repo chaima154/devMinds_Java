@@ -67,6 +67,8 @@ public class AssuranceService implements IService<Assurence> {
         }
     }
 
+
+
     @Override
     public String update(Assurence assurance, int id) {
         if (assurance.getNom() == null || assurance.getNom().isEmpty()) {

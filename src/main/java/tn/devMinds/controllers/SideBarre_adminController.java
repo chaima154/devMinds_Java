@@ -98,9 +98,9 @@ public class SideBarre_adminController implements Initializable {
     void demandefront(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/DEMANDE/ListDemandeFront.fxml"));
         Parent parent = loader.load();
-        DemandefrontListController Demandelist = loader.getController();
+        DemandefrontListController Demandelistfront = loader.getController();
         if (loader.getController() instanceof DemandefrontListController) {
-            Demandelist.setSidebarController(this);
+            Demandelistfront.setSidebarController(this);
             this.borderPane.setCenter(parent);
         }
     }

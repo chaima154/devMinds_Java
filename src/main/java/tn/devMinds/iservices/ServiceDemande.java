@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceDemande implements IService1<Demande> {
+public class ServiceDemande implements IService<Demande> {
 
     private static Connection cnx;
 
@@ -20,7 +20,7 @@ public class ServiceDemande implements IService1<Demande> {
     }
 
     @Override
-    public void insertOne(Demande demande) throws SQLException {
+    public String add(Demande demande) throws SQLException {
         String query = "INSERT INTO demande (assurance_id, nom_client, date_naissance_client, adresse_client, date_debut_contrat, duree_contrat, montant_couverture, mode_paiement, etat) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement pstmt = cnx.prepareStatement(query);
         pstmt.setInt(1, demande.getA().getId());
@@ -33,27 +33,50 @@ public class ServiceDemande implements IService1<Demande> {
         pstmt.setString(8, demande.getModePaiement());
         pstmt.setString(9, demande.getEtat());
         pstmt.executeUpdate();
+        return query;
     }
 
 
     @Override
-    public void updateOne(Demande demande) throws SQLException {
+    public String update(Demande demande,int id) {
+        // Validate input
+        if (demande.getNomClient() == null || demande.getNomClient().isEmpty()) {
+            return "Le nom du client ne peut pas être vide.";
+        }
+        // Add other validation rules as needed
+
+        // Check for uniqueness if necessary
+        // (This depends on your business logic and database schema)
+
         String query = "UPDATE demande SET assurance_id = ?, nom_client = ?, date_naissance_client = ?, adresse_client = ?, date_debut_contrat = ?, duree_contrat = ?, montant_couverture = ?, mode_paiement = ?, etat = ? WHERE id = ?";
-        PreparedStatement pstmt = cnx.prepareStatement(query);
-        pstmt.setInt(1, demande.getA().getId());
-        pstmt.setString(2, demande.getNomClient());
-        pstmt.setDate(3, new java.sql.Date(demande.getDateNaissanceClient().getTime()));
-        pstmt.setString(4, demande.getAdresseClient());
-        pstmt.setDate(5, new java.sql.Date(demande.getDateDebutContrat().getTime()));
-        pstmt.setDate(6, new java.sql.Date(demande.getDureeContrat().getTime()));
-        pstmt.setDouble(7, demande.getMontantCouverture());
-        pstmt.setString(8, demande.getModePaiement());
-        pstmt.setString(9, demande.getEtat());
-        pstmt.setInt(10, demande.getId());
-        pstmt.executeUpdate();
+        try (PreparedStatement pstmt = cnx.prepareStatement(query)) {
+            // Set parameters
+            pstmt.setInt(1, demande.getA().getId());
+            pstmt.setString(2, demande.getNomClient());
+            pstmt.setDate(3, new java.sql.Date(demande.getDateNaissanceClient().getTime()));
+            pstmt.setString(4, demande.getAdresseClient());
+            pstmt.setDate(5, new java.sql.Date(demande.getDateDebutContrat().getTime()));
+            pstmt.setDate(6, new java.sql.Date(demande.getDureeContrat().getTime()));
+            pstmt.setDouble(7, demande.getMontantCouverture());
+            pstmt.setString(8, demande.getModePaiement());
+            pstmt.setString(9, demande.getEtat());
+            pstmt.setInt(10, demande.getId());
+
+            // Execute the update
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                return null; // No error
+            } else {
+                return "Aucune ligne n'a été affectée lors de la mise à jour.";
+            }
+        } catch (SQLException e) {
+            return "Erreur lors de la mise à jour de la demande : " + e.getMessage();
+        }
     }
 
-    public boolean deleteOne(Demande demande) {
+    @Override
+    public boolean delete (Demande demande) {
         String req = "DELETE FROM demande WHERE id=?";
         try (PreparedStatement pst = cnx.prepareStatement(req)) {
             pst.setInt(1, demande.getId());
@@ -66,8 +89,10 @@ public class ServiceDemande implements IService1<Demande> {
         }
     }
 
+
+
     @Override
-    public ArrayList<Demande> selectAll() throws SQLException {
+    public ArrayList<Demande> getAllData() throws SQLException {
         List<Demande> demandes = new ArrayList<>();
         String query = "SELECT * FROM demande";
         PreparedStatement pstmt = cnx.prepareStatement(query);

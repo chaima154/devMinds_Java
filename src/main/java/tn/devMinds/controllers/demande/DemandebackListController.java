@@ -1,5 +1,6 @@
 package tn.devMinds.controllers.demande;
 
+import com.itextpdf.text.DocumentException;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -10,11 +11,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import tn.devMinds.controllers.GeneratePdf;
 import tn.devMinds.controllers.SideBarre_adminController;
 import tn.devMinds.entities.Assurence;
 import tn.devMinds.entities.Demande;
 import tn.devMinds.iservices.ServiceDemande;
 
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -70,7 +73,7 @@ public class DemandebackListController implements Initializable {
     }
 
     private ObservableList<Demande> getAllList() throws SQLException {
-        return FXCollections.observableArrayList(demandeService.selectAll());
+        return FXCollections.observableArrayList(demandeService.getAllData());
     }
 
     private void showList(ObservableList<Demande> observableList) {
@@ -83,7 +86,7 @@ public class DemandebackListController implements Initializable {
                 return new SimpleStringProperty(assurance.getNom());
             } else {
                 // If assurance is null, return an empty string
-                return new SimpleStringProperty("");
+                return new SimpleStringProperty("assurance is null");
             }
         });
         D_dColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getDateDebutContrat().toString()));
@@ -105,7 +108,15 @@ public class DemandebackListController implements Initializable {
                     Demande demande = getTableView().getItems().get(getIndex());
                     demande.setEtat("Accepted");
                     updateDemandeEtat(demande);
+                    try {
+                        // Generate the PDF contract
+                        GeneratePdf.generateContract(demande, "Contract_" + demande.getId() + ".pdf");
+                    } catch (DocumentException | FileNotFoundException e) {
+                        e.printStackTrace();
+                        // Handle PDF generation error
+                    }
                 });
+
 
                 refuseBtn.setOnAction(event -> {
                     Demande demande = getTableView().getItems().get(getIndex());

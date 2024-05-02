@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import tn.devMinds.controllers.SideBarre_adminController;
+import tn.devMinds.entities.Assurence;
 import tn.devMinds.entities.Demande; // Add import for Demande
 import tn.devMinds.iservices.ServiceDemande; // Add import for ServiceDemande
 
@@ -21,7 +22,12 @@ public class ModifDemandeController extends SideBarre_adminController {
 
     @FXML
     private BorderPane borderPane;
-    private SideBarre_adminController sidebarController;
+    private SideBarre_adminController sidebarController; //
+
+    // Remove the private instance variable for sidebarController
+
+    // Add a method to initialize the borderPane
+
 
     ObservableList<String> modeplist = FXCollections.observableArrayList("mensuel", "trimestiel", "annuel");
     @FXML
@@ -55,15 +61,13 @@ public class ModifDemandeController extends SideBarre_adminController {
     private TextField emailtxt;
 
 
-    private String selectedAssuranceName;
-
     private Demande demandeToUpdate; // Add field for Demande
     private final ServiceDemande serviceDemande = new ServiceDemande();
 
 
     public void initializeData(Demande demande) {
         this.demandeToUpdate = demande;
-        assuranceField.setText(selectedAssuranceName != null ? selectedAssuranceName : "");
+        assuranceField.setText(demande.getA().getNom());
         nomtxt.setText(demande.getNomClient());
         emailtxt.setText(demande.getAdresseClient());
         ddebuttxt.setValue(LocalDate.parse(demande.getDateDebutContrat().toString()));
@@ -78,13 +82,16 @@ public class ModifDemandeController extends SideBarre_adminController {
         retourner();
     }
 
+
     private void retourner() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/DEMANDE/ListDemandeFront.fxml"));
         Parent parent = loader.load();
         DemandefrontListController demandefrontListController = loader.getController();
         demandefrontListController.setSidebarController(this.sidebarController);
+        demandefrontListController.setBorderPane(borderPane); // Initialize the borderPane
         borderPane.setCenter(parent);
     }
+
 
     @FXML
     void UpdateDemande(ActionEvent event) {
@@ -101,11 +108,8 @@ public class ModifDemandeController extends SideBarre_adminController {
 
         // Update the Demande
         try {
-            serviceDemande.updateOne(updatedDemande); // Assuming you have a method to update a Demande
+            serviceDemande.update(updatedDemande, updatedDemande.getId()); // Assuming you have a method to update a Demande
             displayAlert("Succès", "Demande mise à jour avec succès !", Alert.AlertType.INFORMATION);
-        } catch (SQLException e) {
-            displayAlert("Erreur", "Erreur lors de la mise à jour de la demande.", Alert.AlertType.ERROR);
-            e.printStackTrace();
         } catch (NumberFormatException e) {
             displayAlert("Erreur", "Le montant doit être un nombre valide.", Alert.AlertType.ERROR);
             e.printStackTrace();
