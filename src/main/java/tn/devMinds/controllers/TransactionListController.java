@@ -11,10 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -60,6 +57,8 @@ public class TransactionListController implements Initializable {
     @FXML
     private BorderPane borderPane;
     private Connection connection;
+    @FXML
+    private TextField ribSearchField;
 
     private final TransactionService transactionService = new TransactionService();
     private final TypeTransactionService typeTransactionService = new TypeTransactionService(); // Create an instance of TypeTransactionService
@@ -87,6 +86,17 @@ public class TransactionListController implements Initializable {
         return FXCollections.observableArrayList(transactionService.getAllTransactions());
     }
 
+    @FXML
+    void searchByRib() {
+        String rib = ribSearchField.getText();
+        ObservableList<Transaction> filteredList = FXCollections.observableArrayList();
+        if (!rib.isEmpty()) {
+            filteredList = FXCollections.observableArrayList(transactionService.getTransactionsByRib(Integer.parseInt(rib)));
+        } else {
+            filteredList.addAll(getAllList());
+        }
+        showList(filteredList);
+    }
     private void showList(ObservableList<Transaction> observableList) {
         idColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getId()));
         dateColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getDate()));

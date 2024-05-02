@@ -7,7 +7,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 
-<BorderPane fx:id="borderPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.ConvertisseurApi">
+<BorderPane fx:id="borderPane" prefHeight="400.0" prefWidth="150.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.ConvertisseurApi">
     <center>
         <VBox alignment="CENTER" spacing="10">
             <children>
@@ -16,67 +16,52 @@
                         <Font size="26.0" />
                     </font>
                 </Label>
-                <Label text="Ajouter un Virement" textFill="#3f704d">
+                <Label text="Convertir" textFill="#3f704d">
                     <font>
                         <Font name="System Bold" size="47.0" />
                     </font>
                 </Label>
-                <VBox alignment="TOP_LEFT" spacing="10">
+                <VBox alignment="CENTER" spacing="10">
                     <children>
-                        <Label prefHeight="28.0" prefWidth="385.0" text="Compte émetteur">
-                            <font>
-                                <Font name="Baskerville Old Face" size="24.0" />
-                            </font>
-                        </Label>
-                        <TextField fx:id="compteEmetteur" prefHeight="40.0" prefWidth="400.0">
-                            <VBox.margin>
-                                <Insets top="10.0" />
-                            </VBox.margin>
-                        </TextField>
-                        <Label fx:id="soldeEmetteurLabel" prefHeight="28.0" prefWidth="385.0" text="Solde émetteur: ">
-                            <font>
-                                <Font name="Baskerville Old Face" size="24.0" />
-                            </font>
-                        </Label>
-                        <Label prefHeight="28.0" prefWidth="385.0" text="Compte destinataire">
-                            <font>
-                                <Font name="Baskerville Old Face" size="24.0" />
-                            </font>
-                        </Label>
-                        <TextField fx:id="compteDestinataire" prefHeight="40.0" prefWidth="400.0">
-                            <VBox.margin>
-                                <Insets top="10.0" />
-                            </VBox.margin>
-                        </TextField>
-                        <Label prefHeight="28.0" prefWidth="385.0" text="Montant">
-                            <font>
-                                <Font name="Baskerville Old Face" size="24.0" />
-                            </font>
-                        </Label>
-                        <ComboBox fx:id="baseCurrencyComboBox" prefHeight="40.0" prefWidth="400.0" onAction="#fetchExchangeRates">
-                            <VBox.margin>
-                                <Insets top="10.0" />
-                            </VBox.margin>
-                        </ComboBox>
+
                         <ComboBox fx:id="targetCurrencyComboBox" prefHeight="40.0" prefWidth="400.0" onAction="#convertAmount">
                             <VBox.margin>
                                 <Insets top="10.0" />
                             </VBox.margin>
                         </ComboBox>
-                        <ComboBox fx:id="currentCurrencyComboBox" prefWidth="150.0" onAction="#fetchExchangeRates" />
+                        <ComboBox fx:id="currentCurrencyComboBox" prefHeight="40.0" prefWidth="400.0" onAction="#fetchExchangeRates" >
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </ComboBox>
 
-
-                        <TextField fx:id="montant" prefHeight="40.0" prefWidth="400.0">
+                        <Label prefHeight="28.0" prefWidth="385.0" text="Montant à convertir">
+                            <font>
+                                <Font name="Baskerville Old Face" size="24.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="montant" prefHeight="40.0" prefWidth="150.0">
                             <VBox.margin>
                                 <Insets top="10.0" />
                             </VBox.margin>
                         </TextField>
-                        <TextField fx:id="convertedAmount" prefHeight="40.0" prefWidth="400.0" editable="false">
+
+                        <Label prefHeight="28.0" prefWidth="385.0" text="Montant converti">
+                            <font>
+                                <Font name="Baskerville Old Face" size="24.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="convertedAmount" prefHeight="40.0" prefWidth="150.0">
                             <VBox.margin>
                                 <Insets top="10.0" />
                             </VBox.margin>
                         </TextField>
-                        <Button fx:id="createAccount" mnemonicParsing="false" prefHeight="29.0" prefWidth="187.0" style="-fx-background-color: #3f704d;" text="Ajouter " textFill="#fffafa" onAction="#convertAmount">
+
+
+
+
+
+                        <Button fx:id="createAccount" mnemonicParsing="false" prefHeight="29.0" prefWidth="187.0" style="-fx-background-color: #3f704d;" text="CONVERTIR" textFill="#fffafa" onAction="#convertAmount">
                             <VBox.margin>
                                 <Insets top="40.0" />
                             </VBox.margin>

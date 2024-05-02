@@ -88,4 +88,30 @@ public class TransactionService implements IService<Transaction> {
     public ArrayList<Transaction> getAllData() throws SQLException {
         return null;
     }
+
+    public List<Transaction> getTransactionsByRib(int rib) {
+        List<Transaction> transactions = new ArrayList<>();
+        String requete = "SELECT * FROM transaction WHERE compte_id IN (SELECT id FROM compte WHERE rib = ?)";
+        try {
+            PreparedStatement pst = cnx.prepareStatement(requete);
+            pst.setInt(1, rib);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Transaction transaction = new Transaction();
+                transaction.setId(rs.getInt("id"));
+                transaction.setDate(rs.getString("date"));
+                transaction.setStatut(rs.getString("statut"));
+                transaction.setMontant_transaction(rs.getDouble("montant_transaction"));
+                transaction.setNumcheque(rs.getString("numcheque"));
+                transaction.setTypetransaction_id(rs.getInt("typetransaction_id"));
+                transaction.setCompte_id(rs.getInt("compte_id"));
+                transaction.setDestinataire_compte_id_id(rs.getInt("destinataire_compte_id_id"));
+                transactions.add(transaction);
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return transactions;
+    }
+
 }

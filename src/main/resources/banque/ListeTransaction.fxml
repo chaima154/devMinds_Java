@@ -10,28 +10,34 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextField?>
 <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.TransactionListController">
+    <top>
+        <HBox spacing="10" alignment="TOP_CENTER">
+            <Label prefHeight="70.0" prefWidth="263.0" text="Liste des transactions">
+                <font>
+                    <Font name="Georgia" size="24.0" />
+                </font>
+            </Label>
+            <Button fx:id="ajout" mnemonicParsing="false" onAction="#ajout" prefHeight="46.0" prefWidth="144.0" style="-fx-background-color: #3f704d;" text="Ajouter une transaction" textFill="WHITE">
+                <HBox.margin>
+                    <Insets left="50.0" />
+                </HBox.margin>
+            </Button>
+        </HBox>
+    </top>
     <center>
         <AnchorPane prefHeight="1000.0" prefWidth="1098.0">
-        <children>
-
-           <HBox layoutY="90.0" prefHeight="93.0" prefWidth="1098.0">
             <children>
-                <Label prefHeight="70.0" prefWidth="263.0" text="Liste des transactions">
-                    <HBox.margin>
-                        <Insets left="150.0" top="150.0" />
-                    </HBox.margin>
-                    <font>
-                        <Font name="Georgia" size="24.0" />
-                    </font>
-                </Label>
-                <Button fx:id="ajout" mnemonicParsing="false" onAction="#ajout" prefHeight="46.0" prefWidth="144.0" style="-fx-background-color: #3f704d;" text="Ajouter une transaction" textFill="WHITE">
-                    <HBox.margin>
-                        <Insets left="500.0" top="50.0" />
-                    </HBox.margin>
-                </Button>
-            </children>
-           </HBox>
+                <VBox alignment="TOP_CENTER" spacing="10">
+                    <children>
+                        <HBox alignment="CENTER" spacing="10">
+                            <Label text="Recherche par RIB:" />
+                            <TextField fx:id="ribSearchField" onKeyReleased="#searchByRib" />
+                        </HBox>
+                    </children>
+                </VBox>
                 <TableView fx:id="table">
                     <columns>
                         <TableColumn fx:id="idColumn" prefWidth="50.0" text="ID" />
@@ -41,13 +47,12 @@
                         <TableColumn fx:id="numChequeColumn" prefWidth="108.00006103515625" text="Numéro de chèque" />
                         <TableColumn fx:id="typeTransactionColumn" prefWidth="89.60003662109375" text="Type de Transaction" />
                         <TableColumn fx:id="comissionTransaction" prefWidth="89.60003662109375" text="Comission" />
-
                         <TableColumn fx:id="compteColumn" prefWidth="100.79998779296875" text="Compte" />
                         <TableColumn fx:id="destinataireColumn" prefWidth="92.00006103515625" text="Destinataire" />
                         <TableColumn fx:id="actionColumn" prefWidth="128.7999267578125" text="Actions" />
                     </columns>
                 </TableView>
-        </children>
+            </children>
         </AnchorPane>
     </center>
 </BorderPane>
