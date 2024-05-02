@@ -47,23 +47,6 @@ public class SideBarre_adminController implements Initializable {
     }
 
 
-
-
-
-    /* @FXML
-    void goAssurance(MouseEvent event) {
-        try {
-            Node node = (Node) event.getSource();
-            Stage stage = (Stage) node.getScene().getWindow();
-            Scene scene = stage.getScene();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("src/main/resources/banque/ListAssurance.fxml"));
-            scene.setRoot(loader.load());
-            stage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }*/
     @FXML
     void goAssurance(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ASSURANCE/ListAssurance.fxml"));
