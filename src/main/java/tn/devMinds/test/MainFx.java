@@ -26,7 +26,7 @@ public class MainFx extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/banque/sidebarre_admin.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/banque/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
 
