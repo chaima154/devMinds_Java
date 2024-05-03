@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<?import javafx.scene.control.Button?>
+<AnchorPane prefHeight="438.0" prefWidth="732.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.GestionCard.carousel">
+   <StackPane fx:id="Stackpane1" AnchorPane.leftAnchor="69" />
+   <StackPane fx:id="Stackpane2" AnchorPane.leftAnchor="69" />
+   <StackPane fx:id="Stackpane3" AnchorPane.leftAnchor="69" />
+   <children>
+      <Button layoutX="2.0" layoutY="100.0" mnemonicParsing="false" onMouseClicked="#back" prefHeight="200.0" style="-fx-background-color: WHITE;" text="&lt;" />
+      <Button layoutX="706.0" layoutY="100.0" mnemonicParsing="false" onMouseClicked="#next" prefHeight="200.0" style="-fx-background-color: White;" text="&gt;" />
+
+   </children>
+</AnchorPane>

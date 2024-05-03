@@ -1,0 +1,90 @@
+.card-container {
+    -fx-background-color: #093f63;
+
+    -fx-max-width: 600px;
+
+    -fx-border-color: #2c3e50;
+    -fx-border-style: solid;
+}
+
+.card-container:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 1);
+}
+
+.card {
+    -fx-position: relative;
+    -fx-pref-width: 600px;
+    -fx-pref-height: 400px;
+}
+
+.bank-name {
+    -fx-font-size: 20px;
+    -fx-font-family: sans-serif;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+    -fx-background-color: white;
+    -fx-border-radius: 50px;
+    -fx-padding: 10px 20px;
+}
+
+.card-number {
+    -fx-font-size: 30px;
+    -fx-font-family: sans-serif;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 1);
+}
+
+.card-name, .card-expire {
+    -fx-font-family: sans-serif;
+    -fx-text-fill: white;
+    -fx-text-transform: uppercase;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 1);
+}
+
+.card-name {
+    -fx-font-size: 1.3em;
+}
+
+.card-expire {
+    -fx-font-size: 1em;
+}
+
+/* ImageView styling */
+#chipImage{
+    -fx-fit-height: 23%;
+    -fx-fit-width: auto;
+    -fx-top: 35%;
+    -fx-left: 5%;
+}
+
+#contactlessImage {
+    -fx-fit-height: 15%;
+    -fx-fit-width: auto;
+    -fx-top: 40%;
+    -fx-left: 20%;
+    -fx-rotate: 60deg;
+}
+
+#visaImage {
+    -fx-fit-height: 30%;
+    -fx-fit-width: auto;
+    -fx-bottom: 5%;
+    -fx-right: 5%;
+}
+.button {
+    -fx-background-color: #4CAF50; /* Green */
+    -fx-border: none;
+    -fx-color: white;
+    -fx-padding: 10px 20px;
+    -fx-text-fill: white;
+    -fx-font-size: 1em;
+    -fx-cursor: pointer;
+}
+
+.button:hover {
+    -fx-background-color: #45a049; /* Darker Green */
+}
+
+.button:pressed {
+    -fx-background-color: #3e8e41; /* Green */
+}
