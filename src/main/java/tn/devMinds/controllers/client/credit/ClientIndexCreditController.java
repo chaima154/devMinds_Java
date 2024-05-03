@@ -16,21 +16,13 @@ import java.util.ResourceBundle;
 
 public class ClientIndexCreditController implements Initializable{
     private final CreditCrud creditCrud = new CreditCrud();
-    public Button ajout_btn;
     public ListView<Credit> credit_listview;
     public TextField creditSearchBar;
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-    }
-
-    public void setAdminIndexCreditController(ClientCreditController clientCreditController) {
-
-    }
-
+    public void initialize(URL url, ResourceBundle resourceBundle) {}
 
     void showCredits(int id) {
-        System.out.println(id);
         ObservableList<Credit> credits = creditCrud.readById(id);
         System.out.println("credit list here" + credits);
         credit_listview.setCellFactory(param -> new ClientCreditCellFactory());

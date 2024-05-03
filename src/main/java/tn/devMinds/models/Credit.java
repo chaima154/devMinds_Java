@@ -25,6 +25,14 @@ public class Credit {
 
     public Credit(){};
 
+    public Credit(double montantCredit, int duree, double tauxInteret, String typeCredit, int compteId) {
+        MontantCredit = montantCredit;
+        Duree = duree;
+        TauxInteret = tauxInteret;
+        TypeCredit = typeCredit;
+        this.compteId = compteId;
+    }
+
     public Credit(double montantCredit, int duree, double tauxInteret, LocalDate dateObtention, double montantRestant, String statutCredit, String typeCredit, String documentcin, double salaire, String categorieProfessionelle, String typeSecteur, String secteurActivite, List<Tranche> tranches, int compteId) {
         MontantCredit = montantCredit;
         Duree = duree;

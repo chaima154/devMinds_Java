@@ -3,6 +3,7 @@ package tn.devMinds.controllers.client.tranche;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -22,19 +23,14 @@ public class ClientIndexTrancheController implements Initializable{
     public ListView<Tranche> tranche_listview;
     public TextField trancheSearchBar;
     private final TrancheCrud trancheCrud = new TrancheCrud();
-    private Credit credit;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        showTranches();
     }
 
-    public void setCredit(ClientCreditCell clientCreditCell, Credit credit) {
-        this.credit=credit;
-    }
-
-    void showTranches() {
+    public void showTranches(Credit credit) {
         ObservableList<Tranche> tranches = trancheCrud.readById(credit.getId());
+        System.out.println("this is itt maaaan " + tranches);
         tranche_listview.setCellFactory(param -> new ClientTrancheCellFactory());
 
         tranche_listview.setItems(tranches);

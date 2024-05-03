@@ -3,7 +3,6 @@ package tn.devMinds.controllers.client.credit;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -29,6 +28,7 @@ public class ClientCreditCell implements Initializable {
     public Label montantRestant;
     public Label statutCredit;
     public Label typeCredit;
+    @FXML
     public Button tranches_btn;
 
 
@@ -45,6 +45,7 @@ public class ClientCreditCell implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setCredit(credit);
+        tranches_btn.setOnAction(e -> handleTranche());
     }
 
     public void setCredit(Credit credit) {
@@ -58,7 +59,6 @@ public class ClientCreditCell implements Initializable {
         statutCredit.setText(credit.getStatutCredit());
         typeCredit.setText(credit.getTypeCredit());
     }
-
     @FXML
     private void handleTranche (){
         if (trancheCrud.readById(credit.getId()).isEmpty()) {
@@ -70,13 +70,13 @@ public class ClientCreditCell implements Initializable {
             alert.showAndWait();
         }else {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/client/Tranche/Tranche.fxml"));
-                Parent root = loader.load();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/client/Tranche/tranche.fxml"));
                 ClientIndexTrancheController controller = new ClientIndexTrancheController();
-                controller.setCredit(this, credit);
+                controller.showTranches(credit);
                 Stage stage = new Stage();
+                stage.setResizable(false);
                 stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setScene(new Scene(root));
+                stage.setScene(new Scene(loader.load()));
                 stage.showAndWait();
             } catch (IOException e) {
                 e.printStackTrace(System.out);

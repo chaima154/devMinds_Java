@@ -39,7 +39,7 @@
     -fx-effect: dropshadow(three-pass-box, #AAAAAA, 0, 0, 0, 3);
 }
 
-.create_client_container Button {
+.create_client_container_Button {
     -fx-background-color: linear-gradient(to right, #132A13, #253F25);
     -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 8, 8, 3);
     -fx-pref-width: 250;
@@ -50,8 +50,21 @@
 
 .create_client_container Button:hover {
     -fx-cursor: hand;
-    }
+}
 
-.error_lbl{
-    -fx-text-fill: #FF0000;
+.image_button{
+    -fx-pref-width: 250;
+    -fx-background-color:#ddd;
+    -fx-text-fill: black;
+    -fx-cursor:hand;
+}
+
+.white-bg{
+    -fx-background-color:#fff;
+    -fx-background-radius:8px;
+}
+
+.import-btn{
+    -fx-background-color:#ddd;
+    -fx-cursor:hand;
 }

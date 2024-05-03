@@ -7,29 +7,34 @@
     -fx-fill: #888888;
     }
 
+.create_client_container Label {
+    -fx-font-size: 2.5em;
+    -fx-fill: transparent;
+}
+
 .create_client_container-Title {
     -fx-font-size: 2em;
     -fx-fill: #000000;
 }
 
-.create_client_container-VBox {
+.create_client_container VBox {
     -fx-padding: 10;
     -fx-spacing: 15;
+    -fx-alignment: TOP_LEFT;
     }
 
 .create_client_container TextField {
     -fx-pref-width: 250;
     -fx-pref-height: 35;
     -fx-background-color: #FFFFFF;
-    -fx-font-size: 1.3em;
+    -fx-font-size: 1.8em;
     -fx-effect: dropshadow(three-pass-box, #AAAAAA, 0, 0, 0, 3);
     }
 
 .create_client_container ChoiceBox {
     -fx-pref-width: 250;
-    -fx-pref-height: 35;
     -fx-background-color: #FFFFFF;
-    -fx-font-size: 1.3em;
+    -fx-font-size: 0.8em;
     -fx-effect: dropshadow(three-pass-box, #AAAAAA, 0, 0, 0, 3);
 }
 
