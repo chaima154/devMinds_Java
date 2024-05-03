@@ -35,6 +35,14 @@
             <artifactId>javafx-base</artifactId>
             <version>21-ea+24</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.twilio.sdk/twilio -->
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>10.1.5</version>
+        </dependency>
+
+
     </dependencies>
     <build>
         <plugins>

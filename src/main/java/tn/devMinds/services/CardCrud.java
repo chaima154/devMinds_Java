@@ -332,4 +332,103 @@ public class CardCrud implements  IService<Card>{
         return data;
     }
 
+
+
+    public ArrayList<Card> getAllPrepaedCardById(int id) throws SQLException {
+        ArrayList<Card> data =new ArrayList<>();
+        String requet = "SELECT c.* FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE tc.type_carte = 'carte prépayée' AND c.compte_id = ?";
+        try(
+                PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(requet)) {
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next())
+            {
+                Card carte=new Card();
+                carte.setId(rs.getInt(1));
+                carte.setCompte(getCompteById(rs.getInt(2)));
+                carte.setTypeCarte(getTypeCarteById(rs.getInt(3)));
+                carte.setNumero(rs.getString(4));
+                carte.setDateExpiration(rs.getDate(5).toLocalDate());
+                carte.setCsv(String.valueOf(rs.getInt(6)));
+                carte.setMdp(rs.getString(7));
+                carte.setStatutCarte(rs.getString(8));
+                carte.setSolde(rs.getDouble(9));
+                data.add(carte);
+            }
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return data;
+    }
+
+
+    public boolean updatepassword(int id,String mdp) throws SQLException {
+        String requete="UPDATE `carte` SET `mdp`=?" +
+                " WHERE id=?";
+        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)){
+
+        pst.setString(1,mdp);
+            pst.setInt(2,id);
+            int rowsAffected = pst.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("mdp du Carte with ID " + id + " updated successfully");
+                return true;
+            } else {
+                System.out.println("No carte found with ID: " + id);
+                return false;
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+    public boolean updateSolde(int id,Double solde) throws SQLException {
+        String requete="UPDATE `carte` SET `solde`=`solde`+?" +
+                " WHERE id=?";
+        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)){
+
+            pst.setDouble(1,+solde);
+            pst.setInt(2,id);
+            int rowsAffected = pst.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("solde du Carte with ID " + id + " updated successfully");
+                return true;
+            } else {
+                System.out.println("No carte found with ID: " + id);
+                return false;
+            }
+        }
+    }
+
+
+
+    public boolean updateSoldeCompte(int id,Double solde) throws SQLException {
+        String requete="UPDATE `compte` SET `solde`=`solde`-?" +
+                " WHERE id=?";
+        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)){
+
+            pst.setDouble(1,+solde);
+            pst.setInt(2,id);
+            int rowsAffected = pst.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("solde du compte with ID " + id + " updated successfully");
+                return true;
+            } else {
+                System.out.println("No compte found with ID: " + id);
+                return false;
+            }
+        }
+    }
+
+
+
+
 }
