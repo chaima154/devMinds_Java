@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import tn.devMinds.controllers.SideBarre_adminController;
 import tn.devMinds.entities.Assurence;
 import tn.devMinds.iservices.AssuranceService;
@@ -44,6 +45,7 @@ public class AjoutAssuranceController extends SideBarre_adminController {
         // Load the appropriate list view (ListAssurence.fxml)
     }
 
+
     @FXML
     void AddAssurance(ActionEvent event) throws IOException {
         if (!verif_nom(nom)) {
@@ -66,13 +68,11 @@ public class AjoutAssuranceController extends SideBarre_adminController {
                     al.setContentText("L'Assurance a été ajoutée avec succès.");
                     al.showAndWait();
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ASSURANCE/ListAssurance.fxml"));
-                    Parent parent = loader.load();
-                    AssuranceListController assuranceListController = loader.getController();
-                    if (loader.getController() instanceof AssuranceListController) {
-                        assuranceListController.setSidebarController(this);
-                        this.borderPane.setCenter(parent);
-                    }
+                    // Close the stage
+                    Stage stage = (Stage) borderPane.getScene().getWindow();
+                    stage.close();
+
+                    assuranceListController.showList(assuranceListController.getAllList()); // Assuming this method exists
                 } else {
                     Alert al = new Alert(Alert.AlertType.ERROR);
                     al.setTitle("Erreur");
@@ -87,6 +87,8 @@ public class AjoutAssuranceController extends SideBarre_adminController {
             }
         }
     }
+
+
 
     public void setAssuranceListController(AssuranceListController controller) {
         this.assuranceListController = controller;

@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import tn.devMinds.controllers.SideBarre_adminController;
 import tn.devMinds.entities.Assurence;
 import tn.devMinds.iservices.AssuranceService;
@@ -33,6 +34,7 @@ public class UpdateAssuranceController extends SideBarre_adminController {
 
     private final AssuranceService assuranceService = new AssuranceService();
     private Assurence assuranceToUpdate;
+    private AssuranceListController assuranceListController;
 
     public void initializeData(Assurence assurance) {
         this.assuranceToUpdate = assurance;
@@ -71,7 +73,13 @@ public class UpdateAssuranceController extends SideBarre_adminController {
             String updateResult = assuranceService.update(updatedAssurance, updatedAssurance.getId());
             if (updateResult == null) {
                 displayAlert("Confirmation", "L'Assurance a été mise à jour avec succès.", Alert.AlertType.CONFIRMATION);
-                retourner();
+                // Close the stage
+                Stage stage = (Stage) borderPane.getScene().getWindow();
+                stage.close();
+                // Refresh the table in AssuranceListController
+                if (assuranceListController != null) {
+                    assuranceListController.showList(assuranceListController.getAllList());
+                }
             } else {
                 displayAlert("Erreur", "Une erreur s'est produite lors de la mise à jour de l'Assurance: " + updateResult, Alert.AlertType.ERROR);
             }
@@ -85,4 +93,7 @@ public class UpdateAssuranceController extends SideBarre_adminController {
         alert.show();
     }
 
+    public void setAssuranceListController(AssuranceListController assuranceListController) {
+        this.assuranceListController = assuranceListController;
+    }
 }

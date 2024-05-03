@@ -8,9 +8,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import tn.devMinds.controllers.SideBarre_adminController;
 import tn.devMinds.entities.Assurence;
 import tn.devMinds.iservices.AssuranceService;
@@ -62,19 +64,22 @@ public class AssuranceListController implements Initializable {
         });
     }
 
-    private ObservableList<Assurence> getAllList() {
+    ObservableList<Assurence> getAllList() {
         return FXCollections.observableArrayList(assuranceService.getAllData());
     }
 
     @FXML
     void ajout(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ASSURANCE/AjoutAssurance.fxml"));
-        Parent parent = loader.load();
-        AjoutAssuranceController controller = loader.getController();
-        controller.setAssuranceListController(this);
-        this.borderPane.setCenter(parent);
-        showList(getAllList());
+        Parent root = loader.load();
+        AjoutAssuranceController ajoutAssuranceController = loader.getController(); // Get the controller instance
+        ajoutAssuranceController.setAssuranceListController(this); // Set the AssuranceListController
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
+
 
 
     private void setupActionColumn() {
@@ -108,15 +113,18 @@ public class AssuranceListController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ASSURANCE/UpdateAssurance.fxml"));
             Parent root = loader.load();
-
             UpdateAssuranceController controller = loader.getController();
             controller.initializeData(assurance);
-
-            borderPane.setCenter(root);
+            controller.setAssuranceListController(this); // Set the AssuranceListController
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     @FXML
     private void delete(ActionEvent event) {
