@@ -72,9 +72,10 @@ public class DemandefrontListController implements Initializable {
         });
     }
 
-    private ObservableList<Demande> getAllList() throws SQLException {
+     ObservableList<Demande> getAllList() throws SQLException {
         return FXCollections.observableArrayList(demandeService.getAllData());
     }
+
 
     private void setupActionColumn() {
         actionColumn.setCellFactory(param -> new TableCell<Demande, Void>() {
@@ -140,7 +141,7 @@ public class DemandefrontListController implements Initializable {
         }
     }
 
-    private void showList(ObservableList<Demande> observableList) {
+    public void showList(ObservableList<Demande> observableList) {
         nomClientColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getNomClient()));
         assuranceColumn.setCellValueFactory(cellData -> {
             // Access the Assurence object associated with the Demande

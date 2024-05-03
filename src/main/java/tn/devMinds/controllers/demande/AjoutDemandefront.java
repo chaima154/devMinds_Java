@@ -5,16 +5,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import tn.devMinds.controllers.assurance.AssuranceListController;
 import tn.devMinds.entities.Assurence;
 import tn.devMinds.entities.Demande;
 import tn.devMinds.iservices.AssuranceService;
 import tn.devMinds.iservices.ServiceDemande;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 import java.sql.Date;
@@ -23,6 +20,7 @@ import java.util.List;
 
 public class AjoutDemandefront {
     ObservableList<String> modeplist = FXCollections.observableArrayList("mensuel","trimestiel","annual");
+    private DemandefrontListController demandListController;
     @FXML
     private Button retourbtn;
 
@@ -55,6 +53,7 @@ public class AjoutDemandefront {
 
 
     private String selectedAssuranceName; // Moved declaration here
+    private tn.devMinds.controllers.demande.DemandefrontListController DemandefrontListController;
 
     @FXML
     void addDemande(ActionEvent event) {
@@ -133,19 +132,33 @@ public class AjoutDemandefront {
         try {
             ServiceDemande serviceDemande = new ServiceDemande();
             serviceDemande.add(demande);
-            System.out.println("Demande ajoutée avec succès !");
+            // Show success message
+            showAlert("Demande ajoutée avec succès !");
+            // Close the stage after showing the success message
+            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            stage.close();
+            DemandefrontListController.showList(DemandefrontListController.getAllList()); // Assuming this method exists
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
     private void showAlert(String message) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Erreur");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Succès");
         alert.setHeaderText(null);
         alert.setContentText(message);
-        alert.showAndWait();
+        // Add event handler for closing the alert when OK button is clicked
+        ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+        alert.getButtonTypes().setAll(okButton);
+        alert.showAndWait().ifPresent(response -> {
+            if (response == okButton) {
+                // OK button is clicked, close the alert
+                alert.close();
+            }
+        });
     }
+
     public void setSelectedAssuranceName(String selectedAssuranceName) {
         this.selectedAssuranceName = selectedAssuranceName;
         assuranceField.setText(selectedAssuranceName);
@@ -169,6 +182,9 @@ public class AjoutDemandefront {
             // stage.setScene(previousScene);
         });
 
+    }
+    public void setDemandListController(DemandefrontListController controller) {
+        this.DemandefrontListController = controller;
     }
 
 }

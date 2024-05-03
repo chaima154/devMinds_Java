@@ -87,9 +87,7 @@ public class frontassurance implements Initializable {
         return FXCollections.observableArrayList(assuranceService.getAllData());
     }
 
-    /*public void showass() {
-        lista.setItems(getAssurences());
-    }*/
+
     public void showass(ObservableList<Assurence> observableList) {
         nomColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getNom()));
         descriptionColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getDescription()));

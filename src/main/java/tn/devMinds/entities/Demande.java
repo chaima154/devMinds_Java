@@ -17,7 +17,7 @@ public class Demande {
 
     public Demande() {
         // Default constructor
-        this.etat = "pending"; // Set the default value of etat to "pending"
+        this.etat = "Pending"; // Set the default value of etat to "pending"
         this.a = new Assurence();
     }
 

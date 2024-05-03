@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class DemandebackListController implements Initializable {
+    @FXML
     public ChoiceBox filterChoiceBox;
     @FXML
     private BorderPane borderPane;
@@ -48,15 +49,23 @@ public class DemandebackListController implements Initializable {
     private TextField searchTerm;
     @FXML
     void filtrerDemandes(ActionEvent event) {
+        String selectedEtat = (String) filterChoiceBox.getValue();
         ObservableList<Demande> filteredList = FXCollections.observableArrayList();
-        for (Demande demande : table.getItems()) {
-            if (!demande.getEtat().equals("Accepted") && !demande.getEtat().equals("Refused")) {
-                filteredList.add(demande);
+        try {
+            if (selectedEtat.equals("All")) {
+                filteredList.addAll(getAllList());
+            } else {
+                for (Demande demande : getAllList()) {
+                    if (demande.getEtat().equals(selectedEtat)) {
+                        filteredList.add(demande);
+                    }
+                }
             }
+            showList(filteredList);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        showList(filteredList);
     }
-
 
     public void setSidebarController(SideBarre_adminController sidebarController) {
     }
@@ -65,6 +74,7 @@ public class DemandebackListController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        filterChoiceBox.setValue("All");
         try {
             showList(getAllList());
         } catch (SQLException e) {
