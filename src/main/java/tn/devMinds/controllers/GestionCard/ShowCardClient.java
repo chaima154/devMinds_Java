@@ -112,10 +112,7 @@ public class ShowCardClient implements Initializable {
                             Card data = getTableView().getItems().get(getIndex());
                             CardCrud cc = new CardCrud();
                             String res=cc.generateRandomNumberString(4);
-                            SendSms smsSender = new SendSms("YourAccountSID", "YourAuthToken");
-                            smsSender.send("YourTwilioPhoneNumber", "+21693860151", "RecipientName", "MessageText");
-//
-                            try {
+              try {
                                 cc.updatepassword(data.getId(),res);
                             } catch (SQLException e) {
                                 throw new RuntimeException(e);
