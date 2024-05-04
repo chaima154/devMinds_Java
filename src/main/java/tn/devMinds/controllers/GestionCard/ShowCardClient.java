@@ -5,27 +5,39 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import tn.devMinds.models.Card;
 import tn.devMinds.models.Compte;
 import tn.devMinds.services.CardCrud;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import org.controlsfx.control.Notifications;
+import javafx.scene.image.Image;
+
 
 public class ShowCardClient implements Initializable {
 
@@ -52,6 +64,7 @@ public class ShowCardClient implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         reload();
         addButtonStatusToTableprepaedcard();
+        addButtonLostToTableprepaedcard();
         addButtonToTableprepaedcard();
         try {
             Pane page = FXMLLoader.load(getClass().getResource("/banque/GestionCard/carouselCard.fxml"));
@@ -194,14 +207,17 @@ public class ShowCardClient implements Initializable {
                         Card data = getTableView().getItems().get(getIndex());
                         CardCrud cc = new CardCrud();
                         try {
-                            cc.updateStat(data.getId(), data.getStatutCarte());
+
                             if (Objects.equals(data.getStatutCarte(), "active")) {
+                                cc.updateStat(data.getId(), data.getStatutCarte());
                                 btn.setText("inactive");
                                 data.setStatutCarte("inactive");
-                            } else {
+                            } else if (Objects.equals(data.getStatutCarte(), "inactive")){
+                                cc.updateStat(data.getId(), data.getStatutCarte());
                                 btn.setText("active");
                                 data.setStatutCarte("active");
                             }
+
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         }
@@ -218,6 +234,8 @@ public class ShowCardClient implements Initializable {
                         Card rowData = getTableView().getItems().get(getIndex());
                         // Set the button text based on the desired property of the Card object
                         btn.setText(rowData.getStatutCarte());
+                        if(Objects.equals(getTableView().getItems().get(getIndex()).getStatutCarte(), "Lost"))
+                           {btn.setVisible(false);}
                         setGraphic(btn);
                     }
                 }
@@ -232,11 +250,58 @@ public class ShowCardClient implements Initializable {
 
 
 
+    private void addButtonLostToTableprepaedcard() {
+        TableColumn<Card, Void> colBtn = new TableColumn<>("Button Column");
+        Callback<TableColumn<Card, Void>, TableCell<Card, Void>> cellFactory = new Callback<TableColumn<Card, Void>, TableCell<Card, Void>>() {
+            @Override
+            public TableCell<Card, Void> call(final TableColumn<Card, Void> param) {
+                final TableCell<Card, Void> cell = new TableCell<Card, Void>() {
+                    private final Button btnEtat = new Button("Lost!");
+                    {
+                        btnEtat.setOnAction((ActionEvent event) -> {
+                            Card data = getTableView().getItems().get(getIndex());
+                            CardCrud cc = new CardCrud();
+                                if(!Objects.equals(data.getStatutCarte(), "Lost"))
+                                {
+                                    data.setStatutCarte("Lost");
+                                }
+                            try {
+                                cc.update(data);
+                                reload();
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+                            System.out.println("selectedData: " + data);
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btnEtat);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setCellFactory(cellFactory);
+        tableView.getColumns().add(colBtn);
+    }
 
 
 
 
 
-
+    @FXML
+    private Button notif;
+    @FXML
+    void notifi(ActionEvent event) {
+        Notification not=new Notification();
+        not.notifier();
+        }
 
 }
