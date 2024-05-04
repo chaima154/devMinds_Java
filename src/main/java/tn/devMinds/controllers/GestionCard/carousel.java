@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import tn.devMinds.models.Card;
@@ -171,14 +172,31 @@ public class carousel implements Initializable {
                 }
             }
 
-            // If data is less than 3, add a button in the third pane
+            // If data is less than 3, add a button in the datasize+1 pane
             if (dataSize < 3) {
                 FXMLLoader buttonLoader = new FXMLLoader(getClass().getResource("/banque/GestionCard/addCardNormalClientbutton.fxml"));
                 Parent buttonPage = buttonLoader.load();
-                StackPane lastPane = dataSize == 0 ? Stackpane1 : (dataSize == 1 ? Stackpane2 : Stackpane3);
-                buttonPage.setOpacity(1.0);
-                lastPane.getChildren().add(buttonPage);
+                StackPane nextPane = null;
+
+                // Determine the next available StackPane based on the dataSize
+                switch (dataSize) {
+                    case 0:
+                        nextPane = Stackpane1;
+                        break;
+                    case 1:
+                        nextPane = Stackpane2;
+                        break;
+                    case 2:
+                        nextPane = Stackpane3;
+                        break;
+                }
+
+                if (nextPane != null) {
+                    buttonPage.setOpacity(1.0);
+                    nextPane.getChildren().add(buttonPage); // Add the button to the next available StackPane
+                }
             }
+
 
         } catch (Exception e) {
             e.printStackTrace();
