@@ -114,7 +114,7 @@ public class ShowCardClient implements Initializable {
                             String res=cc.generateRandomNumberString(4);
                             SendSms smsSender = new SendSms("YourAccountSID", "YourAuthToken");
                             smsSender.send("YourTwilioPhoneNumber", "+21693860151", "RecipientName", "MessageText");
-
+//
                             try {
                                 cc.updatepassword(data.getId(),res);
                             } catch (SQLException e) {
