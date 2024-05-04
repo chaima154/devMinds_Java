@@ -112,7 +112,9 @@ public class ShowCardClient implements Initializable {
                             Card data = getTableView().getItems().get(getIndex());
                             CardCrud cc = new CardCrud();
                             String res=cc.generateRandomNumberString(4);
-              try {
+                            SendSms smsSender = new SendSms("AC768c8015cd745adfc30f7e60c629f310", "5683c0963f22d94c228b440d58c6f39c");
+                            smsSender.send("+15073646864", "+21693860151", "La7zim", res);
+                            try {
                                 cc.updatepassword(data.getId(),res);
                             } catch (SQLException e) {
                                 throw new RuntimeException(e);
