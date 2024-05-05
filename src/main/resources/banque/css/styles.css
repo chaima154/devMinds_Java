@@ -16,6 +16,37 @@
 .mouse-moved :hover{
     -fx-background-color: #E4E4E4;
 }
+.main-pane {
+    -fx-background-color: white;
+}
+
+.table-view {
+    -fx-background-color: white;
+}
+
+#add_user_button {
+    -fx-border-color: black;
+    -fx-border-radius: 100;
+    -fx-border-width: 2;
+    -fx-background-color: white;
+    -fx-font-family: 'Montserrat SemiBold';
+    -fx-font-size: 15px;
+}
+
+.search-bar {
+    -fx-background-color: transparent;
+    -fx-border-color: black;
+}
+
+.label-title {
+    -fx-font-family: 'Dubai Regular';
+    -fx-font-size: 50px;
+}
+
+.label-subtitle {
+    -fx-font-size: 15px;
+}
+
 
 .button :hover{
     -fx-background-color: #cc1c23;

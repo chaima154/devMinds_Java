@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.VBox?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.devMinds.controllers.listUser"
+            prefHeight="700" prefWidth="1500" styleClass="main-pane">
+    <center>
+    <SplitPane dividerPositions="0.08051869722557299">
+    <fx:include source="sidebarre_admin.fxml" />
+
+    <VBox fx:id="container" spacing="10" styleClass="main-container">
+
+    <children>
+
+        <TableView fx:id="list_user">
+            <columns>
+                <TableColumn fx:id="id" prefWidth="50" text="ID" />
+                <TableColumn fx:id="email" prefWidth="150" text="Email" />
+                <TableColumn fx:id="prenom" prefWidth="100" text="Prénom" />
+                <TableColumn fx:id="nom" prefWidth="100" text="Nom" />
+                <TableColumn fx:id="actions" />
+            </columns>
+        </TableView>
+
+        <Button fx:id="add_user_button" layoutX="1321.0" layoutY="631.0" mnemonicParsing="false" onAction="#add_user" text="Add a User" />
+
+        <HBox layoutX="395.0" layoutY="126.0">
+            <children>
+                <Text text="Users List:" styleClass="label-title" />
+            </children>
+        </HBox>
+        <HBox layoutX="395.0" layoutY="161.0">
+            <children>
+                <Text text="Here's a list of all the users in the application:" styleClass="label-subtitle" />
+            </children>
+        </HBox>
+
+        <HBox layoutX="1112.0" layoutY="159.0">
+            <children>
+                <Text text="Search:" styleClass="label-subtitle" />
+            </children>
+        </HBox>
+        <HBox layoutX="1165.0" layoutY="141.0">
+            <children>
+                <TextField fx:id="searchbar_id" styleClass="search-bar" />
+            </children>
+        </HBox>
+
+    </children>
+    </VBox>
+    </SplitPane>
+    </center>
+</BorderPane>
