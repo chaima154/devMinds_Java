@@ -8,6 +8,9 @@ public class user {
     private String prenom;
     private String role;
 
+    public user(int id, String text, String text1, String text2) {
+    }
+
     //Getters & Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

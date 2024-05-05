@@ -45,11 +45,16 @@ public class userService implements Iuser<user> {
     //Update User methode
     @Override
     public void updateUser(user user, int id) {
-        String passwordencrypted = encrypt(user.getMdp());
+        String passwordencrypted = user.getMdp(); // Assign the password as it is, without encryption if it's null
+
+        if (user.getMdp() != null) {
+            passwordencrypted = encrypt(user.getMdp()); // Encrypt the password if it's not null
+        }
 
         String query = "UPDATE user " +
-                "SET email = ?, mdp = ?, penom = ?, nom = ? "+
-                "WHERE user_id = ?";
+                "SET email = ?, mdp = ?, prenom = ?, nom = ? "+
+                "WHERE id = ?";
+        ;
         try {
             PreparedStatement preparedStatement = MyConnection.getInstance().getCnx().prepareStatement(query);
             preparedStatement.setString(1, user.getEmail());
@@ -64,6 +69,8 @@ public class userService implements Iuser<user> {
             throw new RuntimeException(e);
         }
     }
+
+
 
     //Delete User methode
     @Override
@@ -146,6 +153,9 @@ public class userService implements Iuser<user> {
 
     //Methode to encrypt the Username password
     public static String encrypt(String input) {
+        if (input == null) {
+            throw new IllegalArgumentException("Input cannot be null.");
+        }
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] messageDigest = md.digest(input.getBytes());
