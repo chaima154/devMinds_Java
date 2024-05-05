@@ -28,7 +28,7 @@ public class LoginService extends Service<Boolean> {
             protected Boolean call() throws Exception {
                 // Créer une requête SQL en fonction du rôle
                 String query = "SELECT * FROM user WHERE email = ? AND mdp = ? AND role = ?";
-                try (Connection connection = MyConnection.getInstance().getCnx();
+                try (Connection connection = MyConnection.getConnection();
                      PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                     preparedStatement.setString(1, email);
                     preparedStatement.setString(2, mdp);

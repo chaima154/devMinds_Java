@@ -7,11 +7,12 @@ package tn.devMinds.test;
         import tn.devMinds.iservices.UserService;
         import tn.devMinds.tools.MyConnection;
         import java.io.IOException;
+        import java.sql.SQLException;
         import java.util.ArrayList;
 
 public class MainFx extends Application {
    // MyConnection mc = new MyConnection();
-   public static void main(String[] args) {
+   public static void main(String[] args) throws SQLException {
        UserService userService = new UserService();
 
        // Récupérer toutes les données des utilisateurs depuis la base de données

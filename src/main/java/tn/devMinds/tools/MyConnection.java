@@ -1,33 +1,29 @@
 package tn.devMinds.tools;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MyConnection {
-    private String url="jdbc:mysql://localhost:3306/db_bank";
-    private String login="root";
-    private String pwd="";
-    public static MyConnection instance;
-    Connection cnx;
-    public MyConnection(){
-        try {
-            cnx = DriverManager.getConnection(url,login,pwd);
-            System.out.println(("Connexion établie...."));
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            System.out.println(("could not connect to database"));
-        }
+    private static final String url = "jdbc:mysql://localhost:3306/db_bank?autoReconnect=true";
+    private static final String username = "root";
+    private static final String password = "";
+    private static final int maximumPoolSize = 10;
+
+    private static HikariDataSource dataSource;
+
+    static {
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(url);
+        config.setUsername(username);
+        config.setPassword(password);
+        config.setMaximumPoolSize(maximumPoolSize);
+        dataSource = new HikariDataSource(config);
     }
 
-    public Connection getCnx() {
-        return cnx;
-    }
-
-    public static MyConnection getInstance() {
-        if(instance == null){
-            instance = new MyConnection();
-        }
-        return instance;
+    public static Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
     }
 }

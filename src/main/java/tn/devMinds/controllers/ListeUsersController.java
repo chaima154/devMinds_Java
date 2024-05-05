@@ -32,7 +32,7 @@ public class ListeUsersController extends BackendHome {
 
     private UserService userService;
 
-    public ListeUsersController() {
+    public ListeUsersController() throws SQLException {
         userService = new UserService();
     }
 

@@ -45,7 +45,7 @@ public class ModifierUserController extends BackendHome {
     private User user;
 
 
-    public ModifierUserController() {
+    public ModifierUserController() throws SQLException {
         userService = new UserService();
         this.user = user;
 

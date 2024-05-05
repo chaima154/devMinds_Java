@@ -12,8 +12,8 @@ import java.util.List;
 public class UserService implements IService<User> {
     private Connection cnx;
 
-    public UserService() {
-        cnx = MyConnection.getInstance().getCnx();
+    public UserService() throws SQLException {
+        cnx = MyConnection.getConnection();
     }
 
 
