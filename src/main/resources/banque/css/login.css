@@ -68,3 +68,8 @@
 .error_lbl{
     -fx-text-fill: #FF0000;
 }
+.hyperlink {
+    -fx-text-fill: blue; /* Couleur du texte du lien */
+    -fx-underline: true; /* Souligner le texte */
+    -fx-cursor: hand; /* Afficher le curseur de la main lors du survol */
+}

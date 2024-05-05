@@ -1,16 +1,16 @@
 package tn.devMinds.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import tn.devMinds.iservices.LoginService;
 
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class LoginController {
@@ -28,6 +28,9 @@ public class LoginController {
     private Label errorLabel;
     @FXML
     private Button login_btn;
+    @FXML
+    private Hyperlink forgotPasswordLink;
+
 
     @FXML
     public void initialize() {
@@ -86,4 +89,44 @@ public class LoginController {
 
         loginService.start();
     }
+/*
+    @FXML
+    public void handleSendVerificationCode(ActionEvent event) {
+        // Récupérer l'email de l'utilisateur (peut-être à partir d'un champ de texte dans votre interface utilisateur)
+        String userEmail = emailField.getText(); // Supposons que emailField soit le champ de texte où l'utilisateur saisit son adresse e-mail
+
+        // Générer un code de vérification
+        String verificationCode = VerificationCodeGenerator.generateVerificationCode(userEmail);
+
+        // Envoyer le code de vérification par e-mail
+        EmailService emailService = new EmailService(userEmail, verificationCode);
+        emailService.start();
+    }*/
+
+    @FXML
+    public void handleForgotPassword(ActionEvent event) {
+        try {
+            // Charger la vue de la page de réinitialisation de mot de passe depuis son fichier FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ForgotPassword.fxml"));
+            Parent root = loader.load();
+
+            // Obtenir le contrôleur de la page de réinitialisation de mot de passe
+            ForgotPasswordController forgotPasswordController = loader.getController();
+
+            // Créer une nouvelle scène avec la vue chargée
+            Scene scene = new Scene(root);
+
+            // Récupérer la fenêtre principale à partir du bouton de login
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Changer la scène de la fenêtre principale pour afficher la page de réinitialisation de mot de passe
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Gérer les erreurs lors du chargement de la vue de la page de réinitialisation de mot de passe
+        }
+    }
+
+
 }
