@@ -43,6 +43,16 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>10.1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.bhaskarkh</groupId>
+            <artifactId>PdfInvoiceCreator</artifactId>
+            <version>1.0.1</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

@@ -99,7 +99,7 @@
             <String fx:value="shadow" />
          </styleClass>
          <ImageView fx:id="cinImage" fitHeight="127.0" fitWidth="236.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" />
-         <Button fx:id="cin_Btn" onMouseClicked="#addClientInsertImage" layoutY="101.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="236.0" styleClass="import-btn" text="Import CIN" />
+         <Button fx:id="cin_Btn" layoutY="101.0" mnemonicParsing="false" onMouseClicked="#addClientInsertImage" prefHeight="26.0" prefWidth="236.0" styleClass="import-btn" text="Import CIN" />
       </AnchorPane>
       <ChoiceBox fx:id="typeSecteur" layoutX="271.0" layoutY="610.0" prefWidth="158.0" AnchorPane.bottomAnchor="105.0" AnchorPane.leftAnchor="271.0" AnchorPane.topAnchor="608.0" />
       <Label layoutX="627.0" layoutY="323.0" text="Statut de crédit">
@@ -108,11 +108,11 @@
          </font>
       </Label>
       <ChoiceBox fx:id="statutCredit" layoutX="627.0" layoutY="345.0" prefWidth="158.0" />
-      <Button fx:id="add_btn" layoutX="374.0" layoutY="678.0" mnemonicParsing="false" onAction="#handleAddCredit" prefHeight="41.0" prefWidth="94.0" text="Add" />
-      <Button fx:id="update_btn" layoutX="273.0" layoutY="678.0" mnemonicParsing="false" onAction="#handleEdit" prefHeight="41.0" prefWidth="94.0" text="Update" />
-      <Button fx:id="delete_btn" layoutX="126.0" layoutY="678.0" mnemonicParsing="false" onAction="#handleDelete" prefHeight="41.0" prefWidth="94.0" text="Delete" />
-      <Button fx:id="clear_btn" layoutX="23.0" layoutY="678.0" mnemonicParsing="false" onAction="#addCreditReset" prefHeight="41.0" prefWidth="94.0" text="Clear" AnchorPane.leftAnchor="23.0" />
-      <Button fx:id="tranches_btn" layoutX="575.0" layoutY="678.0" mnemonicParsing="false" onAction="#handleTranche" prefHeight="42.0" prefWidth="236.0" text="Tranches" />
+      <Button fx:id="add_btn" layoutX="374.0" layoutY="678.0" mnemonicParsing="false" onAction="#handleAddCredit" prefHeight="41.0" prefWidth="94.0" styleClass="add-btn" text="Add" />
+      <Button fx:id="update_btn" layoutX="273.0" layoutY="678.0" mnemonicParsing="false" onAction="#handleEdit" prefHeight="41.0" prefWidth="94.0" styleClass="update-btn" text="Update" />
+      <Button fx:id="delete_btn" layoutX="126.0" layoutY="678.0" mnemonicParsing="false" onAction="#handleDelete" prefHeight="41.0" prefWidth="94.0" styleClass="delete-btn" text="Delete" />
+      <Button fx:id="clear_btn" layoutX="23.0" layoutY="678.0" mnemonicParsing="false" onAction="#addCreditReset" prefHeight="41.0" prefWidth="94.0" styleClass="clear-btn" text="Clear" AnchorPane.leftAnchor="23.0" />
+      <Button fx:id="tranches_btn" layoutX="575.0" layoutY="678.0" mnemonicParsing="false" onAction="#handleTranche" prefHeight="42.0" prefWidth="236.0" styleClass="tranches-btn" text="Tranches" />
       <Label layoutX="25.0" layoutY="475.0" text="Informations de Client:" textFill="#737373">
          <font>
             <Font size="18.0" />

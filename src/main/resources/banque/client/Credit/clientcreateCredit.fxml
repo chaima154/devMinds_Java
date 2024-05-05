@@ -30,7 +30,7 @@
             </VBox>
          </HBox>
          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type de Crédit" />
-         <ChoiceBox fx:id="typeCredit" prefWidth="150.0" />
+         <ChoiceBox fx:id="typeCredit" prefWidth="234.0" />
          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Information utilisateur" />
          <HBox prefHeight="136.0" prefWidth="578.0" styleClass="create_client_container-VBox2">
             <VBox prefHeight="107.0" prefWidth="249.0">

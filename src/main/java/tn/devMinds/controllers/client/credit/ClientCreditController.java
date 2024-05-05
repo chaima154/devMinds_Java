@@ -11,17 +11,13 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import tn.devMinds.models.Credit;
 import tn.devMinds.sercices.CreditCrud;
-import tn.devMinds.tools.MyConnection;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class ClientCreditController implements Initializable {
@@ -29,12 +25,11 @@ public class ClientCreditController implements Initializable {
     @FXML
     public ChoiceBox <String> typeCredit;
     @FXML
-    public TextField montantCredit;
+    public Spinner <Double> montantCredit;
     @FXML
-    public TextField tauxInteret;
-
+    public Spinner <Double> tauxInteret;
     @FXML
-    public TextField duree;
+    public Spinner <Integer> duree;
     @FXML
     public Button listeCredit_btn;
     @FXML
@@ -53,12 +48,103 @@ public class ClientCreditController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeChoiceBoxes();
+        setupSpinners();
     }
 
     private void initializeChoiceBoxes(){
         ObservableList<String> typeOptions = FXCollections.observableArrayList("Crédit à la consommation ", "Crédit automobile", "Crédit immobilier", "Prêts étudiants", "Prêts commerciaux");
         typeCredit.setItems(typeOptions);
     }
+
+    private void setupSpinners() {
+        // Setup montantCredit spinner
+        SpinnerValueFactory.DoubleSpinnerValueFactory montantCreditFactory =
+                new SpinnerValueFactory.DoubleSpinnerValueFactory(1000, 10000000, 1000);
+        montantCreditFactory.setConverter(new StringConverter<Double>() {
+            @Override
+            public String toString(Double value) {
+                if (value == null) {
+                    return "";
+                }
+                return new DecimalFormat("#,###").format(value); // Format value with comma separators
+            }
+
+            @Override
+            public Double fromString(String string) {
+                try {
+                    if (string == null || string.isEmpty()) {
+                        return 1000.0; // Default value if input is empty
+                    }
+                    // Parse the string as a double and return it
+                    return Double.parseDouble(string.replaceAll(",", "")); // Remove comma separators
+                } catch (NumberFormatException ex) {
+                    // Return 0 if the string cannot be parsed
+                    return 1000.0; // Default value if input is invalid
+                }
+            }
+        });
+        montantCredit.setValueFactory(montantCreditFactory);
+        montantCredit.setEditable(true); // Allow editing
+
+        // Setup duree spinner
+        SpinnerValueFactory.IntegerSpinnerValueFactory dureeFactory =
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(3, 300, 3);
+        dureeFactory.setConverter(new StringConverter<Integer>() {
+            @Override
+            public String toString(Integer value) {
+                if (value == null) {
+                    return "";
+                }
+                return value.toString();
+            }
+
+            @Override
+            public Integer fromString(String string) {
+                try {
+                    if (string == null || string.isEmpty()) {
+                        return 3; // Default value if input is empty
+                    }
+                    // Parse the string as an integer and return it
+                    return Integer.parseInt(string);
+                } catch (NumberFormatException ex) {
+                    // Return 0 if the string cannot be parsed
+                    return 3; // Default value if input is invalid
+                }
+            }
+        });
+        duree.setValueFactory(dureeFactory);
+        duree.setEditable(true); // Allow editing
+
+        // Setup tauxInteret spinner
+        SpinnerValueFactory.DoubleSpinnerValueFactory tauxInteretFactory =
+                new SpinnerValueFactory.DoubleSpinnerValueFactory(5, 15, 5);
+        tauxInteretFactory.setConverter(new StringConverter<Double>() {
+            @Override
+            public String toString(Double value) {
+                if (value == null) {
+                    return "";
+                }
+                return new DecimalFormat("#,##").format(value); // Format value with comma separators
+            }
+
+            @Override
+            public Double fromString(String string) {
+                try {
+                    if (string == null || string.isEmpty()) {
+                        return 5.0; // Default value if input is empty
+                    }
+                    // Parse the string as a double and return it
+                    return Double.parseDouble(string.replaceAll(",", "")); // Remove comma separators
+                } catch (NumberFormatException ex) {
+                    // Return 0 if the string cannot be parsed
+                    return 5.0; // Default value if input is invalid
+                }
+            }
+        });
+        tauxInteret.setValueFactory(tauxInteretFactory);
+        tauxInteret.setEditable(true); // Allow editing
+    }
+
 
     @FXML
     private void openForm(){
@@ -103,9 +189,9 @@ public class ClientCreditController implements Initializable {
     private void handleSimulation() {
         if (isInputValid()) {
             int Compteid = 5;
-            double MontantCredit = Double.parseDouble(montantCredit.getText());
-            int Duree = Integer.parseInt(duree.getText());
-            double TauxInteret = Double.parseDouble(tauxInteret.getText());
+            double MontantCredit = montantCredit.getValue();
+            int Duree = duree.getValue();
+            double TauxInteret = tauxInteret.getValue();
             String TypeCredit = typeCredit.getValue();
             Credit credit = new Credit(MontantCredit, Duree, TauxInteret, TypeCredit, Compteid);
             handleCreation(credit);
@@ -117,11 +203,11 @@ public class ClientCreditController implements Initializable {
 
         ///////////////////////////ASSURER NON VIDE//////////////////////////////
         //montantCredit vide
-        if (montantCredit.getText() == null || montantCredit.getText().isEmpty()) {
+        if (montantCredit.getValue() == null) {
             errorMessage += "Montant de crédit est vide!\n";
         } else {
             try {
-                double value = Double.parseDouble(montantCredit.getText());
+                double value = montantCredit.getValue();
                 // Check if montant is below a certain number
                 if (value < 1000) {
                     errorMessage += "Montant de crédit est inférieur à " + 1000 + "!\n";
@@ -137,11 +223,11 @@ public class ClientCreditController implements Initializable {
 
 
         //duree vide
-        if (duree.getText() == null || duree.getText().isEmpty()) {
+        if (duree.getValue() == null) {
             errorMessage += "Durée est vide!\n";
         } else {
             try {
-                double value = Integer.parseInt(duree.getText());
+                double value = duree.getValue();
                 // Check if durée is below a certain number
                 if (value < 3) {
                     errorMessage += "Durée de crédit est inférieur à " + 3 + "!\n";
@@ -156,11 +242,11 @@ public class ClientCreditController implements Initializable {
         }
 
         //tauxInteret vide
-        if (tauxInteret.getText() == null || tauxInteret.getText().isEmpty()) {
+        if (tauxInteret.getValue() == null) {
             errorMessage += "Taux d'intérêt est vide!\n";
         } else {
             try {
-                double value = Double.parseDouble(tauxInteret.getText());
+                double value = tauxInteret.getValue();
                 // Check if Taux d'intérêt is below a certain number
                 if (value < 5) {
                     errorMessage += "Taux d'intérêt de crédit est inférieur à " + 5 + "!\n";

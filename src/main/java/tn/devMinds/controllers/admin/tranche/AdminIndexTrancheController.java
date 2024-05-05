@@ -90,16 +90,12 @@ public class AdminIndexTrancheController implements Initializable {
             String searchKey = newValue.toLowerCase();
 
             if (String.valueOf(predicateTranche.getId()).contains(searchKey)) {
-                System.out.println("id True");
                 return true;
             } else if (String.valueOf(predicateTranche.getMontantPaiement()).contains(searchKey)) {
-                System.out.println("getMontantPaiement True");
                 return true;
             } else if (predicateTranche.getDateEcheance().toString().contains(searchKey)) {
-                System.out.println("getDateEcheance True");
                 return true;
             } else if (predicateTranche.getStatutPaiement().toLowerCase().contains(searchKey)) {
-                System.out.println("getStatutPaiement True");
                 return true;
             }else return false;
         }));
@@ -108,7 +104,6 @@ public class AdminIndexTrancheController implements Initializable {
         trancheTableView.setItems(sortList);
 
         sortList.comparatorProperty().bind(trancheTableView.comparatorProperty());
-        System.out.println(sortList);
         trancheTableView.setItems(sortList);
 
     }

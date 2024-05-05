@@ -24,7 +24,6 @@ public class ClientIndexCreditController implements Initializable{
 
     void showCredits(int id) {
         ObservableList<Credit> credits = creditCrud.readById(id);
-        System.out.println("credit list here" + credits);
         credit_listview.setCellFactory(param -> new ClientCreditCellFactory());
 
         credit_listview.setItems(credits);
@@ -40,28 +39,20 @@ public class ClientIndexCreditController implements Initializable{
             String searchKey = newValue.toLowerCase();
 
             if (String.valueOf(predicateCredit.getId()).contains(searchKey)) {
-                System.out.println("id True");
                 return true;
             } else if (String.valueOf(predicateCredit.getCompteId()).contains(searchKey)) {
-                System.out.println("getCompteId True");
                 return true;
             } else if (String.valueOf(predicateCredit.getMontantCredit()).contains(searchKey)) {
-                System.out.println("getMontantCredit True");
                 return true;
             } else if (String.valueOf(predicateCredit.getDuree()).contains(searchKey)) {
-                System.out.println("getDuree True");
                 return true;
             } else if (String.valueOf(predicateCredit.getTauxInteret()).contains(searchKey)) {
-                System.out.println("getTauxInteret True");
                 return true;
             } else if (predicateCredit.getDateObtention().toString().contains(searchKey)) {
-                System.out.println("getDateObtention True");
                 return true;
             } else if (predicateCredit.getStatutCredit().toLowerCase().contains(searchKey)) {
-                System.out.println("getStatutCredit True");
                 return true;
             } else if (predicateCredit.getTypeCredit().toLowerCase().contains(searchKey)){
-                System.out.println("getTypeCredit True");
                 return true;
             }else return false;
         }));

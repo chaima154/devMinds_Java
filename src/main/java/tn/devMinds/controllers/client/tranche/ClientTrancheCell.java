@@ -23,7 +23,6 @@ public class ClientTrancheCell implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("hellow darkness");
         setTranche(tranche);
     }
 

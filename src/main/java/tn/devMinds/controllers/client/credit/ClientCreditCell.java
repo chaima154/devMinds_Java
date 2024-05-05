@@ -3,6 +3,7 @@ package tn.devMinds.controllers.client.credit;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -71,12 +72,13 @@ public class ClientCreditCell implements Initializable {
         }else {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/client/Tranche/tranche.fxml"));
-                ClientIndexTrancheController controller = new ClientIndexTrancheController();
+                Parent root = loader.load();
+                ClientIndexTrancheController controller = loader.getController();
                 controller.showTranches(credit);
                 Stage stage = new Stage();
                 stage.setResizable(false);
                 stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setScene(new Scene(loader.load()));
+                stage.setScene(new Scene(root));
                 stage.showAndWait();
             } catch (IOException e) {
                 e.printStackTrace(System.out);

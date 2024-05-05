@@ -260,8 +260,6 @@ public class ClientCreateCredit implements Initializable {
 
             File cinCopy = new File(cinDirectory, cinName);
 
-            System.out.println("successfully copied cin" + getData.path);
-
             try {
                 Files.copy(getData.path, cinCopy.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
@@ -271,7 +269,6 @@ public class ClientCreateCredit implements Initializable {
                 // Set the image view with the copy
                 cinImage.setImage(image);
 
-                System.out.println("successfully copied cin" + cinCopy.getAbsolutePath());
                 return (cinCopy.getAbsolutePath());
             } catch (IOException e) {
                 e.printStackTrace(System.out);

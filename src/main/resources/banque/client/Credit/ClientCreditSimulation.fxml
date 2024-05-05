@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
@@ -14,12 +14,12 @@
       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="create_client_container-Title" text="Simuler Un Crédit" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type de Crédit" />
       <ChoiceBox fx:id="typeCredit" prefWidth="150.0" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Montant Crédit" />
-      <TextField fx:id="montantCredit" prefWidth="507.0" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Taux d'Intérêt" />
-      <TextField fx:id="tauxInteret" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Durée" />
-      <TextField fx:id="duree" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Montant Crédit (TND)" />
+      <Spinner fx:id="montantCredit" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Taux d'Intérêt (%)" />
+      <Spinner fx:id="tauxInteret" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Durée (Par Mois)" />
+      <Spinner fx:id="duree" />
       <Button fx:id="simuler_btn" mnemonicParsing="false" onAction="#handleSimulation" text="Simuler Crédit">
          <VBox.margin>
             <Insets top="20.0" />

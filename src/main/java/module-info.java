@@ -3,12 +3,15 @@ module com.example.projet {
     requires javafx.fxml;
 
     requires java.sql;
-
-
+    requires twilio;
+    requires kernel;
+    requires layout;
+    requires PdfInvoiceCreator;
     exports tn.devMinds.models;
     exports tn.devMinds.views;
     exports tn.devMinds.controllers;
     exports tn.devMinds.controllers.admin;
+    exports tn.devMinds.controllers.client.tranche;
     exports tn.devMinds.controllers.client;
 
     opens tn.devMinds.test;

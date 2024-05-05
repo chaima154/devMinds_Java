@@ -1,5 +1,7 @@
 package tn.devMinds.controllers.admin.credit;
 
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -92,11 +94,12 @@ public class AdminIndexCreditController implements Initializable {
     public TableColumn <Credit, String> creditTableView_StatutCredit;
     @FXML
     public TableColumn <Credit, String> creditTableView_TypeCredit;
+    public static final String ACCOUNT_SID = "ACc3bc97fbd7d7fdc0e57c7a5e6e6be5f4";
+    public static final String AUTH_TOKEN = "283c8bb0a5cce6f84d26a7ab0504ad76";
     private Image image;
     ObservableList<Credit> credits;
     private final CreditCrud creditCrud = new CreditCrud();
     private final TrancheCrud trancheCrud = new TrancheCrud();
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showCredits();
@@ -180,7 +183,7 @@ public class AdminIndexCreditController implements Initializable {
         if (getData.path != null) {
             String cinName = "Cin_" + credit.getId() + ".png";
 
-            File cinDirectory = new File("tn.devMinds/controllers/admin/credit/cin_copies");
+            File cinDirectory = new File("C:/Users/nacer/Downloads/Cour/S2/Projet/java/new/devMinds_Java/src/main/resources/banque/images/Cin_Copies");
             if (!cinDirectory.exists()) {
                 cinDirectory.mkdirs();
             }
@@ -230,28 +233,20 @@ public class AdminIndexCreditController implements Initializable {
             String searchKey = newValue.toLowerCase();
 
             if (String.valueOf(predicateCredit.getId()).contains(searchKey)) {
-                System.out.println("id True");
                 return true;
             } else if (String.valueOf(predicateCredit.getCompteId()).contains(searchKey)) {
-                System.out.println("getCompteId True");
                 return true;
             } else if (String.valueOf(predicateCredit.getMontantCredit()).contains(searchKey)) {
-                System.out.println("getMontantCredit True");
                 return true;
             } else if (String.valueOf(predicateCredit.getDuree()).contains(searchKey)) {
-                System.out.println("getDuree True");
                 return true;
             } else if (String.valueOf(predicateCredit.getTauxInteret()).contains(searchKey)) {
-                System.out.println("getTauxInteret True");
                 return true;
             } else if (predicateCredit.getDateObtention().toString().contains(searchKey)) {
-                System.out.println("getDateObtention True");
                 return true;
             } else if (predicateCredit.getStatutCredit().toLowerCase().contains(searchKey)) {
-                System.out.println("getStatutCredit True");
                 return true;
             } else if (predicateCredit.getTypeCredit().toLowerCase().contains(searchKey)){
-                System.out.println("getTypeCredit True");
                 return true;
             }else return false;
         }));
@@ -260,7 +255,6 @@ public class AdminIndexCreditController implements Initializable {
         creditTableView.setItems(sortList);
 
         sortList.comparatorProperty().bind(creditTableView.comparatorProperty());
-        System.out.println(sortList);
         creditTableView.setItems(sortList);
 
     }
@@ -555,6 +549,7 @@ public class AdminIndexCreditController implements Initializable {
         Credit credit = creditTableView.getSelectionModel().getSelectedItem();
         if(credit.getStatutCredit().equals("Approuvé") && trancheCrud.readById(credit.getId()).isEmpty()){
             trancheCrud.create(credit);
+            sendSMS(credit);
         }
         if (credit == null) {
             return;
@@ -581,6 +576,16 @@ public class AdminIndexCreditController implements Initializable {
                 e.printStackTrace(System.out);
             }
         }
+
+    }
+
+    void sendSMS(Credit credit) {
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+        Message message = Message.creator(
+                        new com.twilio.type.PhoneNumber("+21654025328"),
+                        new com.twilio.type.PhoneNumber("+15054665064"), "Félicitation !!! Votre Crédit #" + credit.getId() + " de type " + credit.getTypeCredit() + " a été approuvé. Veuillez consulter l'application pour accéder l'emploi des tranches.")
+                .create();
+        System.out.println(message.getSid());
     }
 
 }

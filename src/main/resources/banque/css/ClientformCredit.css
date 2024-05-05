@@ -30,6 +30,12 @@
     -fx-font-size: 1.8em;
     -fx-effect: dropshadow(three-pass-box, #AAAAAA, 0, 0, 0, 3);
     }
+.create_client_container Spinner {
+    -fx-pref-width: 250;
+    -fx-background-color: #FFFFFF;
+    -fx-font-size: 1.4em;
+    -fx-effect: dropshadow(three-pass-box, #AAAAAA, 0, 0, 0, 3);
+}
 
 .create_client_container ChoiceBox {
     -fx-pref-width: 250;
