@@ -22,7 +22,6 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.scene.control.Alert;
 public class AddTypeCardAdmin implements Initializable {
-
     @FXML
     private TableColumn<TypeCard, String> descriptionCol;
     @FXML
@@ -112,8 +111,6 @@ public class AddTypeCardAdmin implements Initializable {
         statuts = cbstatus.getValue();
         System.out.println(statuts);
     }
-
-
 private void reload()
 {descriptionCol.setCellValueFactory(new PropertyValueFactory<>("statusTypeCarte"));
     statuscol.setCellValueFactory(new PropertyValueFactory<>("descriptionCarte"));
@@ -121,7 +118,6 @@ private void reload()
     fraiscol.setCellValueFactory(new PropertyValueFactory<>("frais"));
     try {
         tableview.setItems(initialData());
-
     } catch (SQLException e) {
         throw new RuntimeException(e);
     }}

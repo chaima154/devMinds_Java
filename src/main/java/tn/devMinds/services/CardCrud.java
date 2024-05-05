@@ -175,7 +175,10 @@ public class CardCrud implements  IService<Card>{
         try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)){
             if(stat.equals("active"))
             { pst.setString(1,"inactive");}
-            else { pst.setString(1,"active");}
+            else if(stat.equals("inactive"))
+            { pst.setString(1,"active");}
+           else if(stat.equals("Lost")){pst.setString(1,"Lost");}
+
             pst.setInt(2,id);
             int rowsAffected = pst.executeUpdate();
             if (rowsAffected > 0) {
@@ -407,6 +410,23 @@ public class CardCrud implements  IService<Card>{
 
     public boolean updateSoldeCompte(int id,Double solde) throws SQLException {
         String requete="UPDATE `compte` SET `solde`=`solde`-?" +
+                " WHERE id=?";
+        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)){
+
+            pst.setDouble(1,+solde);
+            pst.setInt(2,id);
+            int rowsAffected = pst.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("solde du compte with ID " + id + " updated successfully");
+                return true;
+            } else {
+                System.out.println("No compte found with ID: " + id);
+                return false;
+            }
+        }
+    }
+    public boolean updateSoldeCompteplus(int id,Double solde) throws SQLException {
+        String requete="UPDATE `compte` SET `solde`=`solde`+?" +
                 " WHERE id=?";
         try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)){
 

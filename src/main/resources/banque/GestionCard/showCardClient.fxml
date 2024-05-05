@@ -6,17 +6,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="712.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.GestionCard.ShowCardClient">
+<AnchorPane prefHeight="721.0" prefWidth="1035.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.GestionCard.ShowCardClient">
    <children>
-      <Pane fx:id="paneCardPrinciapl" layoutX="70.0" layoutY="14.0" prefHeight="383.0" prefWidth="773.0" />
-      <TableView fx:id="tableView" layoutX="134.0" layoutY="453.0" prefHeight="200.0" prefWidth="705.0">
+      <Pane fx:id="paneCardPrinciapl" layoutX="139.0" layoutY="28.0" prefHeight="383.0" prefWidth="773.0" />
+      <TableView fx:id="tableView" layoutX="2.0" layoutY="460.0" prefHeight="236.0" prefWidth="1026.0" stylesheets="@../css/showCardAdmin.css">
         <columns>
-          <TableColumn fx:id="numero" prefWidth="169.6000518798828" text="Numero" />
-          <TableColumn fx:id="csv" prefWidth="58.39996337890625" text="Csv" />
-            <TableColumn fx:id="datexp" prefWidth="163.99993896484375" text="DateExp" />
-            <TableColumn fx:id="solde" minWidth="0.800048828125" prefWidth="59.20001220703125" text="Solde" />
+          <TableColumn fx:id="numero" prefWidth="157.60000324249268" text="Numero" />
+          <TableColumn fx:id="csv" prefWidth="71.20001220703125" text="Csv" />
+            <TableColumn fx:id="datexp" prefWidth="223.2000274658203" text="DateExp" />
+            <TableColumn fx:id="solde" minWidth="0.800048828125" prefWidth="72.79998779296875" text="Solde" />
         </columns>
       </TableView>
-      <Button fx:id="notif" layoutX="37.0" layoutY="553.0" mnemonicParsing="false" onAction="#notifi" text="Button" />
+      <Button fx:id="notif" layoutX="14.0" layoutY="427.0" mnemonicParsing="false" onAction="#notifi" stylesheets="@../css/showCardAdmin.css" text="Button" />
    </children>
 </AnchorPane>
