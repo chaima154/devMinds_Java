@@ -55,30 +55,34 @@ public class ModifierUserController extends BackendHome {
 
 
     public void updateUser(int userId) {
-        // Récupérer les nouvelles informations de l'utilisateur depuis les champs du formulaire
+        // Retrieve new user information from form fields
         String nom = firstNameField.getText();
         String prenom = lastNameField.getText();
         String email = emailField.getText();
-        String mdp = passwordField.getText(); // Mot de passe non haché
+        Role role = roleComboBox.getValue();
 
+        // Hash the password with BCrypt if it's not empty
+        String mdp = passwordField.getText();
+        if (!mdp.isEmpty()) {
+            String hashedPassword = BCrypt.hashpw(mdp, BCrypt.gensalt());
+            user.setMdp(hashedPassword);
+        }
 
-        // Hasher le mot de passe avec Bcrypt
-        String hashedPassword = BCrypt.hashpw(mdp, BCrypt.gensalt());
-
-        // Créer un nouvel objet User avec les nouvelles informations
+        // Create a new User object with the updated information
         User updatedUser = new User();
         updatedUser.setNom(nom);
         updatedUser.setPrenom(prenom);
         updatedUser.setEmail(email);
-        updatedUser.setMdp(hashedPassword); // Enregistrer le mot de passe haché
+        updatedUser.setMdp(user.getMdp()); // Use the hashed password
+        updatedUser.setRole(role);
 
-        // Appeler la méthode de mise à jour dans le service UserService
+        // Call the update method in the UserService
         String errorMessage = userService.update(updatedUser, userId);
         if (errorMessage == null) {
-            // La mise à jour a réussi
+            // Update successful
             System.out.println("L'utilisateur a été mis à jour avec succès.");
         } else {
-            // Afficher un message d'erreur
+            // Display an error message
             System.out.println("Erreur lors de la mise à jour de l'utilisateur : " + errorMessage);
         }
     }
@@ -160,30 +164,21 @@ public class ModifierUserController extends BackendHome {
             String nom = firstNameField.getText();
             String prenom = lastNameField.getText();
             String email = emailField.getText();
-            String mdp = passwordField.getText();
             Role role = roleComboBox.getValue();
 
             user.setNom(nom);
             user.setPrenom(prenom);
             user.setEmail(email);
-            user.setMdp(mdp);
             user.setRole(role);
 
-            String errorMessage = userService.update(user, user.getId());
-            if (errorMessage == null) {
-                // Update successful
-                System.out.println("L'utilisateur a été mis à jour avec succès.");
-            } else {
-                // Display an error message
-                System.out.println("Erreur lors de la mise à jour de l'utilisateur : " + errorMessage);
-            }
+            // Call updateUser method to update user data
+            updateUser(user.getId());
 
             // Close the form window
             Stage stage = (Stage) firstNameField.getScene().getWindow();
             stage.close();
         }
     }
-
     @FXML
     public void handleDeleteUser(ActionEvent actionEvent) throws SQLException {
         // Confirmation dialog for delete action
