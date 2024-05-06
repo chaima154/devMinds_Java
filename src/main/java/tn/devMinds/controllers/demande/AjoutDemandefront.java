@@ -20,7 +20,6 @@ import java.util.List;
 
 public class AjoutDemandefront {
     ObservableList<String> modeplist = FXCollections.observableArrayList("mensuel","trimestiel","annual");
-    private DemandefrontListController demandListController;
     @FXML
     private Button retourbtn;
 
@@ -53,7 +52,6 @@ public class AjoutDemandefront {
 
 
     private String selectedAssuranceName; // Moved declaration here
-    private tn.devMinds.controllers.demande.DemandefrontListController DemandefrontListController;
 
     @FXML
     void addDemande(ActionEvent event) {
@@ -137,7 +135,6 @@ public class AjoutDemandefront {
             // Close the stage after showing the success message
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             stage.close();
-            DemandefrontListController.showList(DemandefrontListController.getAllList()); // Assuming this method exists
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -182,9 +179,6 @@ public class AjoutDemandefront {
             // stage.setScene(previousScene);
         });
 
-    }
-    public void setDemandListController(DemandefrontListController controller) {
-        this.DemandefrontListController = controller;
     }
 
 }

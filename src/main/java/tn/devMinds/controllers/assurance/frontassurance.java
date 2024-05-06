@@ -63,6 +63,7 @@ public class frontassurance implements Initializable {
         AjoutDemandefront ajoutDemandefrontController = loader.getController();
         ajoutDemandefrontController.setSelectedAssuranceName(selectedAssurenceName);
 
+
         // Set up the scene and stage
         Scene demandefrontScene = new Scene(demandefrontParent);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

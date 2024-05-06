@@ -1,5 +1,13 @@
 package tn.devMinds.controllers.demande;
-
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import java.util.Properties;
 import com.itextpdf.text.DocumentException;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import tn.devMinds.controllers.GMailer;
 import tn.devMinds.controllers.GeneratePdf;
 import tn.devMinds.controllers.SideBarre_adminController;
 import tn.devMinds.entities.Assurence;
@@ -126,18 +135,34 @@ public class DemandebackListController implements Initializable {
             private final HBox hbox = new HBox(5, acceptBtn, refuseBtn);
 
             {
+                GMailer gMailer = null;
+                try {
+                    gMailer = new GMailer();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                GMailer finalGMailer = gMailer;
                 acceptBtn.setOnAction(event -> {
                     Demande demande = getTableView().getItems().get(getIndex());
                     demande.setEtat("Accepted");
                     updateDemandeEtat(demande);
                     try {
                         // Generate the PDF contract
-                        GeneratePdf.generateContract(demande, "Contract_" + demande.getId() + ".pdf");
-                    } catch (DocumentException | FileNotFoundException e) {
+                        String pdfFileName = "Contract_" + demande.getId() + ".pdf";
+                        GeneratePdf.generateContract(demande, pdfFileName);
+
+                        // Send email to the owner of the demand using GMailer
+                        Session session = Session.getDefaultInstance(new Properties());
+                        finalGMailer.sendMail(session, demande.getAdresseClient(), "Contract Attached", "Please find attached contract.", pdfFileName);
+
+                    } catch (Exception e) {
                         e.printStackTrace();
-                        // Handle PDF generation error
+                        // Handle PDF generation or email sending error
                     }
                 });
+
+
+
 
 
                 refuseBtn.setOnAction(event -> {
@@ -170,4 +195,6 @@ public class DemandebackListController implements Initializable {
 
     public void ajout(ActionEvent actionEvent) {
     }
+
+
 }

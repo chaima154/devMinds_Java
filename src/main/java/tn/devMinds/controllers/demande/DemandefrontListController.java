@@ -20,6 +20,7 @@ import tn.devMinds.iservices.ServiceDemande;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class DemandefrontListController implements Initializable {
@@ -86,13 +87,28 @@ public class DemandefrontListController implements Initializable {
             {
                 deleteBtn.setOnAction(event -> {
                     Demande demande = getTableView().getItems().get(getIndex());
-                    try {
-                        demandeService.delete(demande);
-                        showList(getAllList());
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmation Dialog");
+                    alert.setHeaderText("Delete Demand");
+                    alert.setContentText("Are you sure you want to delete this demand?");
+
+                    // Add buttons to the alert
+                    ButtonType buttonTypeYes = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+                    ButtonType buttonTypeNo = new ButtonType("No", ButtonBar.ButtonData.NO);
+                    alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+                    // Handle the user's response
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == buttonTypeYes) {
+                        try {
+                            demandeService.delete(demande);
+                            showList(getAllList());
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 });
+
 
                 updateBtn.setOnAction(event -> {
                     Demande demande = getTableView().getItems().get(getIndex());
@@ -123,23 +139,6 @@ public class DemandefrontListController implements Initializable {
         }
     }
 
-    @FXML
-    private void delete(ActionEvent event) {
-        Demande demande = table.getSelectionModel().getSelectedItem();
-        if (demande != null) {
-            try {
-                if (demandeService.delete(demande)) {
-                    showList(getAllList());
-                } else {
-                    System.err.println("Deletion failed.");
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            System.err.println("No item selected for deletion.");
-        }
-    }
 
     public void showList(ObservableList<Demande> observableList) {
         nomClientColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getNomClient()));
@@ -171,4 +170,7 @@ public class DemandefrontListController implements Initializable {
     public void setBorderPane(BorderPane borderPane) {
         this.borderPane = borderPane;
     }
+
+
+
 }

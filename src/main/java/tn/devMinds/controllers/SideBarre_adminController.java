@@ -12,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import tn.devMinds.controllers.assurance.AssuranceListController;
 import tn.devMinds.controllers.assurance.frontassurance;
+import tn.devMinds.controllers.demande.AjoutDemandefront;
 import tn.devMinds.controllers.demande.DemandebackListController;
 import tn.devMinds.controllers.demande.DemandefrontListController;
 
@@ -78,7 +79,7 @@ public class SideBarre_adminController implements Initializable {
         }
     }
     @FXML
-    void demandefront(ActionEvent event) throws IOException {
+    public void demandefront(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/DEMANDE/ListDemandeFront.fxml"));
         Parent parent = loader.load();
         DemandefrontListController Demandelistfront = loader.getController();
@@ -87,8 +88,6 @@ public class SideBarre_adminController implements Initializable {
             this.borderPane.setCenter(parent);
         }
     }
-
-
 
     @FXML
     void goTypeTransaction(MouseEvent event) {

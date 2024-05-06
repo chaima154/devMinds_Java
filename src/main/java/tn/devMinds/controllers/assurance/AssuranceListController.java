@@ -64,7 +64,7 @@ public class AssuranceListController implements Initializable {
         });
     }
 
-    ObservableList<Assurence> getAllList() {
+    public ObservableList<Assurence> getAllList() {
         return FXCollections.observableArrayList(assuranceService.getAllData());
     }
 
