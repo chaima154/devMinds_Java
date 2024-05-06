@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import tn.devMinds.iservices.LoginService;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.awt.event.MouseEvent;
 import java.io.IOException;

@@ -8,6 +8,8 @@ import javafx.scene.layout.VBox;
 import tn.devMinds.entities.User;
 import tn.devMinds.entities.Role;
 import tn.devMinds.iservices.UserService;
+import org.mindrot.jbcrypt.BCrypt;
+
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -46,6 +48,7 @@ public class AjoutUserController extends BackendHome {
         String email = emailField.getText();
         String mdp = passwordField.getText();
         String selectedRoleString = String.valueOf(roleComboBox.getValue());  // Get the selected role as a String
+        String hashedPassword = BCrypt.hashpw(mdp, BCrypt.gensalt());
 
         // Convert the selected role String to Role enum
         Role role;
@@ -110,7 +113,7 @@ public class AjoutUserController extends BackendHome {
         newUser.setNom(nom);
         newUser.setPrenom(prenom);
         newUser.setEmail(email);
-        newUser.setMdp(mdp);
+        newUser.setMdp(hashedPassword);
         newUser.setRole(role);
 
 

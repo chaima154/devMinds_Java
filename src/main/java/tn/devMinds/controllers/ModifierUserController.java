@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import org.mindrot.jbcrypt.BCrypt;
+
 
 public class ModifierUserController extends BackendHome {
 
@@ -57,16 +59,18 @@ public class ModifierUserController extends BackendHome {
         String nom = firstNameField.getText();
         String prenom = lastNameField.getText();
         String email = emailField.getText();
-        String mdp = passwordField.getText();
-        Role role = roleComboBox.getValue();
+        String mdp = passwordField.getText(); // Mot de passe non haché
+
+
+        // Hasher le mot de passe avec Bcrypt
+        String hashedPassword = BCrypt.hashpw(mdp, BCrypt.gensalt());
 
         // Créer un nouvel objet User avec les nouvelles informations
         User updatedUser = new User();
         updatedUser.setNom(nom);
         updatedUser.setPrenom(prenom);
         updatedUser.setEmail(email);
-        updatedUser.setMdp(mdp);
-        updatedUser.setRole(role);
+        updatedUser.setMdp(hashedPassword); // Enregistrer le mot de passe haché
 
         // Appeler la méthode de mise à jour dans le service UserService
         String errorMessage = userService.update(updatedUser, userId);
