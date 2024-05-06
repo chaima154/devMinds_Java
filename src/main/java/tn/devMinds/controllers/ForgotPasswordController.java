@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import tn.devMinds.iservices.EmailService;
+import tn.devMinds.iservices.PasswordService;
 
 import java.security.SecureRandom;
 import java.util.Random;
@@ -16,20 +17,27 @@ public class ForgotPasswordController {
     @FXML
     private Button resetPasswordButton;
 
+
     @FXML
     public void resetPassword() {
         String userEmail = emailField.getText();
-        String resetCode = generateResetCode(); // Generate a unique reset code
-        String subject = "Password Reset"; // Subject of the email
-        String message = "Hello,\n\nYour password reset code is: " + resetCode; // Message body
+        String newPassword = PasswordService.generateRandomPassword(); // Générer un nouveau mot de passe
 
-        // Send the password reset email
+        // Envoyer l'e-mail avec le nouveau mot de passe
+        String subject = "Hello, " + userEmail + "\n\nYour new password is: " + newPassword;
+        String message = "Hello,\n\nYour new password is: " + newPassword; // Utilisez le nouveau mot de passe dans le message
         EmailService emailService = new EmailService(userEmail, subject, message);
+        emailService.setOnSucceeded(event -> {
+            // Mettre à jour le mot de passe dans la base de données après l'envoi de l'e-mail
+            if (emailService.isSentSuccessfully()) {
+                PasswordService.updatePasswordInDatabase(userEmail, newPassword);
+            }
+        });
         emailService.start();
-
-        // Store the reset code temporarily in your storage system for later verification
-        storeResetCode(userEmail, resetCode);
     }
+
+
+
 
     // Define the length of your reset code
     private static final int CODE_LENGTH = 6;
@@ -54,4 +62,14 @@ public class ForgotPasswordController {
     private void storeResetCode(String userEmail, String resetCode) {
         // Implement temporary storage of the reset code in your storage system
     }
+    private String generateRandomPassword() {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+";
+        StringBuilder sb = new StringBuilder();
+        Random random = new SecureRandom();
+        for (int i = 0; i < 10; i++) {
+            sb.append(characters.charAt(random.nextInt(characters.length())));
+        }
+        return sb.toString();
+    }
+
 }

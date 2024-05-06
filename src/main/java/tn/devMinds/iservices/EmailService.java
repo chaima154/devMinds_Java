@@ -7,10 +7,14 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
-
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import tn.devMinds.tools.MyConnection;
 public class EmailService extends Service<Void> {
     private final String recipientEmail;
     private final String verificationCode;
+    private boolean sentSuccessfully;
 
     public EmailService(String recipientEmail, String verificationCode, String message) {
         this.recipientEmail = recipientEmail;
@@ -62,5 +66,30 @@ public class EmailService extends Service<Void> {
         } catch (MessagingException e) {
             System.out.println("Error sending email: " + e.getMessage());
         }
+    }
+    public void updatePasswordInDatabase(String userEmail, String newPassword) {
+        // Définir la requête SQL pour mettre à jour le mot de passe dans la base de données
+        String query = "UPDATE user SET mdp = ? WHERE email = ?";
+
+        try (Connection connection = MyConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            // Définir les paramètres de la requête
+            preparedStatement.setString(1, newPassword);
+            preparedStatement.setString(2, userEmail);
+
+            // Exécuter la requête
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Mot de passe mis à jour avec succès pour l'utilisateur: " + userEmail);
+            } else {
+                System.out.println("Échec de la mise à jour du mot de passe pour l'utilisateur: " + userEmail);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la mise à jour du mot de passe dans la base de données: " + e.getMessage());
+        }
+    }
+    public boolean isSentSuccessfully() {
+        return sentSuccessfully;
     }
 }
