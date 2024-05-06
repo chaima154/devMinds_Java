@@ -3,11 +3,13 @@ package tn.devMinds.controllers.GestionCard;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.AnchorPane;
+import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
 import tn.devMinds.models.TypeCard;
 import tn.devMinds.services.TypeCardCrud;
+import javafx.scene.layout.HBox;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -16,57 +18,40 @@ import java.util.ResourceBundle;
 
 public class addCardNormalClientbutton implements Initializable {
 
+
     @FXML
-    private GridPane gridPane; // GridPane to hold dynamically created card items
-
-    private static final double MAX_TOTAL_HEIGHT = 438.0; // Maximum total height allowed for all cards
-    private static final double MAX_TOTAL_WIDTH = 732.0; // Maximum total width allowed for all cards
-    private static final double CARD_HEIGHT = 100.0; // Height of each card
-    private static final double CARD_WIDTH = 300.0; // Width of each card
-    private static final double ROW_SPACING = 20.0; // Vertical spacing between rows
-    private static final double COLUMN_SPACING = 20.0; // Horizontal spacing between columns
-
+    private GridPane typeCardGrid;
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        // Fetch data from database using TypeCardCrud
-        TypeCardCrud typeCardCrud = new TypeCardCrud();
-        ArrayList<TypeCard> typeCards = null;
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        TypeCardCrud tcc = new TypeCardCrud();
+        TypeCard tc = new TypeCard();
+        ArrayList<TypeCard> list = new ArrayList<>();
         try {
-            typeCards = typeCardCrud.getAll();
+            list = new ArrayList<>(tcc.getAll());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        // Populate UI with data
-        int columnIndex = 0; // Column index for the grid
-        int rowIndex = 0; // Row index for the grid
-        for (TypeCard typeCard : typeCards) {
+int columns=0;
+        int row=1;
+        // Iterate over the list using foreach loop
+        for (TypeCard typeCard : list) {
+            FXMLLoader fxmlLoader=new FXMLLoader();
+         fxmlLoader.setLocation(getClass().getResource("/banque/GestionCard/card_item.fxml"));
+            HBox hboxtypecarte = null;
             try {
-                // Load the card_item.fxml file dynamically
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/GestionCard/card_item.fxml"));
-                AnchorPane cardItem = loader.load();
-
-                // Set the data for the card item
-                card_item controller = loader.getController();
-                controller.initialize(typeCard);
-
-                // Add the card item to the GridPane
-                gridPane.add(cardItem, columnIndex, rowIndex);
-
-                // Update column and row indices
-                columnIndex++;
-                if (columnIndex >= 3) {
-                    columnIndex = 0;
-                    rowIndex++;
-                }
-
-                // Check if the maximum total height or width has been reached
-                if (rowIndex * (CARD_HEIGHT + ROW_SPACING) > MAX_TOTAL_HEIGHT || columnIndex * (CARD_WIDTH + COLUMN_SPACING) > MAX_TOTAL_WIDTH) {
-                    break; // Stop adding more cards if the maximum total height or width has been reached
-                }
+                hboxtypecarte = fxmlLoader.load();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
+            card_item ci=fxmlLoader.getController();
+            ci.setData(typeCard);
+            if(columns==3)
+            {
+               columns=0;
+               ++row;
+            }
+            typeCardGrid.add(hboxtypecarte,columns++,row);
+            GridPane.setMargin(hboxtypecarte,new Insets(10));
         }
     }
 }
