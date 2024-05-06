@@ -42,6 +42,21 @@ public class TransactionService implements IService<Transaction> {
         return transactions;
     }
 
+    private int getRibForAccount(int accountId) {
+        int rib = 0;
+        try {
+            Connection connection = MyConnection.getInstance().getCnx();
+            PreparedStatement statement = connection.prepareStatement("SELECT rib FROM compte WHERE id = ?");
+            statement.setInt(1, accountId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                rib = resultSet.getInt("rib");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rib;
+    }
     public String add(Transaction transaction) {
         String requete = "INSERT INTO transaction (date, statut, montant_transaction, numcheque, typetransaction_id, compte_id, destinataire_compte_id_id) VALUES (?,?,?,?,?,?,?)";
         try {
@@ -88,6 +103,7 @@ public class TransactionService implements IService<Transaction> {
     public ArrayList<Transaction> getAllData() throws SQLException {
         return null;
     }
+
 
     public List<Transaction> getTransactionsByRib(int rib) {
         List<Transaction> transactions = new ArrayList<>();

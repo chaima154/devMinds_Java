@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -21,12 +23,16 @@ import tn.devMinds.iservices.TransactionService;
 import tn.devMinds.iservices.TypeTransactionService;
 import tn.devMinds.tools.MyConnection;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class TransactionListController implements Initializable {
@@ -44,7 +50,7 @@ public class TransactionListController implements Initializable {
     @FXML
     private TableColumn<Transaction, String> numChequeColumn;
     @FXML
-    private TableColumn<Transaction, String> typeTransactionColumn; // Changed from Integer to String
+    private TableColumn<Transaction, String> typeTransactionColumn;
     @FXML
     private TableColumn<Transaction, Integer> compteColumn;
     @FXML
@@ -52,16 +58,15 @@ public class TransactionListController implements Initializable {
     @FXML
     private TableColumn<Transaction, Integer> actionColumn;
     @FXML
-    private TableColumn<Transaction, Double> comissionTransaction; // Changed from Integer to String
+    private TableColumn<Transaction, Double> comissionTransaction;
 
     @FXML
     private BorderPane borderPane;
-    private Connection connection;
     @FXML
     private TextField ribSearchField;
 
     private final TransactionService transactionService = new TransactionService();
-    private final TypeTransactionService typeTransactionService = new TypeTransactionService(); // Create an instance of TypeTransactionService
+    private final TypeTransactionService typeTransactionService = new TypeTransactionService();
     private SideBarre_adminController sidebarController;
 
     @Override
@@ -70,40 +75,104 @@ public class TransactionListController implements Initializable {
         setupActionColumn();
     }
 
-
-
     @FXML
     void ajout(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/AjouterTransaction.fxml"));
         Parent parent = loader.load();
         AjouterTransactionController controller = loader.getController();
         controller.setTransactionListController(this);
-        this.borderPane.setCenter(parent); // Changed to use 'this'
-        showList(getAllList());  // Refresh list after adding
+        this.borderPane.setCenter(parent);
+        showList(getAllList());
+    }
+
+
+    @FXML
+    void searchByRib(KeyEvent event) {
+        String rib = ribSearchField.getText();
+        ObservableList<Transaction> allTransactions = getAllList();
+
+        FilteredList<Transaction> filteredData = new FilteredList<>(allTransactions, p -> true);
+
+        if (!rib.isEmpty()) {
+            filteredData.setPredicate(transaction -> {
+                // If filter text is empty, display all transactions
+                if (rib == null || rib.isEmpty()) {
+                    return true;
+                }
+
+                // Compare RIB number of each transaction with filter text
+                return String.valueOf(getRibForAccount(transaction.getCompte_id())).startsWith(rib);
+            });
+        }
+
+        showList(filteredData);
+    }
+
+
+
+
+
+
+    @FXML
+    void downloadTransactions(ActionEvent event) {
+        ObservableList<Transaction> transactions = getAllList();
+        if (!transactions.isEmpty()) {
+            try {
+                LocalDateTime now = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
+                String fileName = "Transactions_" + now.format(formatter) + ".xls";
+                File file = new File("C:/Users/Chaima/Desktop/Transactions/" + fileName);
+                FileWriter writer = new FileWriter(file);
+                writer.append("ID\tDate\tStatut\tMontant\tNuméro de chèque\tType de Transaction\tCommission\tCompte\tDestinataire\n");
+                for (Transaction transaction : transactions) {
+                    writer.append(transaction.getId() + "\t");
+                    writer.append(transaction.getDate() + "\t");
+                    writer.append(transaction.getStatut() + "\t");
+                    writer.append(transaction.getMontant_transaction() + "\t");
+                    writer.append(transaction.getNumcheque() + "\t");
+                    writer.append(typeTransactionService.getTypeTransactionName(transaction.getTypetransaction_id()) + "\t");
+                    writer.append(typeTransactionService.getComissionTypeTransaction(transaction.getTypetransaction_id()) + "\t");
+                    writer.append(getRibForAccount(transaction.getCompte_id()) + "\t");
+                    writer.append(getRibForAccount(transaction.getDestinataire_compte_id_id()) + "\n");
+                }
+                writer.flush();
+                writer.close();
+                openFile(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            alert.setHeaderText(null);
+            alert.setContentText("No transactions to download!");
+            alert.showAndWait();
+        }
+    }
+
+
+    private void openFile(File file) {
+        try {
+            if (file != null) {
+                Runtime.getRuntime().exec("cmd /c start " + file.getAbsolutePath());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private ObservableList<Transaction> getAllList() {
         return FXCollections.observableArrayList(transactionService.getAllTransactions());
     }
 
-    @FXML
-    void searchByRib() {
-        String rib = ribSearchField.getText();
-        ObservableList<Transaction> filteredList = FXCollections.observableArrayList();
-        if (!rib.isEmpty()) {
-            filteredList = FXCollections.observableArrayList(transactionService.getTransactionsByRib(Integer.parseInt(rib)));
-        } else {
-            filteredList.addAll(getAllList());
-        }
-        showList(filteredList);
-    }
+
+
     private void showList(ObservableList<Transaction> observableList) {
         idColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getId()));
         dateColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getDate()));
         statutColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getStatut()));
         montantColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getMontant_transaction()));
         numChequeColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getNumcheque()));
-        // Fetch type transaction name by ID
         typeTransactionColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(typeTransactionService.getTypeTransactionName(data.getValue().getTypetransaction_id())));
         comissionTransaction.setCellValueFactory(data -> {
             Double commission = (Double) typeTransactionService.getComissionTypeTransaction(data.getValue().getTypetransaction_id());
@@ -113,8 +182,12 @@ public class TransactionListController implements Initializable {
         compteColumn.setCellValueFactory(data -> new SimpleIntegerProperty(getRibForAccount(data.getValue().getCompte_id())).asObject());
         destinataireColumn.setCellValueFactory(data -> new SimpleIntegerProperty(getRibForAccount(data.getValue().getDestinataire_compte_id_id())).asObject());
 
+        // Initialize columns
+        table.getColumns().setAll(idColumn, dateColumn, statutColumn, montantColumn, numChequeColumn, typeTransactionColumn, comissionTransaction, compteColumn, destinataireColumn, actionColumn);
+
         table.setItems(observableList);
     }
+
 
 
     private int getRibForAccount(int accountId) {
@@ -133,21 +206,17 @@ public class TransactionListController implements Initializable {
         return rib;
     }
 
-
     private void UpdateTransaction(int transactionId) {
         String query = "UPDATE transaction SET statut = ? WHERE id = ?";
         String getMontantQuery = "SELECT montant_transaction, compte_id, destinataire_compte_id_id, commission FROM transaction WHERE id = ?";
         try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query);
              PreparedStatement getMontantStatement = MyConnection.getInstance().getCnx().prepareStatement(getMontantQuery)) {
-            // Start transaction
             MyConnection.getInstance().getCnx().setAutoCommit(false);
 
-            // Update transaction status
             statement.setString(1, "Validé");
             statement.setInt(2, transactionId);
             statement.executeUpdate();
 
-            // Get transaction details
             getMontantStatement.setInt(1, transactionId);
             ResultSet resultSet = getMontantStatement.executeQuery();
             if (resultSet.next()) {
@@ -158,13 +227,11 @@ public class TransactionListController implements Initializable {
                 int compteId = resultSet.getInt("compte_id");
                 int destinataireId = resultSet.getInt("destinataire_compte_id_id");
 
-                // Deduct from the emitting account
                 PreparedStatement updateCompteStatementDecrease = MyConnection.getInstance().getCnx().prepareStatement("UPDATE compte SET solde = solde - ? WHERE id = ?");
                 updateCompteStatementDecrease.setDouble(1, totalTransactionAmount);
                 updateCompteStatementDecrease.setInt(2, compteId);
                 updateCompteStatementDecrease.executeUpdate();
 
-                // Add to the receiving account
                 PreparedStatement updateCompteStatementIncrease = MyConnection.getInstance().getCnx().prepareStatement("UPDATE compte SET solde = solde + ? WHERE id = ?");
                 updateCompteStatementIncrease.setDouble(1, montantTransaction);
                 updateCompteStatementIncrease.setInt(2, destinataireId);
@@ -184,23 +251,19 @@ public class TransactionListController implements Initializable {
         }
     }
 
-
-
-
-
     private void setupActionColumn() {
         actionColumn.setCellFactory(param -> new TableCell<Transaction, Integer>() {
             private final Button deleteBtn = new Button("Delete");
             private final Button updateBtn = new Button("Valider");
-            private final HBox hbox = new HBox(5, updateBtn, deleteBtn); // Adjust spacing as needed
-            private final HBox hbox2 = new HBox(5, deleteBtn); // Adjust spacing as needed
+            private final HBox hbox = new HBox(5, updateBtn, deleteBtn);
+            private final HBox hbox2 = new HBox(5, deleteBtn);
 
             {
                 deleteBtn.setOnAction(event -> {
                     Transaction transaction = getTableView().getItems().get(getIndex());
                     boolean deleted = transactionService.delete(transaction);
                     if (deleted) {
-                        showList(getAllList());  // Refresh list after delete
+                        showList(getAllList());
                     } else {
                         System.out.println("Failed to delete transaction");
                     }
@@ -209,8 +272,8 @@ public class TransactionListController implements Initializable {
                 updateBtn.setOnAction(event -> {
                     Transaction transaction = getTableView().getItems().get(getIndex());
                     if (isTransactionStatusPending(transaction.getId())) {
-                        UpdateTransaction(transaction.getId()); // Pass transaction ID to the update method
-                        showList(getAllList());  // Refresh list after update
+                        UpdateTransaction(transaction.getId());
+                        showList(getAllList());
                     } else {
                         System.out.println("Transaction cannot be validated.");
                     }
@@ -232,7 +295,6 @@ public class TransactionListController implements Initializable {
                 }
             }
 
-
             private boolean isTransactionStatusPending(int transactionId) {
                 String status = "";
                 try {
@@ -250,13 +312,6 @@ public class TransactionListController implements Initializable {
             }
         });
     }
-
-
-
-
-
-
-
 
     public void setSidebarController(SideBarre_adminController sideBarreAdminController) {
         this.sidebarController = sidebarController;
