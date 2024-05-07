@@ -17,7 +17,7 @@
                         <Font size="26.0" />
                     </font>
                 </Label>
-                <Label text="Ajouter un Virement" textFill="#3f704d">
+                <Label text="Ajouter un Versement" textFill="#3f704d">
                     <font>
                         <Font name="System Bold" size="47.0" />
                     </font>
