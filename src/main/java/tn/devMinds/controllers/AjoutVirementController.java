@@ -28,7 +28,7 @@ public class AjoutVirementController {
     @FXML
     private Label soldeEmetteurLabel;
 
-    private Double Commission ;
+    private Double commission;
 
     private MyConnection cnx;
 
@@ -51,9 +51,27 @@ public class AjoutVirementController {
 
     @FXML
     void AddTransaction(ActionEvent event) {
-        String compteEmetteurRIB = compteEmetteur.getText();
-        String compteDestinataireRIB = compteDestinataire.getText();
-        double montantTransaction = Double.parseDouble(montant.getText());
+        String compteEmetteurRIB = compteEmetteur.getText().trim();
+        String compteDestinataireRIB = compteDestinataire.getText().trim();
+        String montantString = montant.getText().trim();
+
+        // Input validation
+        if (compteEmetteurRIB.isEmpty() || compteDestinataireRIB.isEmpty() || montantString.isEmpty()) {
+            displayAlert("Alerte", "Veuillez remplir tous les champs.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        if (!isNumeric(montantString)) {
+            displayAlert("Alerte", "Le montant doit être un nombre.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        double montantTransaction = Double.parseDouble(montantString);
+
+        if (montantTransaction <= 0) {
+            displayAlert("Alerte", "Le montant doit être supérieur à zéro.", Alert.AlertType.ERROR);
+            return;
+        }
 
         Connection connection = cnx.getCnx();
 
@@ -120,7 +138,7 @@ public class AjoutVirementController {
                 "VALUES (?, ?, ?, (SELECT id FROM compte WHERE rib = ?), (SELECT id FROM compte WHERE rib = ?), ?, ?)";
 
         LocalDate date = LocalDate.now();
-        Commission = getCommissionTransactionType(getTypeTransactionId("virement"));
+        commission = getCommissionTransactionType(getTypeTransactionId("virement"));
         try (PreparedStatement insertTransactionStatement = MyConnection.getInstance().getCnx().prepareStatement(insertTransaction)) {
 
             // Add a new line to the transaction table
@@ -130,7 +148,7 @@ public class AjoutVirementController {
             insertTransactionStatement.setString(4, compteEmetteurRIB);
             insertTransactionStatement.setString(5, compteDestinataireRIB);
             insertTransactionStatement.setDouble(6, montantTransaction);
-            insertTransactionStatement.setDouble(7, Commission);
+            insertTransactionStatement.setDouble(7, commission);
             int insertedTransactionRows = insertTransactionStatement.executeUpdate();
 
             return insertedTransactionRows > 0;
@@ -154,6 +172,7 @@ public class AjoutVirementController {
         }
         return -1;
     }
+
     private Double getCommissionTransactionType(int id) {
         String query = "SELECT Commission FROM type_transaction WHERE id = ?";
         try (PreparedStatement preparedStatement = cnx.getCnx().prepareStatement(query)) {
@@ -174,5 +193,9 @@ public class AjoutVirementController {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.show();
+    }
+
+    private boolean isNumeric(String str) {
+        return str.matches("-?\\d+(\\.\\d+)?");
     }
 }

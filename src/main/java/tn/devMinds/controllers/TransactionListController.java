@@ -16,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import tn.devMinds.entities.Transaction;
 import tn.devMinds.entities.TypeTransaction;
@@ -81,9 +82,14 @@ public class TransactionListController implements Initializable {
         Parent parent = loader.load();
         AjouterTransactionController controller = loader.getController();
         controller.setTransactionListController(this);
-        this.borderPane.setCenter(parent);
-        showList(getAllList());
+
+        // Clear the borderPane and set the new content as the center
+        borderPane.getChildren().clear();
+        borderPane.setCenter(parent);
     }
+
+
+
 
 
     @FXML

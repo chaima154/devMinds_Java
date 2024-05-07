@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.TransactionStatisticsController">
+    <center>
+        <StackPane fx:id="stackPane">
+            <PieChart fx:id="chart" BorderPane.alignment="CENTER" />
+        </StackPane>
+    </center>
+    <bottom>
+        <Label fx:id="caption" text="Label" BorderPane.alignment="CENTER" />
+    </bottom>
+   <top>
+      <Pane prefHeight="79.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="14.0" layoutY="26.0" text="Transactions Effectuées Aujourd'hui">
+               <font>
+                  <Font name="Berlin Sans FB Demi Bold" size="22.0" />
+               </font>
+            </Label>
+             <Label fx:id="NbrTransaction" layoutX="394.0" layoutY="26.0" text="">
+                 <font>
+                     <Font name="Berlin Sans FB Demi Bold" size="22.0" />
+                 </font>
+             </Label>
+
+         </children>
+      </Pane>
+   </top>
+</BorderPane>

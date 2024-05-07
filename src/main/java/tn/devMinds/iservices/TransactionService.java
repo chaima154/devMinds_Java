@@ -3,20 +3,17 @@ package tn.devMinds.iservices;
 import tn.devMinds.entities.Transaction;
 import tn.devMinds.tools.MyConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionService implements IService<Transaction> {
 
-    private Connection cnx ;
-    public TransactionService() {
-        cnx= MyConnection.getInstance().getCnx();
-    }
+    private Connection cnx;
 
+    public TransactionService() {
+        cnx = MyConnection.getInstance().getCnx();
+    }
 
     public List<Transaction> getAllTransactions() {
         List<Transaction> transactions = new ArrayList<>();
@@ -42,21 +39,6 @@ public class TransactionService implements IService<Transaction> {
         return transactions;
     }
 
-    private int getRibForAccount(int accountId) {
-        int rib = 0;
-        try {
-            Connection connection = MyConnection.getInstance().getCnx();
-            PreparedStatement statement = connection.prepareStatement("SELECT rib FROM compte WHERE id = ?");
-            statement.setInt(1, accountId);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                rib = resultSet.getInt("rib");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return rib;
-    }
     public String add(Transaction transaction) {
         String requete = "INSERT INTO transaction (date, statut, montant_transaction, numcheque, typetransaction_id, compte_id, destinataire_compte_id_id) VALUES (?,?,?,?,?,?,?)";
         try {
@@ -70,15 +52,11 @@ public class TransactionService implements IService<Transaction> {
             pst.setInt(7, transaction.getDestinataire_compte_id_id());
             pst.executeUpdate();
             System.out.println("Transaction ajoutée avec succès !");
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             return "Erreur lors de l'ajout du type de transaction : " + e.getMessage();
         }
-        return requete;
+        return null;
     }
-
-
-
 
     @Override
     public boolean delete(Transaction transaction) {
@@ -93,7 +71,6 @@ public class TransactionService implements IService<Transaction> {
         }
     }
 
-
     @Override
     public String update(Transaction transaction, int id) {
         return null;
@@ -103,7 +80,6 @@ public class TransactionService implements IService<Transaction> {
     public ArrayList<Transaction> getAllData() throws SQLException {
         return null;
     }
-
 
     public List<Transaction> getTransactionsByRib(int rib) {
         List<Transaction> transactions = new ArrayList<>();
@@ -129,5 +105,4 @@ public class TransactionService implements IService<Transaction> {
         }
         return transactions;
     }
-
 }

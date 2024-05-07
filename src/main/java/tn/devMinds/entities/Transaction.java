@@ -10,7 +10,6 @@ public class Transaction {
     private int compte_id;
     private int destinataire_compte_id_id;
 
-
     public Transaction() {
     }
 

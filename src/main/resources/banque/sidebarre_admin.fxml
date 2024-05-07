@@ -134,7 +134,8 @@
                                     <items>
                                         <MenuItem text="Transaction" onAction="#goTransaction"/>
                                         <MenuItem text="Type de Transaction" onAction="#goTransactionType"></MenuItem>
-                                        <MenuItem text="Convertisseur" onAction="#goConvertisseur">
+                                        <MenuItem text="Convertisseur" onAction="#goConvertisseur"></MenuItem>
+                                        <MenuItem text="Statistics" onAction="#goStatistics">
                                         </MenuItem>
                                     </items>
                                     <font>

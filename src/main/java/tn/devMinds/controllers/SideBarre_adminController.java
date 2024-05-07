@@ -76,7 +76,16 @@ public class SideBarre_adminController implements Initializable {
             this.borderPane.setCenter(parent);
         }
     }
-
+    @FXML
+    void goStatistics(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/TransactionStatistics.fxml"));
+        Parent parent = loader.load();
+        TransactionStatisticsController transactionStatistics = loader.getController();
+        if (loader.getController() instanceof TransactionStatisticsController) {
+            ((TransactionStatisticsController) transactionStatistics).setSidebarController(this);
+            this.borderPane.setCenter(parent);
+        }
+    }
     @FXML
     void goAssurance(MouseEvent event) {
 
