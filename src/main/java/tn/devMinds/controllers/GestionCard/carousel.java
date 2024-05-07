@@ -13,13 +13,17 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import tn.devMinds.models.Card;
+import tn.devMinds.models.Compte;
+import tn.devMinds.models.TypeCard;
 import tn.devMinds.services.CardCrud;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -48,6 +52,59 @@ public class carousel implements Initializable {
                         cb.getLabelCardnumber().setText(cardData.get(i).getNumero());
                         cb.getLabelDate().setText(cardData.get(i).getDateExpiration().toString());
                         cb.setStatuts(cardData.get(i).getStatutCarte());
+                       // cb.setHyperlinkDate(cardData.get(i).getDateExpiration());
+
+
+
+
+
+
+                        LocalDate today = LocalDate.now();
+                        // Calculate the expiration date with at least 3 months added
+                        LocalDate expirationPlusThreeMonths = today.plusMonths(3);
+                        // Display the expiration date if it's not empty
+                        // Create a clickable text field
+                        String action;
+                        if (cardData.get(i).getDateExpiration().isBefore(today)) {
+                            // Expired date
+                            action = " Expired "+cardData.get(i).getDateExpiration()+" Renew Now!!";
+                            cb.getHyperlinkDate().setTextFill(Color.RED);
+                        }
+                        else if (cardData.get(i).getDateExpiration().isBefore(expirationPlusThreeMonths))
+                        {
+                            // Date is within the next 3 months
+                            action = " Expire soon on "+cardData.get(i).getDateExpiration()+" Renew?";
+                            cb.getHyperlinkDate().setTextFill(Color.GREEN);
+                        } else {
+                            // Date is more than 3 months in the future
+                            action = " Expire on "+cardData.get(i).getDateExpiration()+" Renew?";
+                            cb.getHyperlinkDate().setTextFill(Color.ORANGE);
+                        }
+                        cb.getHyperlinkDate().setText(action);
+
+
+                        int finalI1 = i;
+                        cb.getHyperlinkDate().setOnAction(event -> {
+                            Card data = cardData.get(finalI1);
+
+                            // Define the action to be performed when clicked
+                            System.out.println("Clicked on the expiration date: " + data.getDateExpiration());
+                            System.out.println(data.getCsv());
+                            if (data.getDateExpiration().isBefore(today)) {
+                                // Expired date
+                                renewcard( data);
+                            }
+                            else if (data.getDateExpiration().isBefore(expirationPlusThreeMonths))
+                            {
+                                renewcard( data);
+                            } else
+                            {
+                                // Date is more than 3 months in the future
+                                renewcard( data);
+                            }
+                        });
+
+
 
                         if(Objects.equals(cardData.get(i).getStatutCarte(), "active"))
                         {
@@ -77,7 +134,6 @@ public class carousel implements Initializable {
                                 throw new RuntimeException(e);
                             }
                         });
-
                         currentPane = Stackpane1;
                         break;
                     case 1:
@@ -85,6 +141,52 @@ public class carousel implements Initializable {
                         cbb.getLabelCardnumber().setText(cardData.get(i).getNumero());
                             cbb.getLabelDate().setText(cardData.get(i).getDateExpiration().toString());
                         cbb.setStatuts(cardData.get(i).getStatutCarte());
+
+                        LocalDate today1 = LocalDate.now();
+                        // Calculate the expiration date with at least 3 months added
+                        LocalDate expirationPlusThreeMonths1 = today1.plusMonths(3);
+                        // Display the expiration date if it's not empty
+                        // Create a clickable text field
+                        String actionn;
+                        if (cardData.get(i).getDateExpiration().isBefore(today1)) {
+                            // Expired date
+                            actionn = " Expired "+cardData.get(i).getDateExpiration()+" Renew Now!!";
+                            cbb.getHyperlinkDate().setTextFill(Color.RED);
+                        }
+                        else if (cardData.get(i).getDateExpiration().isBefore(expirationPlusThreeMonths1))
+                        {
+                            // Date is within the next 3 months
+                            actionn = " Expire soon on "+cardData.get(i).getDateExpiration()+" Renew?";
+                            cbb.getHyperlinkDate().setTextFill(Color.GREEN);
+                        } else {
+                            // Date is more than 3 months in the future
+                            actionn = " Expire on "+cardData.get(i).getDateExpiration()+" Renew?";
+                            cbb.getHyperlinkDate().setTextFill(Color.ORANGE);
+                        }
+                        cbb.getHyperlinkDate().setText(actionn);
+
+
+                        int finalII1 = i;
+                        cbb.getHyperlinkDate().setOnAction(event -> {
+                            Card data = cardData.get(finalII1);
+
+                            // Define the action to be performed when clicked
+                            System.out.println("Clicked on the expiration date: " + data.getDateExpiration());
+                            System.out.println(data.getCsv());
+                            if (data.getDateExpiration().isBefore(today1)) {
+                                // Expired date
+                                renewcard( data);
+                            }
+                            else if (data.getDateExpiration().isBefore(expirationPlusThreeMonths1))
+                            {
+                                renewcard( data);
+                            } else
+                            {
+                                // Date is more than 3 months in the future
+                                renewcard( data);
+                            }
+                        });
+
 
                         if(Objects.equals(cardData.get(i).getStatutCarte(), "active"))
                         {
@@ -120,6 +222,61 @@ public class carousel implements Initializable {
                         cbbb.getLabelCardnumber().setText(cardData.get(i).getNumero());
                         cbbb.getLabelDate().setText(cardData.get(i).getDateExpiration().toString());
                         cbbb.setStatuts(cardData.get(i).getStatutCarte());
+
+
+
+
+
+
+                        LocalDate today2 = LocalDate.now();
+                        // Calculate the expiration date with at least 3 months added
+                        LocalDate expirationPlusThreeMonths2 = today2.plusMonths(3);
+                        // Display the expiration date if it's not empty
+                        // Create a clickable text field
+                        String actionnn;
+                        if (cardData.get(i).getDateExpiration().isBefore(today2)) {
+                            // Expired date
+                            actionnn = " Expired "+cardData.get(i).getDateExpiration()+" Renew Now!!";
+                            cbbb.getHyperlinkDate().setTextFill(Color.RED);
+                        }
+                        else if (cardData.get(i).getDateExpiration().isBefore(expirationPlusThreeMonths2))
+                        {
+                            // Date is within the next 3 months
+                            actionnn = " Expire soon on "+cardData.get(i).getDateExpiration()+" Renew?";
+                            cbbb.getHyperlinkDate().setTextFill(Color.GREEN);
+                        } else {
+                            // Date is more than 3 months in the future
+                            actionnn = " Expire on "+cardData.get(i).getDateExpiration()+" Renew?";
+                            cbbb.getHyperlinkDate().setTextFill(Color.ORANGE);
+                        }
+                        cbbb.getHyperlinkDate().setText(actionnn);
+
+
+                        int finalIII1 = i;
+                        cbbb.getHyperlinkDate().setOnAction(event -> {
+                            Card data = cardData.get(finalIII1);
+
+                            // Define the action to be performed when clicked
+                            System.out.println("Clicked on the expiration date: " + data.getDateExpiration());
+                            System.out.println(data.getCsv());
+                            if (data.getDateExpiration().isBefore(today2)) {
+                                // Expired date
+                                renewcard( data);
+                            }
+                            else if (data.getDateExpiration().isBefore(expirationPlusThreeMonths2))
+                            {
+                                renewcard( data);
+                            } else
+                            {
+                                // Date is more than 3 months in the future
+                                renewcard( data);
+                            }
+                        });
+
+
+
+
+
 
                         if(Objects.equals(cardData.get(i).getStatutCarte(), "active"))
                         {
@@ -164,14 +321,12 @@ public class carousel implements Initializable {
                     FXMLLoader buttonLoader = new FXMLLoader(getClass().getResource("/banque/GestionCard/addCardNormalClientbutton.fxml"));
                     GridPane page = buttonLoader.load();
 
-                    Scene scene = new Scene((Parent) page);
-
-                    // Bind the prefHeight and prefWidth of the page to the height and width of its scene
-                    page.prefHeightProperty().bind(scene.heightProperty());
-                    page.prefWidthProperty().bind(scene.widthProperty());
-
+//                    Scene scene = new Scene((Parent) page);
+//
+//                    // Bind the prefHeight and prefWidth of the page to the height and width of its scene
+//                    page.prefHeightProperty().bind(scene.heightProperty());
+//                    page.prefWidthProperty().bind(scene.widthProperty());
                     StackPane nextPane = null;
-
                     // Determine the next available StackPane based on the dataSize
                     switch (dataSize) {
                         case 0:
@@ -214,7 +369,6 @@ public class carousel implements Initializable {
         // Fade in transition
         FadeTransition fadeInTransition = new FadeTransition(Duration.seconds(0.5), pane);
         fadeInTransition.setToValue(1.0); // Fade in to full opacity
-
         // Slide in transition
         pane.setTranslateX(width); // Move the pane to the right before sliding in
         pane.setVisible(true); // Make sure the pane is visible
@@ -223,16 +377,13 @@ public class carousel implements Initializable {
         fadeInTransition.play();
         slideInTransition.play();
     }
-
     private void slideOutAndFade(StackPane pane, double width) {
         // Fade out transition
         FadeTransition fadeOutTransition = new FadeTransition(Duration.seconds(0.5), pane);
         fadeOutTransition.setToValue(0.0); // Fade out to 0 opacity
-
         // Slide out transition
         TranslateTransition slideOutTransition = new TranslateTransition(Duration.seconds(0.5), pane);
         slideOutTransition.setToX(width); // Slide out to the right
-
         fadeOutTransition.play();
         slideOutTransition.play();
     }
@@ -240,7 +391,6 @@ public class carousel implements Initializable {
     public void next(javafx.scene.input.MouseEvent mouseEvent) {
         StackPane currentPane = null;
         StackPane nextPane = null;
-
         // Determine the current and next panes based on the value of 'show'
         switch (show) {
             case 0:
@@ -262,7 +412,6 @@ public class carousel implements Initializable {
                 }
                 break;
         }
-
         // If there is a next pane, perform sliding animation
         if (nextPane != null) {
             // Slide out and fade out the current pane
@@ -275,7 +424,6 @@ public class carousel implements Initializable {
             show = (show + 1) % 3;
         }
     }
-
     @FXML
     public void back(javafx.scene.input.MouseEvent mouseEvent) {
         StackPane currentPane = null;
@@ -307,13 +455,46 @@ public class carousel implements Initializable {
         if (prevPane != null) {
             // Slide out and fade out the current pane
             slideOutAndFade(currentPane, currentPane.getWidth());
-
             // Slide in and fade in the previous pane after a short delay
             slideInAndFade(prevPane, prevPane.getWidth());
-
             // Update the 'show' variable for the next iteration
             show = (show + 2) % 3; // Go back two steps (equivalent to subtracting 1 modulo 3)
         }
+    }
+    LocalDate getDate() {
+        LocalDate today = LocalDate.now();
+        LocalDate futureDate = today.plusYears(2);
+        return futureDate;
+    }
+
+    private void renewcard(Card data)
+    {
+
+        CardCrud newcard=new CardCrud();
+        Card renewCard=new Card();
+        Compte newcompte=new Compte();
+        TypeCard newtypecard=new TypeCard();
+        renewCard.setNumero(newcard.generateUniqueNumero(16));
+        renewCard.setCsv(newcard.generateRandomNumberString(3));
+        renewCard.setDateExpiration(getDate());
+        renewCard.setMdp(newcard.generateUniqueNumero(4));
+        if(!Objects.equals(data.getStatutCarte(), "Lost"))
+        {renewCard.setStatutCarte(data.getStatutCarte());}
+        else
+        {renewCard.setStatutCarte("active");}
+        newcompte.setId(data.getCompte().getId());
+        newtypecard.setId(data.getTypeCarte().getId());
+        renewCard.setCompte(newcompte);
+        renewCard.setTypeCarte(newtypecard);
+        renewCard.setSolde(0.0);
+        System.out.println(renewCard);
+        newcard.add(renewCard);
+        try {
+            newcard.delete(data);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 }

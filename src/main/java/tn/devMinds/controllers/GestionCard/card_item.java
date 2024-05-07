@@ -14,12 +14,9 @@ import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Objects;
-
 public class card_item {
-
     @FXML
     private Label Title;
-
     @FXML
     private Button addbutton;
 @FXML
@@ -28,10 +25,8 @@ private int id;
     private Label frais;
     @FXML
     private Text description;
-
     private TypeCard typec;
     private int idcompte;
-
     public void setData(TypeCard type)
 {
     Title.setText(type.getTypeCarte());
@@ -40,20 +35,18 @@ private int id;
     typec=type;
     // idcompte=id;
 }
-
-
-    LocalDate getDate() {
+    LocalDate getDate()
+    {
         LocalDate today = LocalDate.now();
         LocalDate futureDate = today.plusYears(2);
         return futureDate;
     }
-
     public void addrequest(javafx.scene.input.MouseEvent mouseEvent) {
+        Notification not=new Notification();
         CardCrud cc=new CardCrud();
         if(cc.containstypeValueWaiting(3)) {
-            Notification not=new Notification();
-            not.notifier("maktaarefha s3iba");
-        }
+            not.notifier("Il y a déjà une demande en cours de traitement!");
+             }
         else{Card newCard=new Card();
         Compte compte=new Compte();
         TypeCard typeCard=new TypeCard();
@@ -67,6 +60,8 @@ private int id;
         newCard.setCompte(compte);
         newCard.setTypeCarte(typeCard);
         newCard.setSolde(0.0);
-        cc.add(newCard);}
+        cc.add(newCard);
+            not.notifier("Votre demande a été envoyée");
+        }
     }
 }

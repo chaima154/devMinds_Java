@@ -309,7 +309,7 @@ public class CardCrud implements  IService<Card>{
 
     public ArrayList<Card> getAllNormlaCardByCompteid(int id) throws SQLException {
         ArrayList<Card> data =new ArrayList<>();
-        String requet = "SELECT c.* FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE tc.type_carte != 'carte prépayée' AND c.compte_id = ?";
+        String requet = "SELECT c.* FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE tc.type_carte != 'carte prépayée' AND c.statut_carte != 'Waiting' AND c.compte_id = ?";
         try(
             PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(requet)) {
                 statement.setInt(1, id);
@@ -458,6 +458,10 @@ public class CardCrud implements  IService<Card>{
         }
         return false;
     }
+
+
+
+
 
 
 }

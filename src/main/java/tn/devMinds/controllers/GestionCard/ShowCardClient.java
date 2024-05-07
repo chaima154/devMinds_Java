@@ -42,22 +42,16 @@ import javafx.scene.image.Image;
 
 
 public class ShowCardClient implements Initializable {
-
     @FXML
     private TableColumn<Card, Integer> csv;
-
     @FXML
     private TableColumn<Card, LocalDate> datexp;
-
     @FXML
     private TableColumn<Card, String> numero;
-
     @FXML
     private Pane paneCardPrinciapl;
-
     @FXML
     private TableColumn<Card, Double> solde;
-
     @FXML
     private TableView<Card> tableView;
     @Override
@@ -82,7 +76,6 @@ public class ShowCardClient implements Initializable {
         numero.setCellValueFactory(new PropertyValueFactory<>("numero"));
         csv.setCellValueFactory(new PropertyValueFactory<>("csv"));
         datexp.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getDateExpiration()));
-
         datexp.setCellFactory(column -> {
             return new TableCell<Card, LocalDate>() {
                 @Override
@@ -409,8 +402,19 @@ return futureDate;
     private Button notif;
     @FXML
     void notifi(ActionEvent event) {
-        Notification not=new Notification();
-        not.notifier("maktaarefha s3iba");
+//        Card data = getTableView().getItems().get(getIndex());
+//
+//        Dialog<Void> dialog = new Dialog<>();
+//        dialog.setTitle("Recharger");
+//
+//        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+//        // Create the recharge form
+//        GridPane rechargeForm = (GridPane) createRechargeForm(data.getId(), data.getCompte().getId(), data.getCompte().getSolde());
+//
+//        // Set the content of the dialog to the recharge form
+//        dialog.getDialogPane().setContent(rechargeForm);
+//
+//        dialog.showAndWait();
         }
 
 }
