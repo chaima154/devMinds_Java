@@ -4,27 +4,27 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="471.0" prefWidth="718.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.assurance.frontassurance">
+<AnchorPane prefHeight="558.0" prefWidth="883.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.assurance.frontassurance">
    <children>
-      <Text fill="#009929" layoutX="231.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nos Assurances" wrappingWidth="255.32177734375">
+      <Text fill="#009929" layoutX="343.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nos Assurances" wrappingWidth="192.32177734375">
          <font>
             <Font name="Arial Rounded MT Bold" size="24.0" />
          </font>
       </Text>
-      <TableView fx:id="table" layoutX="59.0" layoutY="70.0" prefHeight="350.0" prefWidth="600.0">
+      <TableView fx:id="table" layoutX="59.0" layoutY="70.0" prefHeight="419.0" prefWidth="761.0">
          <columns>
             <TableColumn fx:id="nomColumn" prefWidth="150.0" text="Nom" />
             <TableColumn fx:id="descriptionColumn" prefWidth="300.0" text="Description" />
-            <TableColumn fx:id="primeColumn" prefWidth="75.0" text="Prime" />
-            <TableColumn fx:id="franchiseColumn" prefWidth="75.0" text="Franchise" />
+            <TableColumn fx:id="primeColumn" prefWidth="159.39996337890625" text="Prime" />
+            <TableColumn fx:id="franchiseColumn" prefWidth="152.60003662109375" text="Franchise" />
          </columns>
       </TableView>
-      <Button fx:id="choice" layoutX="504.0" layoutY="428.0" mnemonicParsing="false" onAction="#addchoice" prefHeight="24.0" prefWidth="200.0" style="-fx-background-color: #1643f7;" text="Choisir l'assurance" textFill="#030000">
+      <Button fx:id="choice" layoutX="621.0" layoutY="510.0" mnemonicParsing="false" onAction="#addchoice" prefHeight="24.0" prefWidth="200.0" style="-fx-background-color: #1643f7;" text="Choisir l'assurance" textFill="#030000">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="choice1" layoutX="14.0" layoutY="428.0" mnemonicParsing="false" onAction="#addchoice" prefHeight="24.0" prefWidth="200.0" style="-fx-background-color: #59f716;" text="Mes demandes" textFill="#030000">
+      <Button fx:id="choice1" layoutX="59.0" layoutY="510.0" mnemonicParsing="false" onAction="#addchoice" prefHeight="24.0" prefWidth="200.0" style="-fx-background-color: #59f716;" text="Mes demandes" textFill="#030000">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

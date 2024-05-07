@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.*;
 import tn.devMinds.controllers.demande.AjoutDemandefront;
 import tn.devMinds.controllers.SideBarre_adminController;
+import tn.devMinds.controllers.demande.DemandefrontListController;
 import tn.devMinds.entities.Assurence;
 import tn.devMinds.iservices.AssuranceService;
 import javafx.collections.FXCollections;
@@ -63,13 +64,13 @@ public class frontassurance implements Initializable {
         AjoutDemandefront ajoutDemandefrontController = loader.getController();
         ajoutDemandefrontController.setSelectedAssuranceName(selectedAssurenceName);
 
-
         // Set up the scene and stage
         Scene demandefrontScene = new Scene(demandefrontParent);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(demandefrontScene);
         window.show();
     }
+
 
 
     @FXML
@@ -84,7 +85,7 @@ public class frontassurance implements Initializable {
 
     }
 
-    private ObservableList<Assurence> getAllList() {
+    public ObservableList<Assurence> getAllList() {
         return FXCollections.observableArrayList(assuranceService.getAllData());
     }
 

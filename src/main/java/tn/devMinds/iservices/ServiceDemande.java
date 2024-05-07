@@ -20,21 +20,25 @@ public class ServiceDemande implements IService<Demande> {
     }
 
     @Override
-    public String add(Demande demande) throws SQLException {
+    public String add(Demande demande) {
         String query = "INSERT INTO demande (assurance_id, nom_client, date_naissance_client, adresse_client, date_debut_contrat, duree_contrat, montant_couverture, mode_paiement, etat) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement pstmt = cnx.prepareStatement(query);
-        pstmt.setInt(1, demande.getA().getId());
-        pstmt.setString(2, demande.getNomClient());
-        pstmt.setDate(3, new java.sql.Date(demande.getDateNaissanceClient().getTime()));
-        pstmt.setString(4, demande.getAdresseClient());
-        pstmt.setDate(5, new java.sql.Date(demande.getDateDebutContrat().getTime()));
-        pstmt.setDate(6, new java.sql.Date(demande.getDureeContrat().getTime()));
-        pstmt.setDouble(7, demande.getMontantCouverture());
-        pstmt.setString(8, demande.getModePaiement());
-        pstmt.setString(9, demande.getEtat());
-        pstmt.executeUpdate();
-        return query;
+        try (PreparedStatement pstmt = cnx.prepareStatement(query)) {
+            pstmt.setInt(1, demande.getA().getId());
+            pstmt.setString(2, demande.getNomClient());
+            pstmt.setDate(3, new java.sql.Date(demande.getDateNaissanceClient().getTime()));
+            pstmt.setString(4, demande.getAdresseClient());
+            pstmt.setDate(5, new java.sql.Date(demande.getDateDebutContrat().getTime()));
+            pstmt.setDate(6, new java.sql.Date(demande.getDureeContrat().getTime()));
+            pstmt.setDouble(7, demande.getMontantCouverture());
+            pstmt.setString(8, demande.getModePaiement());
+            pstmt.setString(9, demande.getEtat());
+            pstmt.executeUpdate();
+            return null; // No error
+        } catch (SQLException e) {
+            return "Erreur lors de l'ajout de la demande : " + e.getMessage();
+        }
     }
+
 
 
     @Override

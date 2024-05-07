@@ -4,22 +4,25 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import tn.devMinds.controllers.assurance.AssuranceListController;
+import tn.devMinds.controllers.SideBarre_adminController;
 import tn.devMinds.entities.Assurence;
 import tn.devMinds.entities.Demande;
 import tn.devMinds.iservices.AssuranceService;
 import tn.devMinds.iservices.ServiceDemande;
-import javafx.scene.control.Alert.AlertType;
 
+import java.io.IOException;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.List;
 
-public class AjoutDemandefront {
+public class AjoutDemandefront extends SideBarre_adminController {
+    @FXML
     ObservableList<String> modeplist = FXCollections.observableArrayList("mensuel","trimestiel","annual");
+
     @FXML
     private Button retourbtn;
 
@@ -50,12 +53,15 @@ public class AjoutDemandefront {
     @FXML
     private TextField emailtxt;
 
-
+    @FXML
     private String selectedAssuranceName; // Moved declaration here
+
+
+
+
 
     @FXML
     void addDemande(ActionEvent event) {
-
         String montantStr = montanttxt.getText();
         String modepaimentStr = modepaimenttxt.getValue();
         if (modepaimentStr == null || modepaimentStr.isEmpty()) {
@@ -71,15 +77,13 @@ public class AjoutDemandefront {
             montant = Double.parseDouble(montantStr);
         } catch (NumberFormatException e) {
             showAlert("Le champ Montant doit être un nombre valide !");
-            return;}
-
-
+            return;
+        }
 
         // Check if ddebuttxt and dfintxt are not null before using their values
         Date debut = ddebuttxt.getValue() != null ? Date.valueOf(ddebuttxt.getValue()) : null;
         Date fin = dfintxt.getValue() != null ? Date.valueOf(dfintxt.getValue()) : null;
         Date naissance = datenaissancetxt.getValue() != null ? Date.valueOf(datenaissancetxt.getValue()) : null;
-
 
         String selectedAssu = assuranceField.getText();
 
@@ -106,7 +110,6 @@ public class AjoutDemandefront {
             return;
         }
 
-
         // Retrieve the assurance instance based on its name
         Assurence selectedAssurance = null;
         AssuranceService sa =new AssuranceService();
@@ -127,19 +130,49 @@ public class AjoutDemandefront {
         demande.setMontantCouverture(montant);
         demande.setModePaiement(modepaimentStr);
 
-        try {
-            ServiceDemande serviceDemande = new ServiceDemande();
-            serviceDemande.add(demande);
-            // Show success message
-            showAlert("Demande ajoutée avec succès !");
-            // Close the stage after showing the success message
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.close();
+        // Call the service to add the demand
+        ServiceDemande serviceDemande = new ServiceDemande();
+        String result = serviceDemande.add(demande);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+        // Check the result of the add operation
+        if (result == null) {
+            // Success
+            showAlert("Demande ajoutée avec succès !");
+            handleSuccessfulAddition();
+        } else {
+            // Error occurred
+            showAlert("Erreur lors de l'ajout de la demande : " + result);
         }
     }
+
+    public void handleSuccessfulAddition() {
+        try {
+            // Get the current scene
+            Scene scene = adddembtn.getScene();
+
+            // Get the stage (window) of the current scene
+            Stage stage = (Stage) scene.getWindow();
+
+            // Close the current stage
+            stage.close();
+
+            // Open DemandefrontList stage
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/DEMANDE/ListDemandeFront.fxml"));
+            Parent parent = loader.load();
+            DemandefrontListController Demandelistfront = loader.getController();
+            if (loader.getController() instanceof DemandefrontListController) {
+                Demandelistfront.setSidebarController(this);
+                // Create a new stage and set the scene
+                Stage newStage = new Stage();
+                newStage.setScene(new Scene(parent));
+                newStage.show();
+            }
+        } catch (IOException e) {
+            showAlert("Erreur lors de l'ouverture de la liste des demandes : " + e.getMessage());
+            e.printStackTrace(); // Print stack trace for debugging
+        }
+    }
+
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Succès");
@@ -160,9 +193,8 @@ public class AjoutDemandefront {
         this.selectedAssuranceName = selectedAssuranceName;
         assuranceField.setText(selectedAssuranceName);
     }
-
+@FXML
     public void initialize() {
-        assuranceField.setText(selectedAssuranceName != null ? selectedAssuranceName : "");
         modepaimenttxt.setValue("mensuel");
         modepaimenttxt.setItems(modeplist);
         retourbtn.setOnAction(event -> {
@@ -178,7 +210,5 @@ public class AjoutDemandefront {
             // Alternatively, if you want to go back to the previous scene without closing the window:
             // stage.setScene(previousScene);
         });
-
     }
-
 }

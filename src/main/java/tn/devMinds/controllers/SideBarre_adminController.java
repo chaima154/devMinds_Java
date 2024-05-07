@@ -87,7 +87,9 @@ public class SideBarre_adminController implements Initializable {
             Demandelistfront.setSidebarController(this);
             this.borderPane.setCenter(parent);
         }
+
     }
+
 
     @FXML
     void goTypeTransaction(MouseEvent event) {
@@ -108,6 +110,7 @@ public class SideBarre_adminController implements Initializable {
     void goUsers(MouseEvent event) {
 
     }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

@@ -25,6 +25,8 @@ import java.util.ResourceBundle;
 
 public class DemandefrontListController implements Initializable {
     @FXML
+    public ChoiceBox filterChoiceBox;
+    @FXML
     private BorderPane borderPane;
     @FXML
     private TableView<Demande> table;
@@ -47,13 +49,30 @@ public class DemandefrontListController implements Initializable {
     @FXML
     private TextField searchTerm;
 
-    public void setSidebarController(SideBarre_adminController sidebarController) {
-    }
-
     private final ServiceDemande demandeService = new ServiceDemande();
-
+    @FXML
+    void filtrerDemandes(ActionEvent event) {
+        String selectedEtat = (String) filterChoiceBox.getValue();
+        ObservableList<Demande> filteredList = FXCollections.observableArrayList();
+        try {
+            if (selectedEtat.equals("All")) {
+                filteredList.addAll(getAllList());
+            } else {
+                for (Demande demande : getAllList()) {
+                    if (demande.getEtat().equals(selectedEtat)) {
+                        filteredList.add(demande);
+                    }
+                }
+            }
+            showList(filteredList);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        filterChoiceBox.setValue("All");
+
         try {
             showList(getAllList());
         } catch (SQLException e) {
@@ -172,5 +191,6 @@ public class DemandefrontListController implements Initializable {
     }
 
 
-
+    public void setSidebarController(SideBarre_adminController ajoutDemandefront) {
+    }
 }

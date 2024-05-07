@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -36,8 +38,8 @@
                         <TableColumn fx:id="D_fColumn" prefWidth="146.20001220703125" text="Date fin" />
                   <TableColumn fx:id="montantColumn" prefWidth="115.39996337890625" text="Montant" />
                   <TableColumn fx:id="modeColumn" prefWidth="119.79998779296875" text="Mode de paiment" />
-                        <TableColumn fx:id="etatColumn" prefWidth="96.0" text="etat" />
-                  <TableColumn fx:id="actionColumn" prefWidth="135.9998779296875" text="Actions" />
+                        <TableColumn fx:id="etatColumn" prefWidth="88.0" text="etat" />
+                  <TableColumn fx:id="actionColumn" prefWidth="139.199951171875" text="Actions" />
                     </columns>
                 </TableView>
 
@@ -47,6 +49,22 @@
 
                     </children>
                 </HBox>
+                  <ChoiceBox fx:id="filterChoiceBox" layoutX="946.0" layoutY="166.0" onAction="#filtrerDemandes" prefHeight="20.0" prefWidth="118.0" style="-fx-background-color: #3f704d;">
+                      <items>
+                          <FXCollections fx:factory="observableArrayList">
+                              <String fx:value="All" />
+                              <String fx:value="Pending" />
+                              <String fx:value="Accepted" />
+                              <String fx:value="Refused" />
+                          </FXCollections>
+                      </items>
+                  </ChoiceBox>
+
+                  <Label layoutX="847.0" layoutY="170.0" text="Filtrer par etat :">
+                      <font>
+                          <Font name="System Bold Italic" size="12.0" />
+                      </font>
+                  </Label>
 
             </children>
         </AnchorPane>
