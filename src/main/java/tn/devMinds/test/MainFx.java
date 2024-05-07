@@ -1,23 +1,37 @@
 package tn.devMinds.test;
-        import javafx.application.Application;
-        import javafx.fxml.FXMLLoader;
-        import javafx.scene.Scene;
-        import javafx.stage.Stage;
-        import tn.devMinds.tools.MyConnection;
-        import java.io.IOException;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.prefs.Preferences;
 
 public class MainFx extends Application {
-   // MyConnection mc = new MyConnection();
+
+    private Preferences preferences;
+
     public static void main(String[] args) {
         launch(args);
     }
+
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/banque/sidebarre_admin.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/banque/sidebarre_client.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         primaryStage.setTitle("Hello!");
         primaryStage.setScene(scene);
         primaryStage.show();
 
+        // Initialize preferences
+        preferences = Preferences.userRoot().node(this.getClass().getName());
+
+        // Example of saving a variable
+        preferences.put("Id_Client", "1");
+
+        // Example of retrieving the saved variable
+        String savedValue = preferences.get("Id_Client", "02");
+        System.out.println("Saved Value: " + savedValue);
     }
 }
