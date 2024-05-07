@@ -94,7 +94,7 @@ public class AdminIndexCreditController implements Initializable {
     public TableColumn <Credit, String> creditTableView_StatutCredit;
     @FXML
     public TableColumn <Credit, String> creditTableView_TypeCredit;
-    public static final String ACCOUNT_SID = "ACc3bc97fbd7d7fdc0e57c7a5e6e6be5f4";
+
     private Image image;
     ObservableList<Credit> credits;
     private final CreditCrud creditCrud = new CreditCrud();
