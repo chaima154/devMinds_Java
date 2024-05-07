@@ -10,9 +10,13 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import tn.devMinds.iservices.LoginService;
 import org.mindrot.jbcrypt.BCrypt;
-
+import tn.devMinds.tools.MyConnection;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class LoginController {
 
@@ -130,4 +134,21 @@ public class LoginController {
     }
 
 
+    private String getPasswordFromDatabase(String userEmail) {
+        // Connexion à la base de données
+        try (Connection connection = MyConnection.getConnection()) {
+            String query = "SELECT mdp FROM user WHERE email = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, userEmail);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        return resultSet.getString("mdp");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving password from database: " + e.getMessage());
+        }
+        return null; // Retourne null si l'utilisateur n'est pas trouvé ou s'il y a une erreur
+    }
 }

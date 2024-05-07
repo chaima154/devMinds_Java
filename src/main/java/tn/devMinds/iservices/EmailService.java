@@ -10,6 +10,8 @@ import java.util.Properties;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import org.mindrot.jbcrypt.BCrypt;
 import tn.devMinds.tools.MyConnection;
 public class EmailService extends Service<Void> {
     private final String recipientEmail;
@@ -67,14 +69,17 @@ public class EmailService extends Service<Void> {
             System.out.println("Error sending email: " + e.getMessage());
         }
     }
-    public void updatePasswordInDatabase(String userEmail, String newPassword) {
+    public static void updatePasswordInDatabase(String userEmail, String newPassword) {
+        // Hacher le nouveau mot de passe
+        String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+
         // Définir la requête SQL pour mettre à jour le mot de passe dans la base de données
         String query = "UPDATE user SET mdp = ? WHERE email = ?";
 
         try (Connection connection = MyConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             // Définir les paramètres de la requête
-            preparedStatement.setString(1, newPassword);
+            preparedStatement.setString(1, hashedPassword);
             preparedStatement.setString(2, userEmail);
 
             // Exécuter la requête
@@ -89,6 +94,7 @@ public class EmailService extends Service<Void> {
             System.out.println("Erreur lors de la mise à jour du mot de passe dans la base de données: " + e.getMessage());
         }
     }
+
     public boolean isSentSuccessfully() {
         return sentSuccessfully;
     }

@@ -12,14 +12,22 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import tn.devMinds.entities.User;
 import tn.devMinds.iservices.UserService;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.scene.control.TableCell;
+import org.apache.poi.ss.usermodel.*;
+import javafx.stage.FileChooser;
+
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class ListeUsersController extends BackendHome {
     @FXML
@@ -162,6 +170,58 @@ public class ListeUsersController extends BackendHome {
             // Handle the SQLException
             System.out.println("Erreur SQL lors de la suppression de l'utilisateur : " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+
+    public void downloadUsersAsExcel() {
+        try {
+            // Créer un nouveau classeur Excel
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("Utilisateurs");
+
+            // Créer l'en-tête du tableau Excel
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("ID");
+            headerRow.createCell(1).setCellValue("Nom");
+            headerRow.createCell(2).setCellValue("Prénom");
+            headerRow.createCell(3).setCellValue("Email");
+            headerRow.createCell(4).setCellValue("Rôle");
+
+            // Remplir les données des utilisateurs
+            int rowNum = 1;
+            for (User user : userTableView.getItems()) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(user.getId());
+                row.createCell(1).setCellValue(user.getNom());
+                row.createCell(2).setCellValue(user.getPrenom());
+                row.createCell(3).setCellValue(user.getEmail());
+                row.createCell(4).setCellValue(user.getRole().toString());
+            }
+
+            // Afficher un FileChooser pour permettre à l'utilisateur de choisir l'emplacement et le nom du fichier Excel
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Enregistrer le fichier Excel");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichier Excel", "*.xlsx"));
+            File file = fileChooser.showSaveDialog(container.getScene().getWindow());
+
+            if (file != null) {
+                // Enregistrer le fichier Excel dans l'emplacement choisi par l'utilisateur
+                FileOutputStream fileOut = new FileOutputStream(file);
+                workbook.write(fileOut);
+                fileOut.close();
+
+                // Fermer le classeur Excel
+                workbook.close();
+
+                System.out.println("Fichier Excel enregistré avec succès : " + file.getAbsolutePath());
+            } else {
+                System.out.println("Opération d'enregistrement annulée par l'utilisateur.");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Gérer les exceptions IO lors de la création du fichier Excel
         }
     }
 }
