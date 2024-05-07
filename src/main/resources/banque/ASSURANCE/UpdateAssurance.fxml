@@ -19,7 +19,7 @@
                           <Font name="Baskerville Old Face" size="24.0" />
                       </font>
                   </Label>
-                  <TextField fx:id="nom" prefHeight="40.0" prefWidth="400.0">
+                  <TextField fx:id="nom" prefHeight="40.0" prefWidth="515.0">
                       <VBox.margin>
                           <Insets top="10.0" />
                       </VBox.margin>

@@ -20,6 +20,8 @@ import java.net.URL;
 import java.sql.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AjoutDemandefront extends SideBarre_adminController {
     @FXML
@@ -73,6 +75,25 @@ public class AjoutDemandefront extends SideBarre_adminController {
         }
         String nm = nomtxt.getText();
         String email = emailtxt.getText();
+
+        // Validate email
+        class EmailValidator {
+
+            private static final String EMAIL_REGEX =
+                    "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
+            private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
+
+            public static boolean validateEmail(String email) {
+                Matcher matcher = EMAIL_PATTERN.matcher(email);
+                return matcher.matches();
+            }
+        }
+        if (!EmailValidator.validateEmail(email)) {
+            showAlert("Veuillez saisir une adresse email valide !");
+            return;
+        }
+
 
         double montant;
         try {

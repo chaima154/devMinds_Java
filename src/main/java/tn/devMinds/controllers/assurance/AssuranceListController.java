@@ -1,5 +1,6 @@
 package tn.devMinds.controllers.assurance;
 
+import com.itextpdf.text.DocumentException;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,13 +11,20 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import tn.devMinds.controllers.GeneratePdf;
+import tn.devMinds.controllers.GeneratePdfA;
 import tn.devMinds.controllers.SideBarre_adminController;
 import tn.devMinds.entities.Assurence;
 import tn.devMinds.iservices.AssuranceService;
 
+import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -146,6 +154,39 @@ public class AssuranceListController implements Initializable {
         primeColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getPrime()).asString());
         franchiseColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getFranchise()).asString());
         table.setItems(observableList);
+    }
+
+    @FXML
+    public void imprimerPDF(ActionEvent event) {
+        try {
+            // Generate the PDF
+            String filePath = "assurance_list.pdf";
+            GeneratePdfA.generateContract(this, filePath);
+
+            // Open the generated PDF file
+            File pdfFile = new File(filePath);
+            if (pdfFile.exists()) {
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().open(pdfFile);
+                } else {
+                    showAlert("Desktop is not supported on this platform.");
+                }
+            } else {
+                showAlert("PDF file not found.");
+            }
+        } catch (DocumentException | FileNotFoundException e) {
+            showAlert("Error generating PDF: " + e.getMessage());
+        } catch (IOException e) {
+            showAlert("Error opening PDF: " + e.getMessage());
+        }
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 }
