@@ -16,8 +16,10 @@ import tn.devMinds.iservices.AssuranceService;
 import tn.devMinds.iservices.ServiceDemande;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class AjoutDemandefront extends SideBarre_adminController {
     @FXML
@@ -193,10 +195,13 @@ public class AjoutDemandefront extends SideBarre_adminController {
         this.selectedAssuranceName = selectedAssuranceName;
         assuranceField.setText(selectedAssuranceName);
     }
-@FXML
-    public void initialize() {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        assuranceField.setText(String.valueOf(selectedAssuranceName));
+        super.initialize(url, resourceBundle); // Call superclass initialize
         modepaimenttxt.setValue("mensuel");
         modepaimenttxt.setItems(modeplist);
+        System.out.println("Modepaiment items: " + modeplist);
         retourbtn.setOnAction(event -> {
             // Get the current scene
             Scene scene = retourbtn.getScene();
@@ -210,5 +215,6 @@ public class AjoutDemandefront extends SideBarre_adminController {
             // Alternatively, if you want to go back to the previous scene without closing the window:
             // stage.setScene(previousScene);
         });
-    }
-}
+    }}
+
+

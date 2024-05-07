@@ -5,11 +5,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import tn.devMinds.controllers.assurance.AssuranceListController;
 import tn.devMinds.controllers.assurance.frontassurance;
 import tn.devMinds.controllers.demande.AjoutDemandefront;
@@ -46,7 +48,6 @@ public class SideBarre_adminController implements Initializable {
     void goCredit(MouseEvent event) {
 
     }
-
 
     @FXML
     void goAssurance(ActionEvent event) throws IOException {
@@ -89,7 +90,6 @@ public class SideBarre_adminController implements Initializable {
         }
 
     }
-
 
     @FXML
     void goTypeTransaction(MouseEvent event) {

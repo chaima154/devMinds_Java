@@ -151,12 +151,14 @@ public class DemandefrontListController implements Initializable {
 
             ModifDemandeController controller = loader.getController();
             controller.initializeData(demande);
+            controller.setSidebarController(this); // Pass the reference to the sidebar controller
 
             borderPane.setCenter(root);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
 
     public void showList(ObservableList<Demande> observableList) {

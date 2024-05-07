@@ -22,19 +22,14 @@ public class ModifDemandeController extends SideBarre_adminController {
 
     @FXML
     private BorderPane borderPane;
-    private SideBarre_adminController sidebarController; //
 
-    // Remove the private instance variable for sidebarController
+    private final ObservableList<String> modeplist = FXCollections.observableArrayList("mensuel", "trimestiel", "annuel");
 
-    // Add a method to initialize the borderPane
-
-
-    ObservableList<String> modeplist = FXCollections.observableArrayList("mensuel", "trimestiel", "annuel");
     @FXML
     private Button retourbtn;
 
     @FXML
-    private Button adddembtn;
+    private Button updatebtn;
 
     @FXML
     private TextField assuranceField;
@@ -60,10 +55,9 @@ public class ModifDemandeController extends SideBarre_adminController {
     @FXML
     private TextField emailtxt;
 
-
-    private Demande demandeToUpdate; // Add field for Demande
+    private Demande demandeToUpdate;
     private final ServiceDemande serviceDemande = new ServiceDemande();
-
+    private SideBarre_adminController sidebarController;
 
     public void initializeData(Demande demande) {
         this.demandeToUpdate = demande;
@@ -77,11 +71,11 @@ public class ModifDemandeController extends SideBarre_adminController {
         modepaimenttxt.setValue(demande.getModePaiement());
         modepaimenttxt.setItems(modeplist);
     }
+
     @FXML
     void retour(ActionEvent event) throws IOException {
         retourner();
     }
-
 
     private void retourner() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/DEMANDE/ListDemandeFront.fxml"));
@@ -95,7 +89,6 @@ public class ModifDemandeController extends SideBarre_adminController {
 
     @FXML
     void UpdateDemande(ActionEvent event) {
-        // Create an instance of Demande
         Demande updatedDemande = new Demande();
         updatedDemande.setId(demandeToUpdate.getId());
         updatedDemande.setNomClient(nomtxt.getText());
@@ -106,14 +99,8 @@ public class ModifDemandeController extends SideBarre_adminController {
         updatedDemande.setMontantCouverture(Double.parseDouble(montanttxt.getText()));
         updatedDemande.setModePaiement(modepaimenttxt.getValue());
 
-        // Update the Demande
-        try {
-            serviceDemande.update(updatedDemande, updatedDemande.getId()); // Assuming you have a method to update a Demande
-            displayAlert("Succès", "Demande mise à jour avec succès !", Alert.AlertType.INFORMATION);
-        } catch (NumberFormatException e) {
-            displayAlert("Erreur", "Le montant doit être un nombre valide.", Alert.AlertType.ERROR);
-            e.printStackTrace();
-        }
+        serviceDemande.update(updatedDemande, updatedDemande.getId());
+        displayAlert("Succès", "Demande mise à jour avec succès !", Alert.AlertType.INFORMATION);
     }
 
     private void displayAlert(String title, String content, Alert.AlertType alertType) {
@@ -123,6 +110,9 @@ public class ModifDemandeController extends SideBarre_adminController {
         alert.show();
     }
 
-    // Other methods, such as initializeData and displayAlert, remain the same
+    public void setSidebarController(DemandefrontListController demandefrontListController) {
+    }
 
+    // Other methods, such as initializeData and displayAlert, remain the same
 }
+
