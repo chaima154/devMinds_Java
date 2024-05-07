@@ -6,7 +6,9 @@ module com.example.projet {
     requires twilio;
     requires kernel;
     requires layout;
-    requires PdfInvoiceCreator;
+    requires io;
+    requires java.desktop;
+
     exports tn.devMinds.models;
     exports tn.devMinds.views;
     exports tn.devMinds.controllers;

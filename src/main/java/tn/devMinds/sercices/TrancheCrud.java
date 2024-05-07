@@ -15,10 +15,11 @@ import java.util.List;
 
 
 public class TrancheCrud implements IService<Tranche> {
-    Connection cnx2;
+    static Connection cnx2;
     public TrancheCrud(){
         cnx2 = MyConnection.getInstance().getCnx();
     }
+
     public void add(Tranche tranche){
         String requete = "INSERT INTO echeance (date_echeance, montant_paiement, statut_paiement, credit_id )" +
                 "VALUES ('" + tranche.getDateEcheance() + "', '" +tranche.getMontantPaiement()+ "', '" +tranche.getStatutPaiement()+ "', '" +tranche.getCreditId()+ "')";
@@ -84,8 +85,7 @@ public class TrancheCrud implements IService<Tranche> {
     public List<Tranche> show() {
         return null;
     }
-
-    @Override
+    
     public ObservableList<Tranche> readById(int id) {
         ObservableList<Tranche> mylist = FXCollections.observableArrayList();
         try {
@@ -108,4 +108,28 @@ public class TrancheCrud implements IService<Tranche> {
         }
         return mylist;
     }
+
+    public static List<Tranche> readTranches(int id) {
+        ObservableList<Tranche> mylist = FXCollections.observableArrayList();
+        try {
+            String requete = "SELECT * FROM echeance WHERE credit_id = ?";
+            PreparedStatement ps = cnx2.prepareStatement(requete);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Tranche tranche = new Tranche();
+                tranche.setId(rs.getInt(1));
+                tranche.setDateEcheance(rs.getDate(2).toLocalDate());
+                tranche.setMontantPaiement(rs.getDouble(3));
+                tranche.setStatutPaiement(rs.getString(4));
+                tranche.setCreditId(rs.getInt(5));
+
+                mylist.add(tranche);
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return mylist;
+    }
+
 }

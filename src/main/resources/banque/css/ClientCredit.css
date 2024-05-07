@@ -35,3 +35,17 @@
     -fx-background-color:#ddd;
     -fx-cursor:hand;
 }
+
+.export-btn {
+    -fx-background-color: #132A13;
+    -fx-background-radius: 8px;
+    -fx-text-fill: #fff;
+    -fx-font-size: 14px;
+    -fx-font-family: "Arial";
+    -fx-cursor: hand;
+}
+
+.export-btn:hover{
+    -fx-background-color:#253F25;
+}
+
