@@ -77,3 +77,13 @@
 .button:hover{
     -fx-background-color: linear-gradient(to bottom right, #0fb565, #399a8f);
 }
+
+/* styles.css */
+.hbox-container {
+    -fx-spacing: 10px; /* Spacing between children */
+    -fx-padding: 10px; /* Padding around the hbox */
+    -fx-background-color: #f0f0f0; /* Background color */
+    -fx-border-color: black; /* Border color */
+    -fx-border-width: 2px; /* Border width */
+    -fx-border-insets: 0; /* Insets for the border */
+}

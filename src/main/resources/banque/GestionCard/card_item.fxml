@@ -7,37 +7,49 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-
-<HBox fx:id="hboxtypecarte" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="123.0" prefWidth="351.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.GestionCard.card_item">
+<HBox fx:id="hboxtypecarte" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="214.0" styleClass="hbox-container" stylesheets="@../css/showCardAdmin.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.GestionCard.card_item">
    <children>
-      <ImageView fitHeight="122.0" fitWidth="94.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/5915.png" />
-         </image>
-      </ImageView>
-      <VBox prefHeight="123.0" prefWidth="259.0">
+      <VBox prefHeight="100.0" prefWidth="189.0">
          <children>
-            <Label fx:id="Title" prefHeight="32.0" prefWidth="172.0" text="Label">
-               <font>
-                  <Font size="22.0" />
-               </font>
-            </Label>
-            <Label fx:id="description" prefHeight="28.0" prefWidth="252.0" text="label">
-               <font>
-                  <Font size="19.0" />
-               </font>
-            </Label>
-            <Label fx:id="frais" layoutX="10.0" layoutY="69.0" prefHeight="28.0" prefWidth="252.0" text="label">
-               <font>
-                  <Font size="19.0" />
-               </font>
-            </Label>
-            <Button fx:id="addbutton" mnemonicParsing="false" prefHeight="26.0" prefWidth="105.0" stylesheets="@../css/showCardAdmin.css" text="+">
-               <font>
-                  <Font name="System Italic" size="18.0" />
-               </font>
-            </Button>
+            <HBox prefHeight="31.0" prefWidth="228.0">
+               <children>
+                  <ImageView fitHeight="36.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/5915.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="Title" prefHeight="32.0" prefWidth="173.0" text="Label" textFill="#695e5e">
+                     <font>
+                        <Font name="System Bold" size="19.0" />
+                     </font>
+                  </Label>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Button fx:id="addbutton" mnemonicParsing="false" onMouseClicked="#addrequest" prefHeight="30.0" prefWidth="79.0" stylesheets="@../css/showCardAdmin.css" text="+">
+                           <font>
+                              <Font name="System Italic" size="18.0" />
+                           </font>
+                        </Button>
+                        <Label fx:id="frais" prefHeight="28.0" prefWidth="75.0" text="label" textAlignment="CENTER">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Text fx:id="description" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="136.5366725921631">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
          </children>
       </VBox>
    </children>

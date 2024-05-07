@@ -107,7 +107,27 @@ public class TypeCardCrud implements  IService<TypeCard>{
 
     @Override
     public ArrayList<TypeCard> getAllNormlaCard() throws SQLException {
-        return null;
+        ArrayList<TypeCard> data =new ArrayList<>();
+        String requet="SELECT * FROM type_carte WHERE type_carte != 'carte prépayée'";
+        try{
+            Statement st= MyConnection.getInstance().getCnx().createStatement();
+            ResultSet rs=st.executeQuery(requet);
+            while (rs.next())
+            {
+                TypeCard tc=new TypeCard();
+                tc.setId(rs.getInt(1));
+                tc.setTypeCarte(rs.getString(2));
+                tc.setDescriptionCarte(rs.getString(3));
+                tc.setFrais(rs.getFloat(4));
+                tc.setStatusTypeCarte(rs.getString(5));
+                data.add(tc);
+            }}
+        catch (SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return data;
+
     }
 
     @Override

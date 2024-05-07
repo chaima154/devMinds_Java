@@ -1,24 +1,20 @@
 package tn.devMinds.controllers.GestionCard;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import tn.devMinds.models.TypeCard;
 import tn.devMinds.services.TypeCardCrud;
 import javafx.scene.layout.HBox;
-
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 public class addCardNormalClientbutton implements Initializable {
-
-
     @FXML
     private GridPane typeCardGrid;
     @Override
@@ -27,7 +23,7 @@ public class addCardNormalClientbutton implements Initializable {
         TypeCard tc = new TypeCard();
         ArrayList<TypeCard> list = new ArrayList<>();
         try {
-            list = new ArrayList<>(tcc.getAll());
+            list = new ArrayList<>(tcc.getAllNormlaCard());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -40,11 +36,12 @@ int columns=0;
             HBox hboxtypecarte = null;
             try {
                 hboxtypecarte = fxmlLoader.load();
+                card_item ci=fxmlLoader.getController();
+                ci.setData(typeCard);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            card_item ci=fxmlLoader.getController();
-            ci.setData(typeCard);
+
             if(columns==3)
             {
                columns=0;

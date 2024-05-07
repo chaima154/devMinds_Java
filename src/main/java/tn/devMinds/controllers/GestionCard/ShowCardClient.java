@@ -410,7 +410,7 @@ return futureDate;
     @FXML
     void notifi(ActionEvent event) {
         Notification not=new Notification();
-        not.notifier();
+        not.notifier("maktaarefha s3iba");
         }
 
 }

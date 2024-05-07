@@ -9,7 +9,7 @@ import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
 public class Notification {
-   public void notifier()
+   public void notifier(String ch)
    {
 
        try {
@@ -20,7 +20,7 @@ public class Notification {
            }
            Notifications notificationBuilder = Notifications.create()
                    .title("E-Frank")
-                   .text("mak ta3refha s3iba")
+                   .text(ch)
                    .graphic(new ImageView(img))
                    .hideAfter(Duration.seconds(5))
                    .position(Pos.TOP_RIGHT)
