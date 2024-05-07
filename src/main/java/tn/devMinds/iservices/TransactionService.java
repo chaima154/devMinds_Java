@@ -105,4 +105,28 @@ public class TransactionService implements IService<Transaction> {
         }
         return transactions;
     }
+    public List<Transaction> getTransactionsForLast5Days() {
+        List<Transaction> transactions = new ArrayList<>();
+        String query = "SELECT * FROM transaction WHERE date BETWEEN CURDATE() - INTERVAL 5 DAY AND CURDATE()";
+        try {
+            PreparedStatement pst = cnx.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Transaction transaction = new Transaction();
+                transaction.setId(rs.getInt("id"));
+                transaction.setDate(rs.getString("date"));
+                transaction.setStatut(rs.getString("statut"));
+                transaction.setMontant_transaction(rs.getDouble("montant_transaction"));
+                transaction.setNumcheque(rs.getString("numcheque"));
+                transaction.setTypetransaction_id(rs.getInt("typetransaction_id"));
+                transaction.setCompte_id(rs.getInt("compte_id"));
+                transaction.setDestinataire_compte_id_id(rs.getInt("destinataire_compte_id_id"));
+                transactions.add(transaction);
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return transactions;
+    }
+
 }
