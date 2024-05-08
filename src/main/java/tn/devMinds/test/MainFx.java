@@ -34,7 +34,7 @@ public class MainFx extends Application {
         // Set the primary stage icon
         primaryStage.getIcons().add(logoImage);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/banque/sidebarre_admin.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/banque/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
 
