@@ -50,9 +50,9 @@ public class DemandefrontListController extends ClientMenuController {
         ObservableList<Demande> filteredList = FXCollections.observableArrayList();
         try {
             if (selectedEtat.equals("All")) {
-                filteredList.addAll(getAllList());
+                filteredList.addAll(getAllList("djoo")); // Filter by client name "djoo"
             } else {
-                for (Demande demande : getAllList()) {
+                for (Demande demande : getAllList("djoo")) { // Filter by client name "djoo"
                     if (demande.getEtat().equals(selectedEtat)) {
                         filteredList.add(demande);
                     }
@@ -69,7 +69,7 @@ public class DemandefrontListController extends ClientMenuController {
         filterChoiceBox.setValue("All");
 
         try {
-            showList(getAllList());
+            showList(getAllList("djoo")); // Filter by client name "djoo"
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -77,7 +77,7 @@ public class DemandefrontListController extends ClientMenuController {
         searchTerm.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.isEmpty()) {
                 try {
-                    showList(getAllList());
+                    showList(getAllList("djoo")); // Filter by client name "djoo"
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
@@ -87,8 +87,15 @@ public class DemandefrontListController extends ClientMenuController {
         });
     }
 
-    ObservableList<Demande> getAllList() throws SQLException {
-        return FXCollections.observableArrayList(demandeService.getAllData());
+    ObservableList<Demande> getAllList(String clientName) throws SQLException {
+        ObservableList<Demande> allDemands = FXCollections.observableArrayList(demandeService.getAllData());
+        ObservableList<Demande> filteredList = FXCollections.observableArrayList();
+        for (Demande demande : allDemands) {
+            if (demande.getNomClient().equals(clientName)) {
+                filteredList.add(demande);
+            }
+        }
+        return filteredList;
     }
 
     private void setupActionColumn() {
@@ -114,7 +121,7 @@ public class DemandefrontListController extends ClientMenuController {
                     if (result.isPresent() && result.get() == buttonTypeYes) {
                         try {
                             demandeService.delete(demande);
-                            showList(getAllList());
+                            showList(getAllList("djoo")); // Filter by client name "djoo"
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         }
@@ -137,13 +144,10 @@ public class DemandefrontListController extends ClientMenuController {
     public void showList(ObservableList<Demande> observableList) {
         nomClientColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getNomClient()));
         assuranceColumn.setCellValueFactory(cellData -> {
-            // Access the Assurence object associated with the Demande
             Assurence assurance = cellData.getValue().getA();
             if (assurance != null) {
-                // Return the name of the assurance
                 return new SimpleStringProperty(assurance.getNom());
             } else {
-                // If assurance is null, return an empty string
                 return new SimpleStringProperty("assurance is null");
             }
         });
@@ -155,8 +159,4 @@ public class DemandefrontListController extends ClientMenuController {
 
         table.setItems(observableList);
     }
-
-
-
-
 }
