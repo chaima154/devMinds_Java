@@ -17,6 +17,15 @@ import java.util.ResourceBundle;
 public class addCardNormalClientbutton implements Initializable {
     @FXML
     private GridPane typeCardGrid;
+    @FXML
+    private int idtoopencompte;
+    public int getIdtoopencompte() {
+        return idtoopencompte;
+    }
+    public void setIdtoopencompte(int idtoopencompte) {
+        this.idtoopencompte = idtoopencompte;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         TypeCardCrud tcc = new TypeCardCrud();
@@ -37,6 +46,7 @@ int columns=0;
             try {
                 hboxtypecarte = fxmlLoader.load();
                 card_item ci=fxmlLoader.getController();
+                //idtoopencompte;
                 ci.setData(typeCard);
             } catch (IOException e) {
                 throw new RuntimeException(e);

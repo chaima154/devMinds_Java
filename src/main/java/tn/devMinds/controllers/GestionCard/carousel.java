@@ -19,7 +19,6 @@ import tn.devMinds.models.Card;
 import tn.devMinds.models.Compte;
 import tn.devMinds.models.TypeCard;
 import tn.devMinds.services.CardCrud;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -28,6 +27,8 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class carousel implements Initializable {
+   @FXML
+    int idtoopencompte;
     @FXML
     private StackPane Stackpane1;
     @FXML
@@ -35,6 +36,12 @@ public class carousel implements Initializable {
     @FXML
     private StackPane Stackpane3;
     private int show = 0;
+    public int getIdtoopencompte() {
+        return idtoopencompte;
+    }
+    public void setIdtoopencompte(int idtoopencompte) {
+        this.idtoopencompte = idtoopencompte;
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -53,12 +60,6 @@ public class carousel implements Initializable {
                         cb.getLabelDate().setText(cardData.get(i).getDateExpiration().toString());
                         cb.setStatuts(cardData.get(i).getStatutCarte());
                        // cb.setHyperlinkDate(cardData.get(i).getDateExpiration());
-
-
-
-
-
-
                         LocalDate today = LocalDate.now();
                         // Calculate the expiration date with at least 3 months added
                         LocalDate expirationPlusThreeMonths = today.plusMonths(3);
@@ -81,12 +82,9 @@ public class carousel implements Initializable {
                             cb.getHyperlinkDate().setTextFill(Color.ORANGE);
                         }
                         cb.getHyperlinkDate().setText(action);
-
-
                         int finalI1 = i;
                         cb.getHyperlinkDate().setOnAction(event -> {
                             Card data = cardData.get(finalI1);
-
                             // Define the action to be performed when clicked
                             System.out.println("Clicked on the expiration date: " + data.getDateExpiration());
                             System.out.println(data.getCsv());
@@ -103,9 +101,6 @@ public class carousel implements Initializable {
                                 renewcard( data);
                             }
                         });
-
-
-
                         if(Objects.equals(cardData.get(i).getStatutCarte(), "active"))
                         {
                             cb.getBtn().setText("active");
@@ -120,7 +115,6 @@ public class carousel implements Initializable {
                             CardCrud cc=new CardCrud();
                             try {
                                 cc.updateStat(cardData.get(finalI).getId(),cardData.get(finalI).getStatutCarte());
-
                                 if(Objects.equals(cardData.get(finalI).getStatutCarte(), "active"))
                                 {cb.getBtn().setText("inactive");
                                     cardData.get(finalI).setStatutCarte("inactive");
@@ -141,7 +135,6 @@ public class carousel implements Initializable {
                         cbb.getLabelCardnumber().setText(cardData.get(i).getNumero());
                             cbb.getLabelDate().setText(cardData.get(i).getDateExpiration().toString());
                         cbb.setStatuts(cardData.get(i).getStatutCarte());
-
                         LocalDate today1 = LocalDate.now();
                         // Calculate the expiration date with at least 3 months added
                         LocalDate expirationPlusThreeMonths1 = today1.plusMonths(3);
@@ -164,8 +157,6 @@ public class carousel implements Initializable {
                             cbb.getHyperlinkDate().setTextFill(Color.ORANGE);
                         }
                         cbb.getHyperlinkDate().setText(actionn);
-
-
                         int finalII1 = i;
                         cbb.getHyperlinkDate().setOnAction(event -> {
                             Card data = cardData.get(finalII1);
@@ -186,8 +177,6 @@ public class carousel implements Initializable {
                                 renewcard( data);
                             }
                         });
-
-
                         if(Objects.equals(cardData.get(i).getStatutCarte(), "active"))
                         {
                             cbb.getBtn().setText("active");
@@ -222,12 +211,6 @@ public class carousel implements Initializable {
                         cbbb.getLabelCardnumber().setText(cardData.get(i).getNumero());
                         cbbb.getLabelDate().setText(cardData.get(i).getDateExpiration().toString());
                         cbbb.setStatuts(cardData.get(i).getStatutCarte());
-
-
-
-
-
-
                         LocalDate today2 = LocalDate.now();
                         // Calculate the expiration date with at least 3 months added
                         LocalDate expirationPlusThreeMonths2 = today2.plusMonths(3);
@@ -250,12 +233,9 @@ public class carousel implements Initializable {
                             cbbb.getHyperlinkDate().setTextFill(Color.ORANGE);
                         }
                         cbbb.getHyperlinkDate().setText(actionnn);
-
-
                         int finalIII1 = i;
                         cbbb.getHyperlinkDate().setOnAction(event -> {
                             Card data = cardData.get(finalIII1);
-
                             // Define the action to be performed when clicked
                             System.out.println("Clicked on the expiration date: " + data.getDateExpiration());
                             System.out.println(data.getCsv());
@@ -272,12 +252,6 @@ public class carousel implements Initializable {
                                 renewcard( data);
                             }
                         });
-
-
-
-
-
-
                         if(Objects.equals(cardData.get(i).getStatutCarte(), "active"))
                         {
                             cbbb.getBtn().setText("active");
@@ -320,9 +294,7 @@ public class carousel implements Initializable {
                 try {
                     FXMLLoader buttonLoader = new FXMLLoader(getClass().getResource("/banque/GestionCard/addCardNormalClientbutton.fxml"));
                     GridPane page = buttonLoader.load();
-
 //                    Scene scene = new Scene((Parent) page);
-//
 //                    // Bind the prefHeight and prefWidth of the page to the height and width of its scene
 //                    page.prefHeightProperty().bind(scene.heightProperty());
 //                    page.prefWidthProperty().bind(scene.widthProperty());
@@ -358,6 +330,7 @@ public class carousel implements Initializable {
     }
     private ObservableList<Card> initialData() throws SQLException {
         CardCrud ps = new CardCrud();
+        //idtoopencompte;
         return FXCollections.observableArrayList(ps.getAllNormlaCardByCompteid(2));
     }
     private void slideOut(StackPane pane, double width) {

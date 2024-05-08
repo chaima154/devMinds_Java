@@ -58,7 +58,6 @@ private String statuts;
     public String getStatuts() {
         return statuts;
     }
-
     public void setStatuts(String statuts) {
         this.statuts = statuts;
     }
@@ -83,7 +82,6 @@ private String statuts;
     public void setLabelDate(Label labelDate) {
         this.labelDate = labelDate;
     }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         LocalDate today = LocalDate.now();
@@ -91,6 +89,4 @@ private String statuts;
         LocalDate expirationPlusThreeMonths = today.plusMonths(3);
 
     }
-
-
 }

@@ -194,7 +194,7 @@ public class CardCrud implements  IService<Card>{
     @Override
     public ArrayList<Card> getAllNormlaCard() throws SQLException {
         ArrayList<Card> data =new ArrayList<>();
-        String requet= "SELECT c.* FROM carte c JOIN type_carte tc ON c.type_carte_id= tc.id WHERE tc.type_carte != 'carte prépayée'";
+        String requet= "SELECT c.* FROM carte c JOIN type_carte tc ON c.type_carte_id= tc.id WHERE tc.type_carte != 'carte prépayée' AND c.statut_carte != 'Waiting' AND c.statut_carte != 'Accepted' AND c.statut_carte != 'Refused'";
         try{
             Statement st= MyConnection.getInstance().getCnx().createStatement();
             ResultSet rs=st.executeQuery(requet);
@@ -218,18 +218,11 @@ public class CardCrud implements  IService<Card>{
         }
         return data;
     }
-
-
-
-
-
-
-
     @Override
     public ArrayList<Card> getAllPrepaedCard() throws SQLException {
         ArrayList<Card> data =new ArrayList<>();
-        String requet= "SELECT c.* FROM carte c JOIN type_carte tc ON c.type_carte_id= tc.id WHERE tc.type_carte = 'carte prépayée'";
-        try{
+        String requet= "SELECT c.* FROM carte c JOIN type_carte tc ON c.type_carte_id= tc.id WHERE tc.type_carte = 'carte prépayée' AND c.statut_carte != 'Waiting' AND c.statut_carte !='Accepted' AND c.statut_carte !='Refused'";
+            try{
             Statement st= MyConnection.getInstance().getCnx().createStatement();
             ResultSet rs=st.executeQuery(requet);
             while (rs.next())
@@ -252,9 +245,6 @@ public class CardCrud implements  IService<Card>{
         }
         return data;
     }
-
-
-
 
 
 
@@ -309,7 +299,7 @@ public class CardCrud implements  IService<Card>{
 
     public ArrayList<Card> getAllNormlaCardByCompteid(int id) throws SQLException {
         ArrayList<Card> data =new ArrayList<>();
-        String requet = "SELECT c.* FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE tc.type_carte != 'carte prépayée' AND c.statut_carte != 'Waiting' AND c.compte_id = ?";
+        String requet = "SELECT c.* FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE tc.type_carte != 'carte prépayée' AND c.statut_carte != 'Waiting' AND c.statut_carte != 'Accepted' AND c.statut_carte != 'Refused' AND c.compte_id = ?";
         try(
             PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(requet)) {
                 statement.setInt(1, id);
@@ -336,7 +326,7 @@ public class CardCrud implements  IService<Card>{
     }
     public ArrayList<Card> getAllPrepaedCardById(int id) throws SQLException {
         ArrayList<Card> data =new ArrayList<>();
-        String requet = "SELECT c.* FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE tc.type_carte = 'carte prépayée' AND c.statut_carte != 'Waiting' AND c.compte_id = ?";
+        String requet = "SELECT c.* FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE tc.type_carte = 'carte prépayée' AND c.statut_carte != 'Waiting' AND c.compte_id = ? AND c.statut_carte != 'Accepted' AND c.statut_carte != 'Refused'";
         try(
                 PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(requet)) {
             statement.setInt(1, id);
@@ -439,6 +429,11 @@ public class CardCrud implements  IService<Card>{
             }
         }
     }
+
+
+
+
+
     public boolean containstypeValueWaiting(int id) {
         String query = "SELECT COUNT(*) FROM carte WHERE statut_carte = ? AND compte_id=?";
         try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query)) {
@@ -458,7 +453,36 @@ public class CardCrud implements  IService<Card>{
 
 
 
-
+    public int containsWaitingcardprpaedRefused(int id) {
+        int x=0;
+        String query = "SELECT COUNT(*) AS card_count FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE c.compte_id =? AND tc.type_carte = 'carte prépayée'And c.statut_carte='Refused'";
+        try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query)) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("card_count");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+    public int containsWaitingcardprpaedAccepted(int id) {
+        int x=0;
+        String query = "SELECT COUNT(*) AS card_count FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE c.compte_id =? AND tc.type_carte = 'carte prépayée'And c.statut_carte='Accepted'";
+        try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query)) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+             return resultSet.getInt("card_count");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
     public int containsWaitingcardprpaed(int id) {
         int x=0;
         String query = "SELECT COUNT(*) AS card_count FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE c.compte_id =? AND tc.type_carte = 'carte prépayée'And c.statut_carte='Waiting'";
@@ -476,6 +500,36 @@ public class CardCrud implements  IService<Card>{
     }
 
 
+    public int containsWaitingnormalcardAccepted(int id) {
+        int x=0;
+        String query = "SELECT COUNT(*) AS card_count FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE c.compte_id =? AND tc.type_carte != 'carte prépayée'And c.statut_carte='Accepted'";
+        try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query)) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("card_count");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+    public int containsWaitingnormalcardRefused(int id) {
+        int x=0;
+        String query = "SELECT COUNT(*) AS card_count FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE c.compte_id =? AND tc.type_carte != 'carte prépayée'And c.statut_carte='Refused'";
+        try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query)) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("card_count");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
 
 
     public int containstypeCardpreapaed() {

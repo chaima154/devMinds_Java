@@ -49,7 +49,6 @@ import tn.devMinds.tools.MyConnection;
 public class ShowCardClient implements Initializable {
     @FXML
     private ImageView notif;
-
     @FXML
     private TableColumn<Card, Integer> csv;
     @FXML
@@ -67,35 +66,33 @@ public class ShowCardClient implements Initializable {
     public int getIdtoopencompte() {
         return idtoopencompte;
     }
-
     public void setIdtoopencompte(int idtoopencompte) {
         this.idtoopencompte = idtoopencompte;
     }
-
     @FXML
     private int idtoopencompte;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        updateCardStatusAndDelete(2);
+
         reload();
         addButtonStatusToTableprepaedcard();
         addButtonLostToTableprepaedcard();
         addButtonToTableprepaedcard();
         loadcard();
-
-
     }
-
     private void loadcard()
-    { try {
+    {
+        try {
         Pane page = FXMLLoader.load(getClass().getResource("/banque/GestionCard/carouselCard.fxml"));
         paneCardPrinciapl.getChildren().setAll(page);
     } catch (IOException e) {
         throw new RuntimeException(e);
-    }}
+                            }
+    }
     ObservableList<Card>initialData() throws SQLException
     {
         CardCrud ps=new CardCrud();
+        //idtoopencompte;
         return FXCollections.observableArrayList(ps.getAllPrepaedCardById(2));
     }
     private void reload(){
@@ -183,7 +180,6 @@ public class ShowCardClient implements Initializable {
                     private final Button btnpassword = new Button("mot de passe oublié");
                     private final Button btnrecharger = new Button("recharger");
                     private final Button btnSupprimer = new Button("Supprimer"); // Renamed button
-
                     {
                         btnpassword.setOnAction((ActionEvent event) -> {
                             Card data = getTableView().getItems().get(getIndex());
@@ -245,13 +241,12 @@ public class ShowCardClient implements Initializable {
         colBtn.setCellFactory(cellFactory);
         tableView.getColumns().add(colBtn);
     }
-
+    //idtoopencompte;
     private Node createRechargeForm(int id, int idcompte,double totale) {
         GridPane gridPane = new GridPane();
         gridPane.add(new Label("Amount"), 0, 0);
         TextField amountTextField = new TextField(); // Create TextField for amount input
         gridPane.add(amountTextField, 1, 0);
-
         Button submitButton = new Button("Submit");
         submitButton.setOnAction(event -> {
             // Retrieve the amount entered by the user
@@ -294,7 +289,6 @@ public class ShowCardClient implements Initializable {
         colBtn.setCellFactory(param -> {
             TableCell<Card, Void> cell = new TableCell<>() {
                 private final Button btn = new Button();
-
                 {
                     btn.setOnAction(event -> {
                         Card data = getTableView().getItems().get(getIndex());
@@ -309,13 +303,11 @@ public class ShowCardClient implements Initializable {
                                 btn.setText("active");
                                 data.setStatutCarte("active");
                             }
-
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         }
                     });
                 }
-
                 @Override
                 protected void updateItem(Void item, boolean empty) {
                     super.updateItem(item, empty);
@@ -336,12 +328,6 @@ public class ShowCardClient implements Initializable {
         });
         tableView.getColumns().add(colBtn);
     }
-
-
-
-
-
-
     private void addButtonLostToTableprepaedcard() {
         TableColumn<Card, Void> colBtnLost = new TableColumn<>();
         colBtnLost.setCellFactory(param -> {
@@ -388,7 +374,6 @@ public class ShowCardClient implements Initializable {
         });
         tableView.getColumns().add(colBtnLost);
     }
-
     LocalDate getDate() {
         LocalDate today = LocalDate.now();
         LocalDate futureDate = today.plusYears(2);
@@ -396,7 +381,6 @@ return futureDate;
     }
     private void renewcard(Card data)
     {
-
         CardCrud newcard=new CardCrud();
         Card renewCard=new Card();
         Compte newcompte=new Compte();
@@ -422,7 +406,6 @@ return futureDate;
             throw new RuntimeException(e);
         }
         reload();
-
     }
     @FXML
     void notifi(MouseEvent event ) {
@@ -439,13 +422,13 @@ return futureDate;
                 String status = resultSet.getString("statut_carte");
                 if (status.equals("Accepted")) {
                     // Update status to "Active" for cards with status "Accepted"
-                    String updateQuery = "UPDATE carte SET statut_carte = 'active' WHERE compte_id = ? ";
+                    String updateQuery = "UPDATE carte SET statut_carte = 'active' WHERE compte_id = ? AND statut_carte = 'Accepted' ";
                     PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
                     updateStatement.setInt(1, compteId);
                     updateStatement.executeUpdate();
                 } else if (status.equals("Refused")) {
                     // Delete cards with status "Refused"
-                    String deleteQuery = "DELETE FROM carte WHERE compte_id = ? ";
+                    String deleteQuery = "DELETE FROM carte WHERE compte_id = ? AND statut_carte = 'Refused'";
                     PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery);
                     deleteStatement.setInt(1, compteId);
                     deleteStatement.executeUpdate();
@@ -457,16 +440,28 @@ return futureDate;
         }
     }
     public void notifi(javafx.scene.input.MouseEvent mouseEvent) {
+       CardCrud cc=new CardCrud();
         Notification notification = new Notification();
-        notification.notifier("Card demands were verified");
-        updateCardStatusAndDelete(2);
-        reload();
-        loadcard();
+        //idtoopencompte;
+        idtoopencompte = 2;
+
+        if((cc.containsWaitingcardprpaedAccepted(idtoopencompte)==0)&&(cc.containsWaitingcardprpaedAccepted(idtoopencompte)==0)&&(cc.containsWaitingnormalcardAccepted(idtoopencompte)==0)&&(cc.containsWaitingnormalcardRefused(idtoopencompte)==0))
+        {notification.notifier("pas de nouvelles mises à jour");}
+        else if((cc.containsWaitingcardprpaedRefused(idtoopencompte)!=0)&&(cc.containsWaitingcardprpaedAccepted(idtoopencompte)!=0)&&(cc.containsWaitingnormalcardRefused(idtoopencompte)==0)&&(cc.containsWaitingnormalcardAccepted(idtoopencompte)==0))
+        {updateCardStatusAndDelete(2);
+            reload();
+            notification.notifier("la carte prépayée a été mise à jour");
+        }
+            else if((cc.containsWaitingcardprpaedAccepted(idtoopencompte)==0)&&(cc.containsWaitingcardprpaedRefused(idtoopencompte)==0)&&(cc.containsWaitingnormalcardAccepted(idtoopencompte)!=0)&&(cc.containsWaitingnormalcardRefused(idtoopencompte)!=0))
+            {notification.notifier("la carte  a été mise à jour");updateCardStatusAndDelete(2);loadcard();}
+        else if((cc.containsWaitingcardprpaedAccepted(idtoopencompte)!=0)&&(cc.containsWaitingcardprpaedRefused(idtoopencompte)!=0)&&(cc.containsWaitingnormalcardAccepted(idtoopencompte)!=0)&&(cc.containsWaitingnormalcardRefused(idtoopencompte)!=0))
+        {notification.notifier("la demande a été traitée");updateCardStatusAndDelete(2);loadcard();reload();}
+            else{notification.notifier("Les demandes des cartes sont à jour");
+        }
     }
-
-
     public boolean requestmorepcbtn(ActionEvent actionEvent) {
         CardCrud cc = new CardCrud();
+        //idtoopencompte;
         idtoopencompte = 2;
         int cardsToCreate = 5; // Desired number of cards to create
         int createdCards = cc.containsWaitingcardprpaed(idtoopencompte);
@@ -476,7 +471,6 @@ return futureDate;
             return false;
         }
         while (createdCards < cardsToCreate) {
-
             Card newcard = new Card();
             newcard.setNumero(cc.generateUniqueNumero(16));
             newcard.setDateExpiration(getDate());
@@ -493,10 +487,10 @@ return futureDate;
             cc.add(newcard);
             createdCards++; // Increment the counter for created cards
         }
-
             Notification nottif = new Notification();
-            nottif.notifier("request has been treated");
-
+            nottif.notifier("la demande a été envoyée");
+            loadcard();
+            reload();
         return true;
     }
 

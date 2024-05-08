@@ -27,6 +27,15 @@ private int id;
     private Text description;
     private TypeCard typec;
     private int idcompte;
+
+    private int idtoopencompte;
+
+    public int getIdtoopencompte() {
+        return idtoopencompte;
+    }
+    public void setIdtoopencompte(int idtoopencompte) {
+        this.idtoopencompte = idtoopencompte;
+    }
     public void setData(TypeCard type)
 {
     Title.setText(type.getTypeCarte());
@@ -44,7 +53,8 @@ private int id;
     public void addrequest(javafx.scene.input.MouseEvent mouseEvent) {
         Notification not=new Notification();
         CardCrud cc=new CardCrud();
-        if(cc.containstypeValueWaiting(3)) {
+        //idtoopencompte;
+        if(cc.containstypeValueWaiting(2)) {
             not.notifier("Il y a déjà une demande en cours de traitement!");
              }
         else{Card newCard=new Card();
@@ -55,7 +65,8 @@ private int id;
         newCard.setDateExpiration(getDate());
         newCard.setMdp(cc.generateUniqueNumero(4));
         newCard.setStatutCarte("Waiting");
-        compte.setId(3);
+            //idtoopencompte;
+        compte.setId(2);
         typeCard.setId(typec.getId());
         newCard.setCompte(compte);
         newCard.setTypeCarte(typeCard);

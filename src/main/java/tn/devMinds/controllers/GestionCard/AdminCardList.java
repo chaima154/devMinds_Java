@@ -93,23 +93,19 @@ public class AdminCardList implements Initializable {
             Integer numberOfWaitingCards = cellData.getValue().getValue();
             return new SimpleIntegerProperty(numberOfWaitingCards).asObject();
         });
-
         // Create cell factory for the new column
         Callback<TableColumn<Map.Entry<String, Integer>, Void>, TableCell<Map.Entry<String, Integer>, Void>> cellFactory =
                 new Callback<TableColumn<Map.Entry<String, Integer>, Void>, TableCell<Map.Entry<String, Integer>, Void>>() {
                     @Override
                     public TableCell<Map.Entry<String, Integer>, Void> call(final TableColumn<Map.Entry<String, Integer>, Void> param) {
                         return new TableCell<Map.Entry<String, Integer>, Void>() {
-
                             private final Button acceptButton = new Button("Accept");
                             private final Button refuseButton = new Button("Refuse");
                             private String currentRib; // Store the RIB for the current row
-
                             {
                                 acceptButton.setOnAction(event -> handleAccept(currentRib));
                                 refuseButton.setOnAction(event -> handleRefuse(currentRib));
                             }
-
                             @Override
                             public void updateItem(Void item, boolean empty) {
                                 super.updateItem(item, empty);
@@ -124,39 +120,37 @@ public class AdminCardList implements Initializable {
                         };
                     }
                 };
-
         TableColumn<Map.Entry<String, Integer>, Void> colActions = new TableColumn<>("Actions");
         colActions.setCellFactory(cellFactory);
-
         demande.getColumns().add(colActions);
-
         try {
             String query = "SELECT cm.rib AS rib, COUNT(*) AS numberOfWaitingCards FROM carte c JOIN compte cm ON c.compte_id = cm.id WHERE c.statut_carte = 'Waiting' GROUP BY cm.rib";
             PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
-
             ObservableList<Map.Entry<String, Integer>> data = FXCollections.observableArrayList();
             while (resultSet.next()) {
                 String rib = resultSet.getString("rib");
                 int numberOfWaitingCards = resultSet.getInt("numberOfWaitingCards");
+                System.out.println(numberOfWaitingCards);
                 Map.Entry<String, Integer> entry = new HashMap.SimpleEntry<>(rib, numberOfWaitingCards);
                 data.add(entry);
             }
             demande.setItems(data);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
     private void handleAccept(String rib) {
         System.out.println("Accept button clicked for RIB: " + rib);
         updateCardStatus(rib, "Accepted");
+        fillDemandeTable();
+
     }
 
     private void handleRefuse(String rib) {
         System.out.println("Refuse button clicked for RIB: " + rib);
         updateCardStatus(rib, "Refused");
+        fillDemandeTable();
     }
 
     private void updateCardStatus(String rib, String newStatus) {
@@ -182,6 +176,8 @@ public class AdminCardList implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         fillDemandeTable();reload();
+        addButtonToTableprepaedcard();
+        addButtonToTablemaincard();
     }
     private void reload(){
 
@@ -201,9 +197,9 @@ public class AdminCardList implements Initializable {
         dateExpirationCol1.setCellValueFactory(new PropertyValueFactory<>("dateExpiration"));
         compteCol1.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getCompte().getRib()));
         try {
-            addButtonToTablemaincard();
+
             tableview.setItems(initialData());
-            addButtonToTableprepaedcard();
+
             tableview1.setItems(initialData2());
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -234,7 +230,7 @@ public class AdminCardList implements Initializable {
         }
     }
     private void addButtonToTablemaincard() {
-        TableColumn<Card, Void> colBtn = new TableColumn<>("Button Column");
+        TableColumn<Card, Void> colBtn = new TableColumn<>("Actions");
         Callback<TableColumn<Card, Void>, TableCell<Card, Void>> cellFactory = new Callback<TableColumn<Card, Void>, TableCell<Card, Void>>() {
             @Override
             public TableCell<Card, Void> call(final TableColumn<Card, Void> param) {
@@ -302,7 +298,7 @@ public class AdminCardList implements Initializable {
         tableview.getColumns().add(colBtn);
     }
     private void addButtonToTableprepaedcard() {
-        TableColumn<Card, Void> colBtn = new TableColumn<>("Button Column");
+        TableColumn<Card, Void> colBtn = new TableColumn<>("Actions");
         Callback<TableColumn<Card, Void>, TableCell<Card, Void>> cellFactory = new Callback<TableColumn<Card, Void>, TableCell<Card, Void>>() {
             @Override
             public TableCell<Card, Void> call(final TableColumn<Card, Void> param) {

@@ -125,7 +125,6 @@ public class AddCardAdmin implements Initializable {
             System.out.println("Error: " + e.getMessage());
         }
     }
-
     @FXML
     public void comboTypeCarte() {
         String requet = "SELECT id,type_carte FROM type_carte";
@@ -134,7 +133,6 @@ public class AddCardAdmin implements Initializable {
             ResultSet rs = st.executeQuery(requet);
             ObservableList<String> listDataTypeCarte = FXCollections.observableArrayList();
             while (rs.next()) {
-
                 Integer id = rs.getInt("id");
                 String typecarte= rs.getString("type_carte");
                 listDataTypeCarte.add(typecarte );
@@ -177,14 +175,11 @@ public class AddCardAdmin implements Initializable {
          y=tableTypeCarteId.get(res);
         System.out.println(res);
     }
-
     private void getselectedelement(ActionEvent actionEvent)
     {
         statuts=cbstatutcarte.getValue();
         System.out.println(statuts);
     }
-
-
     @FXML
     public void retour(ActionEvent event) {
         FXMLLoader loader =new FXMLLoader(getClass().getResource("/banque/sidebarre_Admin.fxml"));

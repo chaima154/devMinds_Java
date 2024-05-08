@@ -1,5 +1,4 @@
 package tn.devMinds.controllers.GestionCard;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -46,20 +45,15 @@ public class AddTypeCardAdmin implements Initializable {
     private ChoiceBox<String> cbstatus;
     @FXML
     private Button addbtn;
-
     @FXML
     private Button modifbtn;
-
     @FXML
     private Button cancel;
-
     @FXML
     private int idtypecarte;
-
     public void setIdtypecarte(int idtypecarte) {
         this.idtypecarte = idtypecarte;
     }
-
     @FXML
     public void Addbtn(javafx.event.ActionEvent event) {
         TypeCardCrud ps = new TypeCardCrud();
@@ -107,21 +101,11 @@ public class AddTypeCardAdmin implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         modifbtn.setVisible(false);
-        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("descriptionCarte"));
-        statuscol.setCellValueFactory(new PropertyValueFactory<>("statusTypeCarte"));
-        typeCol.setCellValueFactory(new PropertyValueFactory<>("typeCarte"));
-        fraiscol.setCellValueFactory(new PropertyValueFactory<>("frais"));
-        try {
-            tableview.setItems(initialData());
-            addButtonToTablemaincard();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+
         cbstatus.getItems().addAll(choix);
         cbstatus.setOnAction(this::getselectedelement);
 
     }
-
     private void getselectedelement(javafx.event.ActionEvent actionEvent) {
         statuts = cbstatus.getValue();
         System.out.println(statuts);
@@ -137,14 +121,13 @@ private void reload()
         throw new RuntimeException(e);
     }}
     private void addButtonToTablemaincard() {
-        TableColumn<TypeCard, Void> colBtn = new TableColumn<>("Button Column");
+        TableColumn<TypeCard, Void> colBtn = new TableColumn<>("Action");
         Callback<TableColumn<TypeCard, Void>, TableCell<TypeCard, Void>> cellFactory = new Callback<TableColumn<TypeCard, Void>, TableCell<TypeCard, Void>>() {
             @Override
             public TableCell<TypeCard, Void> call(final TableColumn<TypeCard, Void> param) {
                 final TableCell<TypeCard, Void> cell = new TableCell<TypeCard, Void>() {
                     private final Button btnSupprimer = new Button("Supprimer");
                     private final Button btnEdit = new Button("Modifier statuts");
-
                     {
                         btnSupprimer.setOnAction((ActionEvent event) -> {
                             TypeCard data = getTableView().getItems().get(getIndex());
@@ -208,7 +191,6 @@ TypeCardCrud tcc=new TypeCardCrud();
     tc.setDescriptionCarte(tfdescription.getText());
     tc.setFrais(Float.valueOf(tffrais.getText()));
     tc.setStatusTypeCarte(cbstatus.getValue());
-
         try {
             if( tcc.update(tc)) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
