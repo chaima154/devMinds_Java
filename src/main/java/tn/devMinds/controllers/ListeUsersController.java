@@ -1,8 +1,13 @@
 package tn.devMinds.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,6 +15,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -41,7 +48,9 @@ public class ListeUsersController extends BackendHome {
 
     private UserService userService;
 
-    private ArrayList<User> allUsers; // Store all users
+    private ArrayList<User> allUsers;
+    ObservableList<User> userList = FXCollections.observableArrayList();
+// Store all users
 
 
     public ListeUsersController() throws SQLException {
@@ -59,6 +68,19 @@ public class ListeUsersController extends BackendHome {
         searchTermField.textProperty().addListener((observable, oldValue, newValue) -> {
             String searchTerm = newValue.trim().toLowerCase();
             filterUsers(searchTerm);
+        });
+
+        userList.addListener((ListChangeListener.Change<? extends User> change) -> {
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    // Handle additions
+                    userTableView.getItems().addAll(change.getAddedSubList());
+                } else if (change.wasRemoved()) {
+                    // Handle removals
+                    userTableView.getItems().removeAll(change.getRemoved());
+                }
+                // Handle other changes if necessary
+            }
         });
     }
 
@@ -113,15 +135,31 @@ public class ListeUsersController extends BackendHome {
                 private final Button deleteButton = new Button("Supprimer");
 
                 {
+                    updateButton.getStyleClass().add("add-button");
+                    deleteButton.getStyleClass().add("delete-button");
+
                     updateButton.setOnAction(event -> {
                         User user = getTableView().getItems().get(getIndex());
                         handleUpdateUser(user);
+                        refreshUserTableView();
                     });
 
                     deleteButton.setOnAction(event -> {
                         User user = getTableView().getItems().get(getIndex());
                         handleDeleteUser(user);
+                        refreshUserTableView();
                     });
+
+                    // Create an empty region to add space between the buttons
+                    Region spacer = new Region();
+                    HBox.setHgrow(spacer, Priority.ALWAYS); // Make the spacer grow to fill the available space
+
+                    HBox buttonBox = new HBox(updateButton, spacer, deleteButton);
+                    buttonBox.setAlignment(Pos.CENTER_LEFT); // Adjust alignment as needed
+                    buttonBox.setSpacing(10); // Adjust spacing as needed
+
+                    setGraphic(buttonBox);
+
                 }
 
                 @Override
@@ -166,7 +204,7 @@ public class ListeUsersController extends BackendHome {
             Parent root = loader.load();
 
             ModifierUserController modifierUserController = loader.getController();
-            modifierUserController.setUser(user); // Pré-remplir le formulaire avec les informations de l'utilisateur
+            modifierUserController.initData(user, this); // Pass reference to ListeUsersController
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -187,6 +225,9 @@ public class ListeUsersController extends BackendHome {
 
                 // Remove the user from the table view
                 userTableView.getItems().remove(user);
+
+                // Refresh the table view with updated data
+                refreshUserTableView();
             } else {
                 // Display an error message
                 System.out.println("Erreur lors de la suppression de l'utilisateur : " + errorMessage);
@@ -196,6 +237,16 @@ public class ListeUsersController extends BackendHome {
             System.out.println("Erreur SQL lors de la suppression de l'utilisateur : " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+
+    public void refreshUserTableView() {
+        // Fetch updated list of users from the database
+        ArrayList<User> updatedUsers;
+        updatedUsers = userService.getAllData();
+
+        // Update the table view with the new data
+        userTableView.getItems().setAll(updatedUsers);
     }
 
 

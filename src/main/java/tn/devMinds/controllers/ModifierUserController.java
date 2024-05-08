@@ -44,7 +44,19 @@ public class ModifierUserController extends BackendHome {
 
 
     private UserService userService;
+    private ListeUsersController listeUsersController;
     private User user;
+    public void initData(User user, ListeUsersController listeUsersController) {
+        this.user = user;
+        this.listeUsersController = listeUsersController;
+        // Pré-remplir les champs du formulaire avec les informations de l'utilisateur
+        firstNameField.setText(user.getNom());
+        lastNameField.setText(user.getPrenom());
+        emailField.setText(user.getEmail());
+        passwordField.setText(user.getMdp());
+        roleComboBox.setValue(user.getRole());
+    }
+
 
 
     public ModifierUserController() throws SQLException {
@@ -173,6 +185,10 @@ public class ModifierUserController extends BackendHome {
 
             // Call updateUser method to update user data
             updateUser(user.getId());
+
+            if (listeUsersController != null) {
+                listeUsersController.refreshUserTableView();
+            }
 
             // Close the form window
             Stage stage = (Stage) firstNameField.getScene().getWindow();
