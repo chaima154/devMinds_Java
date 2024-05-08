@@ -21,9 +21,9 @@
                     <children>
                         <HBox alignment="CENTER" spacing="10">
                             <TextField fx:id="searchTermField" promptText="Rechercher" styleClass="search-field" />
-                            <Button onAction="#searchUsers" styleClass="search-button" text="Rechercher" />
+
                             <Button onAction="#openAddUserDialog" styleClass="add-button" text="Ajouter Utilisateur" />
-                            <Button text="Télécharger en Excel" onAction="#downloadUsersAsExcel" />
+                            <Button text="Télécharger en Excel" styleClass="add-button" onAction="#downloadUsersAsExcel" />
 
                         </HBox>
                     </children>

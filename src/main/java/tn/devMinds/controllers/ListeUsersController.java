@@ -41,6 +41,9 @@ public class ListeUsersController extends BackendHome {
 
     private UserService userService;
 
+    private ArrayList<User> allUsers; // Store all users
+
+
     public ListeUsersController() throws SQLException {
         userService = new UserService();
     }
@@ -50,8 +53,30 @@ public class ListeUsersController extends BackendHome {
         // Called when the controller is initialized (after FXML loading)
         searchUsers();
         configureActionsColumn();
+        allUsers = userService.getAllData();
+
+        // Add a listener to the search term field text property
+        searchTermField.textProperty().addListener((observable, oldValue, newValue) -> {
+            String searchTerm = newValue.trim().toLowerCase();
+            filterUsers(searchTerm);
+        });
     }
 
+    private void filterUsers(String searchTerm) {
+        // Filter users based on the search term
+        ArrayList<User> filteredUsers = new ArrayList<>();
+        for (User user : allUsers) {
+            // Check if the search term is contained in any of the user's fields
+            if (user.getNom().toLowerCase().contains(searchTerm) ||
+                    user.getPrenom().toLowerCase().contains(searchTerm) ||
+                    user.getEmail().toLowerCase().contains(searchTerm)) {
+                filteredUsers.add(user);
+            }
+        }
+
+        // Update the table with the filtered users
+        updateTableView(filteredUsers);
+    }
     public void searchUsers() {
         String searchTerm = searchTermField.getText().trim().toLowerCase();
 
