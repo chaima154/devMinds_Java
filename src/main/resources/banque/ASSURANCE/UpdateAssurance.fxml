@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="borderPane" prefHeight="564.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.assurance.UpdateAssuranceController">
+    <center>
+        <VBox alignment="CENTER" spacing="20">
+            <padding>
+                <Insets top="50" right="50" bottom="50" left="50" />
+            </padding>
+            <children>
+                <Label text="Modifier Assurance" textFill="#3f704d">
+                    <font>
+                        <Font name="System Bold" size="32.0" />
+                    </font>
+                </Label>
+                <Label prefHeight="28.0" prefWidth="385.0" text="Nom">
+                    <font>
+                        <Font name="Baskerville Old Face" size="20.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="nom" prefHeight="40.0" prefWidth="400.0" />
+                <Label fx:id="resultat" prefHeight="46.0" prefWidth="407.0" text="Decription">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="description" prefHeight="40.0" prefWidth="400.0" />
+                <Label fx:id="resultat1" prefHeight="46.0" prefWidth="407.0" text="Prime">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="prime" prefHeight="40.0" prefWidth="400.0" />
+                <Label fx:id="resultat11" prefHeight="46.0" prefWidth="407.0" text="Franchise">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="franchise" prefHeight="40.0" prefWidth="400.0" />
+                <Button fx:id="CreateAccount" mnemonicParsing="false" onAction="#UpdateAssurance" prefHeight="29.0" prefWidth="187.0" style="-fx-background-color: #3f704d;" text="Modifier" textFill="#fffafa">
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                    <padding>
+                        <Insets top="20" />
+                    </padding>
+                </Button>
+            </children>
+        </VBox>
+    </center>
+    <bottom>
+        <Button fx:id="retourbtn" mnemonicParsing="false" onAction="#retour" prefHeight="38.0" prefWidth="81.0" style="-fx-background-color: #3f704d;" text="Retour" textFill="WHITE">
+            <font>
+                <Font size="17.0" />
+            </font>
+        </Button>
+    </bottom>
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20" />
+    </padding>
+</BorderPane>

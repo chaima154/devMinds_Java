@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane prefHeight="830.0" prefWidth="1098.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.demande.DemandefrontListController">
+            <children>
+
+                <HBox layoutY="57.0" prefHeight="93.0" prefWidth="1098.0">
+                    <children>
+                        <Label prefHeight="17.0" prefWidth="263.0" text="Les demandes">
+                            <HBox.margin>
+                                <Insets left="90.0" top="40.0" />
+                            </HBox.margin>
+                            <font>
+                                <Font name="Georgia" size="24.0" />
+                            </font>
+                        </Label>
+
+                    </children>
+                </HBox>
+
+                <TableView fx:id="table" layoutX="11.0" layoutY="228.0" prefHeight="521.0" prefWidth="1053.0">
+                    <columns>
+                  <TableColumn fx:id="nomClientColumn" minWidth="4.600006103515625" prefWidth="132.40000915527344" text="Nom de client" />
+                        <TableColumn fx:id="assuranceColumn" minWidth="4.600006103515625" prefWidth="167.0" text="Type d'assurance" />
+                        <TableColumn fx:id="D_dColumn" prefWidth="143.0" text="Date debut" />
+                        <TableColumn fx:id="D_fColumn" prefWidth="146.20001220703125" text="Date fin" />
+                  <TableColumn fx:id="montantColumn" prefWidth="115.39996337890625" text="Montant" />
+                  <TableColumn fx:id="modeColumn" prefWidth="119.79998779296875" text="Mode de paiment" />
+                        <TableColumn fx:id="etatColumn" prefWidth="88.0" text="etat" />
+                  <TableColumn fx:id="actionColumn" prefWidth="139.199951171875" text="Actions" />
+                    </columns>
+                </TableView>
+
+                <HBox alignment="CENTER" layoutX="111.0" layoutY="179.0" maxHeight="-Infinity" prefHeight="33.0" prefWidth="302.0" styleClass="round-layout" stylesheets="@../css/styles.css">
+                    <children>
+                        <TextField fx:id="searchTerm" prefHeight="25.0" prefWidth="237.0" promptText="Recherche.." styleClass="transparent" stylesheets="@../css/styles.css" />
+
+                    </children>
+                </HBox>
+                  <ChoiceBox fx:id="filterChoiceBox" layoutX="946.0" layoutY="166.0" onAction="#filtrerDemandes" prefHeight="20.0" prefWidth="118.0" style="-fx-background-color: #3f704d;">
+                      <items>
+                          <FXCollections fx:factory="observableArrayList">
+                              <String fx:value="All" />
+                              <String fx:value="Pending" />
+                              <String fx:value="Accepted" />
+                              <String fx:value="Refused" />
+                          </FXCollections>
+                      </items>
+                  </ChoiceBox>
+
+                  <Label layoutX="847.0" layoutY="170.0" text="Filtrer par etat :">
+                      <font>
+                          <Font name="System Bold Italic" size="12.0" />
+                      </font>
+                  </Label>
+
+            </children>
+        </AnchorPane>
