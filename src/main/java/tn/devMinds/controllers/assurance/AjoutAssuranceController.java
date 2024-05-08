@@ -4,7 +4,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -19,6 +21,7 @@ public class AjoutAssuranceController extends SideBarre_adminController {
     public AssuranceListController assuranceListController;
     @FXML
     public BorderPane borderPane;
+    public Button retourbtn;
     @FXML
     private TextField nom;
     @FXML
@@ -42,8 +45,19 @@ public class AjoutAssuranceController extends SideBarre_adminController {
     }
 
     private void retourner() throws IOException {
-        // Load the appropriate list view (ListAssurence.fxml)
-    }
+        retourbtn.setOnAction(event -> {
+            // Get the current scene
+            Scene scene = retourbtn.getScene();
+
+            // Get the stage (window) of the current scene
+            Stage stage = (Stage) scene.getWindow();
+
+            // Close the current stage
+            stage.close();
+
+            // Alternatively, if you want to go back to the previous scene without closing the window:
+            // stage.setScene(previousScene);
+        });    }
 
 
     @FXML

@@ -6,10 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
-<BorderPane fx:id="borderPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.demande.DemandefrontListController">
-   <right>
-        <AnchorPane prefHeight="830.0" prefWidth="1098.0" BorderPane.alignment="CENTER">
+<AnchorPane prefHeight="830.0" prefWidth="1098.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.demande.DemandefrontListController">
             <children>
 
                 <HBox layoutY="57.0" prefHeight="93.0" prefWidth="1098.0">
@@ -22,11 +19,7 @@
                                 <Font name="Georgia" size="24.0" />
                             </font>
                         </Label>
-                        <Button fx:id="ajout" mnemonicParsing="false" onAction="#ajout" prefHeight="43.0" prefWidth="208.0" style="-fx-background-color: #3f704d;" text="Les demandes acceptes et refuses" textFill="WHITE">
-                            <HBox.margin>
-                                <Insets left="500.0" top="50.0" />
-                            </HBox.margin>
-                        </Button>
+
                     </children>
                 </HBox>
 
@@ -68,5 +61,3 @@
 
             </children>
         </AnchorPane>
-   </right>
-</BorderPane>

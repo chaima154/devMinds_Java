@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import tn.devMinds.controllers.ClientMenuController;
 import tn.devMinds.controllers.SideBarre_adminController;
 import tn.devMinds.entities.Assurence;
 import tn.devMinds.entities.Demande;
@@ -23,7 +24,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AjoutDemandefront extends SideBarre_adminController {
+public class AjoutDemandefront extends ClientMenuController {
     @FXML
     ObservableList<String> modeplist = FXCollections.observableArrayList("mensuel","trimestiel","annual");
 
@@ -59,9 +60,6 @@ public class AjoutDemandefront extends SideBarre_adminController {
 
     @FXML
     private String selectedAssuranceName; // Moved declaration here
-
-
-
 
 
     @FXML
@@ -161,40 +159,15 @@ public class AjoutDemandefront extends SideBarre_adminController {
         if (result == null) {
             // Success
             showAlert("Demande ajoutée avec succès !");
-            handleSuccessfulAddition();
+            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            stage.close();
         } else {
             // Error occurred
             showAlert("Erreur lors de l'ajout de la demande : " + result);
         }
     }
 
-    public void handleSuccessfulAddition() {
-        try {
-            // Get the current scene
-            Scene scene = adddembtn.getScene();
 
-            // Get the stage (window) of the current scene
-            Stage stage = (Stage) scene.getWindow();
-
-            // Close the current stage
-            stage.close();
-
-            // Open DemandefrontList stage
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/DEMANDE/ListDemandeFront.fxml"));
-            Parent parent = loader.load();
-            DemandefrontListController Demandelistfront = loader.getController();
-            if (loader.getController() instanceof DemandefrontListController) {
-                Demandelistfront.setSidebarController(this);
-                // Create a new stage and set the scene
-                Stage newStage = new Stage();
-                newStage.setScene(new Scene(parent));
-                newStage.show();
-            }
-        } catch (IOException e) {
-            showAlert("Erreur lors de l'ouverture de la liste des demandes : " + e.getMessage());
-            e.printStackTrace(); // Print stack trace for debugging
-        }
-    }
 
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

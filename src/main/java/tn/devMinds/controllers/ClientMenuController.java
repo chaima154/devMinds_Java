@@ -7,6 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import tn.devMinds.controllers.assurance.frontassurance;
+import tn.devMinds.controllers.demande.DemandefrontListController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,10 +22,41 @@ public class ClientMenuController implements Initializable {
     public Button logout_btn;
     public Button report_btn;
     public BorderPane borderPane;
+    public Button assurance_btn;
+    public Button demande_btn;
     private ClientMenuController clientMenuController;
     public void setBorderPane(BorderPane borderPane) {
         this.borderPane = borderPane;
     }
+
+
+
+    public void setSidebarController(ClientMenuController clientMenuController) {
+    }
+    @FXML
+    public void demandefront(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/DEMANDE/ListDemandeFront.fxml"));
+        Parent parent = loader.load();
+        DemandefrontListController Demandelistfront = loader.getController();
+        if (loader.getController() instanceof DemandefrontListController) {
+            Demandelistfront.setSidebarController(this);
+            this.borderPane.setCenter(parent);
+        }
+
+    }
+
+    @FXML
+    public void Assurancefront(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ASSURANCE/frontassurance.fxml"));
+        Parent parent = loader.load();
+        frontassurance Frontassurance = loader.getController();
+        if (loader.getController() instanceof frontassurance) {
+            Frontassurance.setSidebarController(this);
+            this.borderPane.setCenter(parent);
+        }
+    }
+
+
     @FXML
     void goTransaction(MouseEvent event) throws IOException {
 
@@ -41,5 +74,6 @@ public class ClientMenuController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
+
 
 }

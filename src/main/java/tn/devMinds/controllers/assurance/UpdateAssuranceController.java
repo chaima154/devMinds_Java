@@ -4,7 +4,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -16,6 +18,7 @@ import java.io.IOException;
 
 public class UpdateAssuranceController extends SideBarre_adminController {
 
+    public Button retourbtn;
     @FXML
     private BorderPane borderPane;
     private SideBarre_adminController sidebarController;
@@ -50,12 +53,19 @@ public class UpdateAssuranceController extends SideBarre_adminController {
     }
 
     private void retourner() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ASSURANCE/ListAssurance.fxml"));
-        Parent parent = loader.load();
-        AssuranceListController assuranceListController = loader.getController();
-        assuranceListController.setSidebarController(this.sidebarController);
-        borderPane.setCenter(parent);
-    }
+        retourbtn.setOnAction(event -> {
+            // Get the current scene
+            Scene scene = retourbtn.getScene();
+
+            // Get the stage (window) of the current scene
+            Stage stage = (Stage) scene.getWindow();
+
+            // Close the current stage
+            stage.close();
+
+            // Alternatively, if you want to go back to the previous scene without closing the window:
+            // stage.setScene(previousScene);
+        });    }
 
     @FXML
     void UpdateAssurance(ActionEvent event) throws IOException {

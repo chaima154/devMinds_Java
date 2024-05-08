@@ -6,28 +6,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import tn.devMinds.controllers.SideBarre_adminController;
+import tn.devMinds.controllers.ClientMenuController;
 import tn.devMinds.entities.Assurence;
 import tn.devMinds.entities.Demande;
 import tn.devMinds.iservices.ServiceDemande;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class DemandefrontListController implements Initializable {
+public class DemandefrontListController extends ClientMenuController {
     @FXML
     public ChoiceBox filterChoiceBox;
-    @FXML
-    private BorderPane borderPane;
     @FXML
     private TableView<Demande> table;
     @FXML
@@ -50,6 +43,7 @@ public class DemandefrontListController implements Initializable {
     private TextField searchTerm;
 
     private final ServiceDemande demandeService = new ServiceDemande();
+
     @FXML
     void filtrerDemandes(ActionEvent event) {
         String selectedEtat = (String) filterChoiceBox.getValue();
@@ -69,6 +63,7 @@ public class DemandefrontListController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         filterChoiceBox.setValue("All");
@@ -92,16 +87,14 @@ public class DemandefrontListController implements Initializable {
         });
     }
 
-     ObservableList<Demande> getAllList() throws SQLException {
+    ObservableList<Demande> getAllList() throws SQLException {
         return FXCollections.observableArrayList(demandeService.getAllData());
     }
 
-
     private void setupActionColumn() {
-        actionColumn.setCellFactory(param -> new TableCell<Demande, Void>() {
-            private final Button deleteBtn = new Button("supprimer");
-            private final Button updateBtn = new Button("Modifier");
-            private final HBox hbox = new HBox(5, updateBtn, deleteBtn);
+        actionColumn.setCellFactory(param -> new TableCell<>() {
+            private final Button deleteBtn = new Button("Annuler");
+            private final HBox hbox = new HBox(5, deleteBtn);
 
             {
                 deleteBtn.setOnAction(event -> {
@@ -127,39 +120,19 @@ public class DemandefrontListController implements Initializable {
                         }
                     }
                 });
-
-
-                updateBtn.setOnAction(event -> {
-                    Demande demande = getTableView().getItems().get(getIndex());
-                    openUpdateFXML(demande);
-                });
-
             }
 
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                setGraphic(empty ? null : hbox);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(hbox);
+                }
             }
         });
     }
-
-    private void openUpdateFXML(Demande demande) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/DEMANDE/ModifDemande.fxml"));
-            Parent root = loader.load();
-
-            ModifDemandeController controller = loader.getController();
-            controller.initializeData(demande);
-            controller.setSidebarController(this); // Pass the reference to the sidebar controller
-
-            borderPane.setCenter(root);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 
     public void showList(ObservableList<Demande> observableList) {
         nomClientColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getNomClient()));
@@ -184,15 +157,6 @@ public class DemandefrontListController implements Initializable {
     }
 
 
-    public void ajout(ActionEvent actionEvent) {
-    }
 
 
-    public void setBorderPane(BorderPane borderPane) {
-        this.borderPane = borderPane;
-    }
-
-
-    public void setSidebarController(SideBarre_adminController ajoutDemandefront) {
-    }
 }

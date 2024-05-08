@@ -3,8 +3,10 @@ package tn.devMinds.controllers.assurance;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.*;
-import tn.devMinds.controllers.demande.AjoutDemandefront;
+import javafx.scene.layout.BorderPane;
+import tn.devMinds.controllers.ClientMenuController;
 import tn.devMinds.controllers.SideBarre_adminController;
+import tn.devMinds.controllers.demande.AjoutDemandefront;
 import tn.devMinds.controllers.demande.DemandefrontListController;
 import tn.devMinds.entities.Assurence;
 import tn.devMinds.iservices.AssuranceService;
@@ -13,7 +15,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,9 +26,9 @@ import java.net.URL;
 import java.sql.Connection;
 import java.util.ResourceBundle;
 
-public class frontassurance implements Initializable {
-    private Connection cnx;
-    private Assurence selectedAssurence;
+public class frontassurance extends ClientMenuController {
+    @FXML
+    public Button choice1;
     @FXML
     private TextField searchTerm;
     @FXML
@@ -41,14 +42,13 @@ public class frontassurance implements Initializable {
     @FXML
     private TableColumn<Assurence, String> franchiseColumn;
 
-    public void setSidebarController(SideBarre_adminController sidebarController) {
-    }
 
-    private AssuranceService assuranceService = new AssuranceService();
+    private final AssuranceService assuranceService = new AssuranceService();
 
 
     @FXML
     private Button choice;
+
 
     @FXML
     void addchoice(ActionEvent event) throws IOException {
@@ -58,27 +58,22 @@ public class frontassurance implements Initializable {
 
         // Load the demandefront.fxml file
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/DEMANDE/demandefront.fxml"));
-        Parent demandefrontParent = loader.load();
 
         // Pass the selected assurance's name to the demandefront controller
+        Parent root = loader.load();
         AjoutDemandefront ajoutDemandefrontController = loader.getController();
         ajoutDemandefrontController.setSelectedAssuranceName(selectedAssurenceName);
 
         // Set up the scene and stage
-        Scene demandefrontScene = new Scene(demandefrontParent);
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(demandefrontScene);
-        window.show();
-    }
-
-
-
-    @FXML
-    void selectA(MouseEvent event) {
-       Assurence SelectedAssurence = table.getSelectionModel().getSelectedItem();
-
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
 
     }
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showass(getAllList());
@@ -97,26 +92,9 @@ public class frontassurance implements Initializable {
         franchiseColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getFranchise()).asString());
         table.setItems(observableList);
     }
-    /*public ObservableList<Assurence> getAssurences() {
-        ObservableList<Assurence> assurances = FXCollections.observableArrayList();
-        String query = "SELECT * FROM assurance";
-        cnx = MyConnection.getInstance().getCnx();
-        try {
-            Statement st = cnx.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            while (rs.next()) {
-                Assurence a = new Assurence();
-                a.setNom(rs.getString("nom"));
-                a.setDescription(rs.getString("description"));
-                a.setFranchise(rs.getInt("franchise"));
-                a.setPrime(rs.getInt("prime"));
-                assurances.add(a);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return assurances;
-    }*/
+
+    public void setSidebarController(ClientMenuController clientMenuController) {
+    }
 
 }
 

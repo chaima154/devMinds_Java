@@ -212,23 +212,7 @@
                             </children>
 
                         </HBox>
-                        <Separator layoutX="10.0" layoutY="392.0" prefWidth="200.0" />
-                        <HBox layoutX="10.0" layoutY="163.0" prefHeight="50.0" prefWidth="200.0" styleClass="mouse-moved" stylesheets="@css/styles.css">
-                            <children>
 
-                                <SplitMenuButton mnemonicParsing="false" prefHeight="43.0" prefWidth="165.0" styleClass="transparent" text="Assurance front">
-                                    <items>
-                                        <MenuItem onAction="#Assurence" text="Assurance" />
-                                        <MenuItem onAction="#demandefront" text="Les demandes">
-                                        </MenuItem>
-                                    </items>
-                                    <font>
-                                        <Font name="Georgia" size="13.0" />
-                                    </font>
-                                </SplitMenuButton>
-
-                            </children>
-                        </HBox>
                         <Separator layoutX="10.0" layoutY="133.0" prefWidth="200.0" />
                     </children>
                     <padding>

@@ -71,6 +71,16 @@
                             <!-- <FontAwesomeIconView glyphName="HANDSHAKE_ALT" size="20" />-->
                         </graphic>
                     </Button>
+                    <Button fx:id="assurance_btn" mnemonicParsing="false" text="Assurances" onMouseClicked="#Assurancefront">
+                        <graphic>
+                            <!-- <FontAwesomeIconView glyphName="HANDSHAKE_ALT" size="20" />-->
+                        </graphic>
+                    </Button>
+                    <Button fx:id="demande_btn" mnemonicParsing="false" text="Les demandes" onMouseClicked="#demandefront">
+                        <graphic>
+                            <!-- <FontAwesomeIconView glyphName="HANDSHAKE_ALT" size="20" />-->
+                        </graphic>
+                    </Button>
                     <Button fx:id="accounts_btn" mnemonicParsing="false" text="Accounts" onMouseClicked="#goTransaction">
                         <graphic>
                             <!-- <FontAwesomeIconView glyphName="ADDRESS_BOOK_ALT" size="20" />-->
