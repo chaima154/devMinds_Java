@@ -16,4 +16,6 @@ public class ClientDashboardController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
+    public void clientMenuController(ClientMenuController clientMenuController) {
+    }
 }

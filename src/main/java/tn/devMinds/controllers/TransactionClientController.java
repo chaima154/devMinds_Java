@@ -63,7 +63,7 @@ public class TransactionClientController implements Initializable {
     }
 
     private int getClientIdFromPreferences() {
-        preferences = Preferences.userRoot().node(MainFx.class.getName());
+        preferences = Preferences.userRoot().node(LoginController.class.getName());
         String savedValue = preferences.get("Id_Client", "0");
         System.out.println(savedValue);
         return Integer.parseInt(savedValue); // Default value "0" if not found

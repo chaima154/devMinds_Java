@@ -40,6 +40,21 @@ public class ClientMenuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/dashboard.fxml"));
+        Parent parent = null;
+        try {
+            parent = loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("test working");
+        ClientDashboardController dashboard = loader.getController();
+        if (loader.getController() instanceof ClientDashboardController) {
+            ((ClientDashboardController) dashboard).clientMenuController(this);
+            this.borderPane.setCenter(parent);
+        }
+
     }
+
 
 }

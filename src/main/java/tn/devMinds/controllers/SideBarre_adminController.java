@@ -103,7 +103,16 @@ public class SideBarre_adminController implements Initializable {
 
     @FXML
     void goUsers(MouseEvent event) {
-
+        try {
+            Node node = (Node) event.getSource();
+            Stage stage = (Stage) node.getScene().getWindow();
+            Scene scene = stage.getScene();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListeUsers.fxml"));
+            scene.setRoot(loader.load());
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
