@@ -21,18 +21,20 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <AnchorPane layoutX="274.0" layoutY="233.0" prefHeight="270.0" prefWidth="200.0">
+      <AnchorPane layoutX="274.0" layoutY="233.0" prefHeight="270.0" prefWidth="214.0" stylesheets="@../css/formCredit.css">
          <children>
-            <TextField fx:id="tftype" layoutX="21.0" layoutY="57.0" />
-            <TextField fx:id="tfdescription" layoutX="21.0" layoutY="109.0" />
-            <TextField fx:id="tffrais" layoutX="21.0" layoutY="156.0" />
-            <ChoiceBox fx:id="cbstatus" layoutX="21.0" layoutY="206.0" prefWidth="150.0" />
-            <Button fx:id="addbtn" layoutX="70.0" layoutY="243.0" mnemonicParsing="false" onAction="#Addbtn" text="Ajouter" />
-            <Label layoutX="21.0" layoutY="30.0" text="Type" />
-            <Label layoutX="21.0" layoutY="91.0" text="Description" />
-            <Label layoutX="21.0" layoutY="135.0" text="Frais" />
-            <Label layoutX="21.0" layoutY="182.0" text="Statuts" />
+            <TextField fx:id="tftype" layoutX="11.0" layoutY="30.0" styleClass="TextField" stylesheets="@../css/showCardAdmin.css" />
+            <TextField fx:id="tfdescription" layoutX="11.0" layoutY="93.0" styleClass="TextField" stylesheets="@../css/showCardAdmin.css" />
+            <TextField fx:id="tffrais" layoutX="11.0" layoutY="145.0" styleClass="TextField" stylesheets="@../css/showCardAdmin.css" />
+            <ChoiceBox fx:id="cbstatus" layoutX="11.0" layoutY="198.0" prefWidth="150.0" styleClass="ChoiceBox" stylesheets="@../css/showCardAdmin.css" />
+            <Button fx:id="addbtn" layoutX="4.0" layoutY="243.0" mnemonicParsing="false" onAction="#Addbtn" stylesheets="@../css/showCardAdmin.css" text="Ajouter" />
+            <Button fx:id="modifbtn" layoutX="75.0" layoutY="243.0" mnemonicParsing="false" onAction="#updatebtn" stylesheets="@../css/showCardAdmin.css" text="Modifier" />
+            <Button fx:id="cancel" layoutX="152.0" layoutY="243.0" mnemonicParsing="false" onAction="#cancelbtn" stylesheets="@../css/showCardAdmin.css" text="annuler" />
          </children>
       </AnchorPane>
+      <Label layoutX="214.0" layoutY="389.0" stylesheets="@../css/showCardAdmin.css" text="Frais" />
+      <Label layoutX="208.0" layoutY="336.0" stylesheets="@../css/showCardAdmin.css" text="Description" />
+      <Label layoutX="213.0" layoutY="275.0" stylesheets="@../css/showCardAdmin.css" text="Type" />
+      <Label layoutX="208.0" layoutY="440.0" stylesheets="@../css/showCardAdmin.css" text="Statuts" />
    </children>
 </AnchorPane>

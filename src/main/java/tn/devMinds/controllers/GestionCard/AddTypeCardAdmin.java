@@ -46,6 +46,20 @@ public class AddTypeCardAdmin implements Initializable {
     private ChoiceBox<String> cbstatus;
     @FXML
     private Button addbtn;
+
+    @FXML
+    private Button modifbtn;
+
+    @FXML
+    private Button cancel;
+
+    @FXML
+    private int idtypecarte;
+
+    public void setIdtypecarte(int idtypecarte) {
+        this.idtypecarte = idtypecarte;
+    }
+
     @FXML
     public void Addbtn(javafx.event.ActionEvent event) {
         TypeCardCrud ps = new TypeCardCrud();
@@ -92,6 +106,7 @@ public class AddTypeCardAdmin implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        modifbtn.setVisible(false);
         descriptionCol.setCellValueFactory(new PropertyValueFactory<>("descriptionCarte"));
         statuscol.setCellValueFactory(new PropertyValueFactory<>("statusTypeCarte"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("typeCarte"));
@@ -154,22 +169,9 @@ private void reload()
                             TypeCard datam = getTableView().getItems().get(getIndex());
                             TypeCardCrud cc = new TypeCardCrud();
                             filltomodify(datam);
-                           try {
-                                if (cc.updateStat(datam.getId(),datam.getStatusTypeCarte())) {
-                                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                    alert.setContentText("Carte modifiee");
-                                   alert.showAndWait();
-                                    //reload();
-                                } else {
-                                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                                    alert.setContentText("Vérifiez les données");
-                                    alert.showAndWait();
-                                }
-                            } catch (SQLException e) {
-                                throw new RuntimeException(e);
-                            }
-                            System.out.println("selectedData: " + datam);
-
+                            modifbtn.setVisible(true);
+                            setIdtypecarte(datam.getId());
+                            addbtn.setVisible(false);
                         });
                     }
                     @Override
@@ -197,4 +199,36 @@ private void filltomodify(TypeCard tc)
     tftype.setText(tc.getTypeCarte());
     cbstatus.setValue(tc.getStatusTypeCarte());
 }
+
+    public void updatebtn(ActionEvent actionEvent) throws SQLException {
+TypeCardCrud tcc=new TypeCardCrud();
+    TypeCard tc=new TypeCard();
+    tc.setId(idtypecarte);
+    tc.setTypeCarte(tftype.getText());
+    tc.setDescriptionCarte(tfdescription.getText());
+    tc.setFrais(Float.valueOf(tffrais.getText()));
+    tc.setStatusTypeCarte(cbstatus.getValue());
+
+        try {
+            if( tcc.update(tc)) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("Carte modifiee");
+                alert.showAndWait();
+                reload();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Vérifiez les données");
+                alert.showAndWait();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void cancelbtn(ActionEvent actionEvent) {
+        tftype.setText("");
+       tfdescription.setText("");
+        tffrais.setText("0");
+            addbtn.setVisible(true);
+            modifbtn.setVisible(false);
+    }
 }
