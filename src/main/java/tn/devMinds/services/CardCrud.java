@@ -334,12 +334,9 @@ public class CardCrud implements  IService<Card>{
         }
         return data;
     }
-
-
-
     public ArrayList<Card> getAllPrepaedCardById(int id) throws SQLException {
         ArrayList<Card> data =new ArrayList<>();
-        String requet = "SELECT c.* FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE tc.type_carte = 'carte prépayée' AND c.compte_id = ?";
+        String requet = "SELECT c.* FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE tc.type_carte = 'carte prépayée' AND c.statut_carte != 'Waiting' AND c.compte_id = ?";
         try(
                 PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(requet)) {
             statement.setInt(1, id);
@@ -462,6 +459,38 @@ public class CardCrud implements  IService<Card>{
 
 
 
+    public int containsWaitingcardprpaed(int id) {
+        int x=0;
+        String query = "SELECT COUNT(*) AS card_count FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE c.compte_id =? AND tc.type_carte = 'carte prépayée'And c.statut_carte='Waiting'";
+        try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query)) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+             return resultSet.getInt("card_count");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
 
+
+
+
+    public int containstypeCardpreapaed() {
+        String query = "SELECT id FROM type_carte WHERE type_carte = ?";
+        try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query)) {
+            statement.setString(1, "carte prépayée");
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("id");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
 
 }

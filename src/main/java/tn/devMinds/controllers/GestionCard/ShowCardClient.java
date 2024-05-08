@@ -62,6 +62,18 @@ public class ShowCardClient implements Initializable {
     private TableColumn<Card, Double> solde;
     @FXML
     private TableView<Card> tableView;
+    @FXML
+    private Button requestmorepc;
+    public int getIdtoopencompte() {
+        return idtoopencompte;
+    }
+
+    public void setIdtoopencompte(int idtoopencompte) {
+        this.idtoopencompte = idtoopencompte;
+    }
+
+    @FXML
+    private int idtoopencompte;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         updateCardStatusAndDelete(2);
@@ -163,7 +175,7 @@ public class ShowCardClient implements Initializable {
         }
     }
     private void addButtonToTableprepaedcard() {
-        TableColumn<Card, Void> colBtn = new TableColumn<>("Button Column");
+        TableColumn<Card, Void> colBtn = new TableColumn<>("Actions");
         Callback<TableColumn<Card, Void>, TableCell<Card, Void>> cellFactory = new Callback<TableColumn<Card, Void>, TableCell<Card, Void>>() {
             @Override
             public TableCell<Card, Void> call(final TableColumn<Card, Void> param) {
@@ -275,6 +287,8 @@ public class ShowCardClient implements Initializable {
 
         return gridPane;
     }
+
+
     private void addButtonStatusToTableprepaedcard() {
         TableColumn<Card, Void> colBtn = new TableColumn<>();
         colBtn.setCellFactory(param -> {
@@ -449,4 +463,41 @@ return futureDate;
         reload();
         loadcard();
     }
+
+
+    public boolean requestmorepcbtn(ActionEvent actionEvent) {
+        CardCrud cc = new CardCrud();
+        idtoopencompte = 2;
+        int cardsToCreate = 5; // Desired number of cards to create
+        int createdCards = cc.containsWaitingcardprpaed(idtoopencompte);
+        if (createdCards == cardsToCreate) {
+            Notification nottif = new Notification();
+            nottif.notifier("There are already enough waiting cards.");
+            return false;
+        }
+        while (createdCards < cardsToCreate) {
+
+            Card newcard = new Card();
+            newcard.setNumero(cc.generateUniqueNumero(16));
+            newcard.setDateExpiration(getDate());
+            newcard.setCsv(cc.generateUniqueNumero(3));
+            newcard.setMdp(cc.generateUniqueNumero(4));
+            newcard.setStatutCarte("Waiting");
+            Compte c = new Compte();
+            c.setId(idtoopencompte);
+            newcard.setCompte(c);
+            TypeCard tcc = new TypeCard();
+            tcc.setId(cc.containstypeCardpreapaed());
+            newcard.setTypeCarte(tcc);
+            newcard.setSolde(0.0);
+            cc.add(newcard);
+            createdCards++; // Increment the counter for created cards
+        }
+
+            Notification nottif = new Notification();
+            nottif.notifier("request has been treated");
+
+        return true;
+    }
+
 }
