@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="card" prefHeight="400.0" stylesheets="@../css/cardBank.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.GestionCard.cardBank">
+   <children>
+      <ImageView fx:id="chipImage" fitHeight="111.0" fitWidth="118.0" layoutX="24.0" layoutY="142.0">
+         <image>
+            <Image url="@../images/chip-1.png" />
+         </image>
+         <styleClass>
+            <String fx:value="chipImage" />
+            <String fx:value="chipImage" />
+         </styleClass>
+      </ImageView>
+      <ImageView fx:id="contactlessImage" fitHeight="123.0" fitWidth="82.0" layoutX="152.0" layoutY="97.0">
+         <image>
+            <Image url="@../images/wifi.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="visaImage" fitHeight="103.0" fitWidth="108.0" layoutX="478.0" layoutY="297.0" styleClass="visaImage">
+         <image>
+            <Image url="@../images/e-frank.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="189.0" fitWidth="332.0" layoutX="-53.0" layoutY="-19.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/banner.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="8.0" layoutY="50.0" prefHeight="47.0" prefWidth="209.0" text="E-frank bank" textAlignment="CENTER" underline="true">
+         <font>
+            <Font name="System Bold Italic" size="32.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelCardnumber" layoutX="180.0" layoutY="193.0" prefHeight="41.0" prefWidth="370.0" text="0000000000000000" textFill="#fcfafa">
+         <font>
+            <Font size="42.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="47.0" fitWidth="47.0" layoutX="14.0" layoutY="297.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/arrow.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="34.0" layoutY="274.0" prefHeight="62.0" prefWidth="138.0" text="EXPIRE:" textFill="#fcfafa">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelDate" layoutX="34.0" layoutY="306.0" prefHeight="62.0" prefWidth="138.0" text="24-04-2002" textFill="#fcfafa">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="264.0" fitWidth="267.0" layoutX="342.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/circle.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="btn" layoutX="141.0" layoutY="359.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="81.0" text="Button" />
+      <Label layoutX="34.0" layoutY="344.0" prefHeight="62.0" prefWidth="138.0" text="Statuts:" textFill="#fcfafa">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="47.0" fitWidth="47.0" layoutX="14.0" layoutY="352.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/arrow.png" />
+         </image>
+      </ImageView>
+      <Hyperlink fx:id="hyperlinkDate" layoutX="188.0" layoutY="325.0" prefHeight="24.0" prefWidth="184.0" text="24-04-2002" />
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <styleClass>
+      <String fx:value="card" />
+      <String fx:value="card-container" />
+   </styleClass>
+</AnchorPane>

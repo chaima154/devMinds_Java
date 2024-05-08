@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="477.0" prefWidth="600.0" stylesheets="@../css/formCredit.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.GestionCard.AddCardAdmin">
+   <children>
+      <AnchorPane layoutX="111.0" layoutY="28.0" prefHeight="407.0" prefWidth="262.0" styleClass="container">
+         <children>
+            <TextField fx:id="tfnumero" editable="false" layoutX="91.0" layoutY="6.0" styleClass="TextField" />
+            <Label layoutX="5.0" layoutY="10.0" prefHeight="18.0" prefWidth="54.0" text="Numero" />
+            <TextField fx:id="tfcsv" editable="false" layoutX="91.0" layoutY="55.0" styleClass="TextField" />
+            <Label layoutX="5.0" layoutY="59.0" prefHeight="18.0" prefWidth="46.0" text="Csv" />
+            <Label layoutX="5.0" layoutY="114.0" prefHeight="18.0" prefWidth="54.0" text="Compte" />
+            <ComboBox fx:id="cbcompte" layoutX="91.0" layoutY="110.0" prefWidth="150.0" styleClass="ChoiceBox" />
+            <Label layoutX="5.0" layoutY="155.0" text="mot de passe " />
+            <TextField fx:id="tfmdp" cache="true" editable="false" layoutX="92.0" layoutY="151.0" styleClass="TextField" />
+            <Label layoutX="5.0" layoutY="202.0" text="Type carte" />
+            <ComboBox fx:id="cbtypecarte" layoutX="90.0" layoutY="198.0" onAction="#comboTypeCarte" prefWidth="150.0" styleClass="ChoiceBox" />
+            <Label layoutX="2.0" layoutY="251.0" text="Statut carte" />
+            <Label layoutX="1.0" layoutY="300.0" text="Date expiration :" />
+            <DatePicker fx:id="dpdate" layoutX="100.0" layoutY="298.0" styleClass="ChoiceBox" />
+            <ChoiceBox fx:id="cbstatutcarte" layoutX="90.0" layoutY="251.0" onAction="#comboTypeCarte" prefWidth="150.0" styleClass="ChoiceBox" />
+            <Button fx:id="btnsubmit" layoutX="-65.0" layoutY="352.0" mnemonicParsing="false" onAction="#savecard" styleClass="Button" text="Ajouter" />
+            <Button fx:id="btncancel" layoutX="201.0" layoutY="352.0" mnemonicParsing="false" onAction="#retour" styleClass="Button" text="Annuler" />
+
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
