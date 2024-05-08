@@ -1,4 +1,5 @@
 package tn.devMinds.controllers.GestionCard;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -19,11 +20,17 @@ import tn.devMinds.models.Card;
 import tn.devMinds.models.Compte;
 import tn.devMinds.services.CardCrud;
 import javafx.event.ActionEvent;
+import tn.devMinds.tools.MyConnection;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 public class AdminCardList implements Initializable {
 
@@ -32,7 +39,16 @@ public class AdminCardList implements Initializable {
     private Parent root;
     @FXML
     private Button btnpenadd;
-        @FXML
+    @FXML
+    private TableView<Map.Entry<String, Integer>> demande;
+
+    @FXML
+    private TableColumn<Map.Entry<String, Integer>, String> colrib;
+
+    @FXML
+    private TableColumn<Map.Entry<String, Integer>, Integer> colnum;
+
+    @FXML
         private TableColumn<Card, String> compteCol;
         @FXML
         private TableColumn<Card, Integer> csvCol;
@@ -66,9 +82,106 @@ public class AdminCardList implements Initializable {
         CardCrud ps=new CardCrud();
         return FXCollections.observableArrayList(ps.getAllPrepaedCard());
     }
+
+    private void fillDemandeTable() {
+        colrib.setCellValueFactory(cellData -> {
+            String rib = cellData.getValue().getKey();
+            return new SimpleStringProperty(rib);
+        });
+
+        colnum.setCellValueFactory(cellData -> {
+            Integer numberOfWaitingCards = cellData.getValue().getValue();
+            return new SimpleIntegerProperty(numberOfWaitingCards).asObject();
+        });
+
+        // Create cell factory for the new column
+        Callback<TableColumn<Map.Entry<String, Integer>, Void>, TableCell<Map.Entry<String, Integer>, Void>> cellFactory =
+                new Callback<TableColumn<Map.Entry<String, Integer>, Void>, TableCell<Map.Entry<String, Integer>, Void>>() {
+                    @Override
+                    public TableCell<Map.Entry<String, Integer>, Void> call(final TableColumn<Map.Entry<String, Integer>, Void> param) {
+                        return new TableCell<Map.Entry<String, Integer>, Void>() {
+
+                            private final Button acceptButton = new Button("Accept");
+                            private final Button refuseButton = new Button("Refuse");
+                            private String currentRib; // Store the RIB for the current row
+
+                            {
+                                acceptButton.setOnAction(event -> handleAccept(currentRib));
+                                refuseButton.setOnAction(event -> handleRefuse(currentRib));
+                            }
+
+                            @Override
+                            public void updateItem(Void item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                    setGraphic(null);
+                                } else {
+                                    // Set the current RIB for this row
+                                    currentRib = getTableView().getItems().get(getIndex()).getKey();
+                                    setGraphic(new HBox(acceptButton, refuseButton));
+                                }
+                            }
+                        };
+                    }
+                };
+
+        TableColumn<Map.Entry<String, Integer>, Void> colActions = new TableColumn<>("Actions");
+        colActions.setCellFactory(cellFactory);
+
+        demande.getColumns().add(colActions);
+
+        try {
+            String query = "SELECT cm.rib AS rib, COUNT(*) AS numberOfWaitingCards FROM carte c JOIN compte cm ON c.compte_id = cm.id WHERE c.statut_carte = 'Waiting' GROUP BY cm.rib";
+            PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            ObservableList<Map.Entry<String, Integer>> data = FXCollections.observableArrayList();
+            while (resultSet.next()) {
+                String rib = resultSet.getString("rib");
+                int numberOfWaitingCards = resultSet.getInt("numberOfWaitingCards");
+                Map.Entry<String, Integer> entry = new HashMap.SimpleEntry<>(rib, numberOfWaitingCards);
+                data.add(entry);
+            }
+            demande.setItems(data);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleAccept(String rib) {
+        System.out.println("Accept button clicked for RIB: " + rib);
+        updateCardStatus(rib, "Accepted");
+    }
+
+    private void handleRefuse(String rib) {
+        System.out.println("Refuse button clicked for RIB: " + rib);
+        updateCardStatus(rib, "Refused");
+    }
+
+    private void updateCardStatus(String rib, String newStatus) {
+        try {
+            Connection connection = MyConnection.getInstance().getCnx();
+            String query = "UPDATE carte SET statut_carte = ? WHERE compte_id = (SELECT id FROM compte WHERE rib = ?) AND statut_carte = 'Waiting'";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, newStatus);
+            statement.setString(2, rib);
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Card status updated successfully.");
+                fillDemandeTable();
+                reload();
+                reloadnormal();
+            } else {
+                System.out.println("No cards found with the given RIB and waiting status.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        reload();
+        fillDemandeTable();reload();
     }
     private void reload(){
 
