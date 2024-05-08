@@ -13,6 +13,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -54,8 +56,7 @@ public class DemandebackListController implements Initializable {
     private TableColumn<Demande, String> etatColumn;
     @FXML
     private TableColumn<Demande, Void> actionColumn;
-    @FXML
-    private TextField searchTerm;
+
     @FXML
     void filtrerDemandes(ActionEvent event) {
         String selectedEtat = (String) filterChoiceBox.getValue();
@@ -81,26 +82,52 @@ public class DemandebackListController implements Initializable {
 
     private ServiceDemande demandeService = new ServiceDemande();
 
+    @FXML
+    private TextField searchTerm;
+
+    private ObservableList<Demande> allDemandes;
+    private FilteredList<Demande> filteredDemandes;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         filterChoiceBox.setValue("All");
         try {
-            showList(getAllList());
+            allDemandes = getAllList();
+            showList(allDemandes);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         setupActionColumn();
+
+        // Create a filtered list based on the allDemandes list
+        filteredDemandes = new FilteredList<>(allDemandes, p -> true);
+
+        // Set the filter predicate whenever the searchTerm changes
         searchTerm.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.isEmpty()) {
-                try {
-                    showList(getAllList());
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
+            filteredDemandes.setPredicate(demande -> {
+                // If searchTerm is empty, show all demandes
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
                 }
-            } else {
-                // Implement search functionality if required
-            }
+
+                // Convert the searchTerm to lowercase for case-insensitive search
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                // Check if the demande's nomClient contains the searchTerm
+                if (demande.getNomClient().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Show the demande
+                }
+
+                return false; // Hide the demande
+            });
         });
+
+        // Wrap the filtered list in a SortedList
+        SortedList<Demande> sortedDemandes = new SortedList<>(filteredDemandes);
+
+        // Bind the sorted list to the table
+        sortedDemandes.comparatorProperty().bind(table.comparatorProperty());
+        table.setItems(sortedDemandes);
     }
 
     private ObservableList<Demande> getAllList() throws SQLException {

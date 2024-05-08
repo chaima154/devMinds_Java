@@ -4,6 +4,7 @@ import com.itextpdf.text.DocumentException;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,12 +51,16 @@ public class AssuranceListController implements Initializable {
     @FXML
     private Button ajout;
     @FXML
-    private TextField searchTerm;
     private SideBarre_adminController sidebarController;
 
     public void setSidebarController(SideBarre_adminController sidebarController) {
         this.sidebarController = sidebarController;
     }
+
+    @FXML
+    private TextField searchTerm;
+
+    private FilteredList<Assurence> filteredData;
 
     private AssuranceService assuranceService = new AssuranceService();
 
@@ -63,14 +68,30 @@ public class AssuranceListController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showList(getAllList());
         setupActionColumn();
+
+        // Create a filtered list and bind it to the table
+        filteredData = new FilteredList<>(table.getItems(), p -> true);
+
+        // Bind the search term text field to the filtering logic
         searchTerm.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.isEmpty()) {
-                showList(getAllList());
+            String filter = newValue.toLowerCase().trim();
+
+            if (filter.isEmpty()) {
+                filteredData.setPredicate(null); // Show all data when the filter is empty
             } else {
-                // Implement search functionality if required
+                // Filter based on the search term
+                filteredData.setPredicate(assurance -> {
+                    // You can adjust this condition based on which columns you want to filter
+                    return assurance.getNom().toLowerCase().contains(filter) ||
+                            assurance.getDescription().toLowerCase().contains(filter);
+                });
             }
         });
+
+        // Bind the filtered data to the table
+        table.setItems(filteredData);
     }
+
 
     public ObservableList<Assurence> getAllList() {
         return FXCollections.observableArrayList(assuranceService.getAllData());
@@ -161,7 +182,9 @@ public class AssuranceListController implements Initializable {
         try {
             // Generate the PDF
             String filePath = "assurance_list.pdf";
+
             GeneratePdfA.generateContract(this, filePath);
+
 
             // Open the generated PDF file
             File pdfFile = new File(filePath);

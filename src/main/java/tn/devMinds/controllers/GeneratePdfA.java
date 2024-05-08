@@ -1,9 +1,6 @@
 package tn.devMinds.controllers;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import tn.devMinds.controllers.assurance.AssuranceListController;
@@ -21,7 +18,19 @@ public class GeneratePdfA {
 
         var bold = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
         var paragraph = new Paragraph("Liste des Assurances\n\n", bold);
+        paragraph.setAlignment(Element.ALIGN_CENTER); // Center align the paragraph
         doc.add(paragraph);
+
+        // Add logo
+        try {
+            Image logo = Image.getInstance("C:\\Users\\jaoua\\Documents\\GitHub\\devMinds_Java\\src\\main\\resources\\banque\\images\\logo.png");
+            logo.setAlignment(Element.ALIGN_CENTER); // Center align the logo
+            logo.scaleAbsolute(100, 100); // Set the size of the logo
+            doc.add(logo);
+        } catch (Exception e) {
+            System.err.println("Error adding logo: " + e.getMessage());
+        }
+
 
         // Create a table to display assurance information
         var table = new PdfPTable(4);
@@ -38,6 +47,14 @@ public class GeneratePdfA {
         }
 
         doc.add(table);
+        // Add signature
+        try {
+            Image signature = Image.getInstance("C:\\Users\\jaoua\\Documents\\GitHub\\devMinds_Java\\src\\main\\resources\\banque\\images\\signature.png");
+            signature.scaleAbsolute(200, 50); // Set the size of the signature
+            doc.add(signature);
+        } catch (Exception e) {
+            System.err.println("Error adding signature: " + e.getMessage());
+        }
         doc.close();
     }
 }

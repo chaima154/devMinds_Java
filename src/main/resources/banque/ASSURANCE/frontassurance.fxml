@@ -24,10 +24,5 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="choice1" layoutX="59.0" layoutY="510.0" mnemonicParsing="false" onAction="#demandefront" prefHeight="24.0" prefWidth="200.0" style="-fx-background-color: #59f716;" text="Mes demandes" textFill="#030000">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>
