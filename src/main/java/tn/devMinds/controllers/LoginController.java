@@ -75,9 +75,10 @@ public class LoginController {
         LoginService loginService = new LoginService(enteredEmail, enteredPassword, selectedRole); // Pass the plain text password
         loginService.setOnSucceeded(event -> {
             if (isAuthenticated) {
+                String userRole = getUserRoleFromDatabase(enteredEmail);
+
                 // Authentication successful, redirect to the appropriate page
-                if ("ROLE_ADMIN".equals(selectedRole)) {
-                    // Redirect to the admin page
+                if (("ROLE_ADMIN".equals(userRole)) && ("ROLE_ADMIN".equals(selectedRole))){
                     // Redirect to the admin page
                     System.out.println("Authentication successful for the administrator");
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/sidebarre_admin.fxml"));
@@ -92,7 +93,7 @@ public class LoginController {
                     stage.setScene(scene); // Set the new scene to the stage
                     stage.show(); // Show the stage
 
-                } else if ("ROLE_USER".equals(selectedRole)) {
+                } else if (("ROLE_USER".equals(userRole))&& ("ROLE_USER".equals(selectedRole))) {
                     // Redirect to the client page
                     System.out.println("Authentication successful for the client");
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/client.fxml"));
@@ -109,7 +110,7 @@ public class LoginController {
                 }
             } else {
                 // Display an error message if authentication fails
-                errorLabel.setText("Email or password incorrect!");
+                errorLabel.setText("Email,Role or password incorrect!");
             }
         });
 
@@ -136,7 +137,26 @@ public class LoginController {
 
         return hashedPassword;
     }
+    private String getUserRoleFromDatabase(String email) {
+        String role = null;
+        String query = "SELECT role FROM user WHERE email = ?";
 
+        try (Connection connection = MyConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, email);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    role = resultSet.getString("role");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle database access error
+        }
+
+        return role;
+    }
 
 
 /*
