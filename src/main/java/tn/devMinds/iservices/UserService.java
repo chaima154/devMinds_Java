@@ -6,7 +6,6 @@ import tn.devMinds.tools.MyConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class UserService implements IService<User> {
     private Connection cnx;

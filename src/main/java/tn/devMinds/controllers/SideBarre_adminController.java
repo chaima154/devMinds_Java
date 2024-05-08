@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import tn.devMinds.controllers.comptecontroller.Affichagecompte;
 
 import java.io.IOException;
 import java.net.URL;
@@ -92,7 +93,14 @@ public class SideBarre_adminController implements Initializable {
     }
 
     @FXML
-    void goCompteBancaire(MouseEvent event) {
+    void goCompteBancaire(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/compte/affichage.fxml"));
+        Parent parent = loader.load();
+        Affichagecompte affichagecompte = loader.getController();
+        if (loader.getController() instanceof Affichagecompte) {
+            ((Affichagecompte) affichagecompte).setSidebarController(this);
+            this.borderPane.setCenter(parent);
+        }
 
     }
 

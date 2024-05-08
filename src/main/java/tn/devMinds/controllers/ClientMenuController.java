@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import tn.devMinds.controllers.comptecontroller.Ajoutercompte;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,6 +34,19 @@ public class ClientMenuController implements Initializable {
         TransactionClientController transaction = loader.getController();
         if (loader.getController() instanceof TransactionClientController) {
             ((TransactionClientController) transaction).clientMenuController(this);
+            this.borderPane.setCenter(parent);
+        }
+    }
+
+    @FXML
+    void goAccount(MouseEvent event) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/compte/ajouter.fxml"));
+        Parent parent = loader.load();
+        System.out.println("test working");
+        Ajoutercompte ajoutercompte = loader.getController();
+        if (loader.getController() instanceof Ajoutercompte) {
+            ((Ajoutercompte) ajoutercompte).clientMenuController(this);
             this.borderPane.setCenter(parent);
         }
     }
