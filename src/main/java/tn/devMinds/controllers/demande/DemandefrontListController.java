@@ -44,15 +44,43 @@ public class DemandefrontListController extends ClientMenuController {
 
     private final ServiceDemande demandeService = new ServiceDemande();
 
+    // Add this field to your class
+    private String loggedInClientName;
+
+    // In initialize() method
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        filterChoiceBox.setValue("All");
+        loggedInClientName = "abderahmen"; // Assuming "djoo" is the logged-in client's name, replace it with your method to retrieve the name
+        try {
+            showList(getAllList(loggedInClientName)); // Filter by logged-in client name
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        setupActionColumn();
+        searchTerm.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.isEmpty()) {
+                try {
+                    showList(getAllList(loggedInClientName)); // Filter by logged-in client name
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                // Implement search functionality if required
+            }
+        });
+    }
+
+    // In filtrerDemandes() method
     @FXML
     void filtrerDemandes(ActionEvent event) {
         String selectedEtat = (String) filterChoiceBox.getValue();
         ObservableList<Demande> filteredList = FXCollections.observableArrayList();
         try {
             if (selectedEtat.equals("All")) {
-                filteredList.addAll(getAllList("djoo")); // Filter by client name "djoo"
+                filteredList.addAll(getAllList(loggedInClientName)); // Filter by logged-in client name
             } else {
-                for (Demande demande : getAllList("djoo")) { // Filter by client name "djoo"
+                for (Demande demande : getAllList(loggedInClientName)) { // Filter by logged-in client name
                     if (demande.getEtat().equals(selectedEtat)) {
                         filteredList.add(demande);
                     }
@@ -64,28 +92,6 @@ public class DemandefrontListController extends ClientMenuController {
         }
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        filterChoiceBox.setValue("All");
-
-        try {
-            showList(getAllList("djoo")); // Filter by client name "djoo"
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        setupActionColumn();
-        searchTerm.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.isEmpty()) {
-                try {
-                    showList(getAllList("djoo")); // Filter by client name "djoo"
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                // Implement search functionality if required
-            }
-        });
-    }
 
     ObservableList<Demande> getAllList(String clientName) throws SQLException {
         ObservableList<Demande> allDemands = FXCollections.observableArrayList(demandeService.getAllData());

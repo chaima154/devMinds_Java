@@ -193,6 +193,8 @@ public class AjoutDemandefront extends ClientMenuController {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         assuranceField.setText(String.valueOf(selectedAssuranceName));
         super.initialize(url, resourceBundle); // Call superclass initialize
+        nomtxt.setText("abderahmen");
+        emailtxt.setText("abderahmen.jaouadi@esprit.tn");
         modepaimenttxt.setValue("mensuel");
         modepaimenttxt.setItems(modeplist);
         System.out.println("Modepaiment items: " + modeplist);
