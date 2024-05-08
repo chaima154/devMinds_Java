@@ -11,8 +11,8 @@ import java.util.List;
 public class AssuranceService implements IService<Assurence> {
     public Connection cnx;
 
-    public AssuranceService() {
-        cnx = MyConnection.getInstance().getCnx();
+    public AssuranceService() throws SQLException {
+        cnx = MyConnection.getConnection();
     }
 
     @Override
@@ -25,7 +25,7 @@ public class AssuranceService implements IService<Assurence> {
 
         String checkUniqueQuery = "SELECT COUNT(*) FROM assurance WHERE nom = ?";
         try {
-            PreparedStatement checkUniqueStmt = MyConnection.getInstance().getCnx().prepareStatement(checkUniqueQuery);
+            PreparedStatement checkUniqueStmt = MyConnection.getConnection().prepareStatement(checkUniqueQuery);
             checkUniqueStmt.setString(1, assurance.getNom());
             ResultSet resultSet = checkUniqueStmt.executeQuery();
             if (resultSet.next() && resultSet.getInt(1) > 0) {
@@ -37,7 +37,7 @@ public class AssuranceService implements IService<Assurence> {
 
         String requete = "INSERT INTO assurance(nom, description, prime, franchise) VALUES (?, ?, ?, ?)";
         try {
-            PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
+            PreparedStatement pst = MyConnection.getConnection().prepareStatement(requete);
             pst.setString(1, assurance.getNom());
             pst.setString(2, assurance.getDescription());
             pst.setInt(3, assurance.getPrime());

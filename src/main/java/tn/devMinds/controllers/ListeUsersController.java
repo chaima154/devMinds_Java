@@ -1,6 +1,11 @@
 package tn.devMinds.controllers;
 
 import javafx.collections.FXCollections;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,7 +24,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import tn.devMinds.entities.User;
 import tn.devMinds.iservices.UserService;
 import org.mindrot.jbcrypt.BCrypt;
@@ -29,7 +34,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.scene.control.TableCell;
-import org.apache.poi.ss.usermodel.*;
+
 import javafx.stage.FileChooser;
 
 

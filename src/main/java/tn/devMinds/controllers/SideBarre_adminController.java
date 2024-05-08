@@ -12,7 +12,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import tn.devMinds.controllers.admin.credit.AdminIndexCreditController;
+import tn.devMinds.controllers.assurance.AssuranceListController;
 import tn.devMinds.controllers.comptecontroller.Affichagecompte;
+import tn.devMinds.controllers.demande.DemandebackListController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -96,8 +98,25 @@ public class SideBarre_adminController implements Initializable {
         }
     }
     @FXML
-    void goAssurance(MouseEvent event) {
+    void goAssurance(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ASSURANCE/ListAssurance.fxml"));
+        Parent parent = loader.load();
+        AssuranceListController assuranceListController = loader.getController(); // Corrected variable name
+        if (loader.getController() instanceof AssuranceListController) {
+            assuranceListController.setSidebarController(this); // Corrected method call
+            this.borderPane.setCenter(parent);
+        }
+    }
 
+    @FXML
+    void demandeback(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/DEMANDE/ListDemande.fxml"));
+        Parent parent = loader.load();
+        DemandebackListController Demandelist = loader.getController();
+        if (loader.getController() instanceof DemandebackListController) {
+            Demandelist.setSidebarController(this);
+            this.borderPane.setCenter(parent);
+        }
     }
 
     @FXML

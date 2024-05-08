@@ -24,11 +24,17 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class frontassurance extends ClientMenuController {
     @FXML
     public Button choice1;
+
+    private ClientMenuController clientMenuController;
+
+    @FXML
+    private BorderPane borderPane;
     @FXML
     private TextField searchTerm;
     @FXML
@@ -49,6 +55,9 @@ public class frontassurance extends ClientMenuController {
     @FXML
     private Button choice;
 
+    public frontassurance() throws SQLException {
+    }
+
 
     @FXML
     void addchoice(ActionEvent event) throws IOException {
@@ -64,14 +73,18 @@ public class frontassurance extends ClientMenuController {
         AjoutDemandefront ajoutDemandefrontController = loader.getController();
         ajoutDemandefrontController.setSelectedAssuranceName(selectedAssurenceName);
 
+        // Set the borderPane from ClientMenuController
+        ajoutDemandefrontController.setSidebarController(clientMenuController);
+
         // Set up the scene and stage
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.show();
-
     }
 
+    public void clientMenuController(ClientMenuController clientMenuController) {
+    }
 
 
     @Override

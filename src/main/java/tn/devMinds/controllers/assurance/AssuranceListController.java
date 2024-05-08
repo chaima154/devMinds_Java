@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class AssuranceListController implements Initializable {
@@ -52,6 +53,9 @@ public class AssuranceListController implements Initializable {
     private Button ajout;
     @FXML
     private SideBarre_adminController sidebarController;
+
+    public AssuranceListController() throws SQLException {
+    }
 
     public void setSidebarController(SideBarre_adminController sidebarController) {
         this.sidebarController = sidebarController;

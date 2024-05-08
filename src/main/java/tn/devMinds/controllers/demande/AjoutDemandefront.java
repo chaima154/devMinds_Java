@@ -8,28 +8,36 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import tn.devMinds.controllers.ClientMenuController;
+import tn.devMinds.controllers.LoginController;
 import tn.devMinds.controllers.SideBarre_adminController;
 import tn.devMinds.entities.Assurence;
 import tn.devMinds.entities.Demande;
 import tn.devMinds.iservices.AssuranceService;
 import tn.devMinds.iservices.ServiceDemande;
+import tn.devMinds.tools.MyConnection;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
+import java.sql.*;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AjoutDemandefront extends ClientMenuController {
     @FXML
+    public BorderPane borderPane2;
+    @FXML
     ObservableList<String> modeplist = FXCollections.observableArrayList("mensuel","trimestiel","annual");
 
     @FXML
     private Button retourbtn;
+
+    private Preferences preferences;
 
     @FXML
     private Button adddembtn;
@@ -62,8 +70,21 @@ public class AjoutDemandefront extends ClientMenuController {
     private String selectedAssuranceName; // Moved declaration here
 
 
+
+    private ClientMenuController clientMenuController;
+
+    // other code
+
+    public void setSidebarController(ClientMenuController clientMenuController) {
+        this.clientMenuController = clientMenuController;
+        if (clientMenuController != null) {
+            borderPane2 = clientMenuController.borderPane;
+        }
+    }
+
+
     @FXML
-    void addDemande(ActionEvent event) {
+    void addDemande(ActionEvent event) throws SQLException {
         String montantStr = montanttxt.getText();
         String modepaimentStr = modepaimenttxt.getValue();
         if (modepaimentStr == null || modepaimentStr.isEmpty()) {
@@ -189,12 +210,54 @@ public class AjoutDemandefront extends ClientMenuController {
         this.selectedAssuranceName = selectedAssuranceName;
         assuranceField.setText(selectedAssuranceName);
     }
+
+
+    private int getClientIdFromPreferences() {
+        preferences = Preferences.userRoot().node(LoginController.class.getName());
+        String savedValue = preferences.get("Id_Client", "0");
+        System.out.println(savedValue);
+        return Integer.parseInt(savedValue); // Default value "0" if not found
+    }
+
+
+    private static String getClientNameFromId(int clientId) {
+        String clientName = null;
+        try (Connection connection = MyConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement("SELECT nom FROM user WHERE id = ?")) {
+            stmt.setInt(1, clientId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    clientName = rs.getString("nom");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return clientName;
+    }
+
+    private static String getClientEmailFromId(int clientId) {
+        String clientName = null;
+        try (Connection connection = MyConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement("SELECT email FROM user WHERE id = ?")) {
+            stmt.setInt(1, clientId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    clientName = rs.getString("email");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return clientName;
+    }
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         assuranceField.setText(String.valueOf(selectedAssuranceName));
-        super.initialize(url, resourceBundle); // Call superclass initialize
-        nomtxt.setText("abderahmen");
-        emailtxt.setText("abderahmen.jaouadi@esprit.tn");
+        nomtxt.setText(getClientNameFromId(getClientIdFromPreferences()));
+        emailtxt.setText(getClientEmailFromId(getClientIdFromPreferences()));
         modepaimenttxt.setValue("mensuel");
         modepaimenttxt.setItems(modeplist);
         System.out.println("Modepaiment items: " + modeplist);

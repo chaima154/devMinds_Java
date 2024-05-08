@@ -15,6 +15,7 @@ import tn.devMinds.entities.Assurence;
 import tn.devMinds.iservices.AssuranceService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class UpdateAssuranceController extends SideBarre_adminController {
 
@@ -38,6 +39,9 @@ public class UpdateAssuranceController extends SideBarre_adminController {
     private final AssuranceService assuranceService = new AssuranceService();
     private Assurence assuranceToUpdate;
     private AssuranceListController assuranceListController;
+
+    public UpdateAssuranceController() throws SQLException {
+    }
 
     public void initializeData(Assurence assurance) {
         this.assuranceToUpdate = assurance;

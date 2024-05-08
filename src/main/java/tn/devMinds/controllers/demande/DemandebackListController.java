@@ -1,14 +1,6 @@
 package tn.devMinds.controllers.demande;
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import java.util.Properties;
-import com.itextpdf.text.DocumentException;
+
+import com.twilio.rest.proxy.v1.service.Session;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -28,10 +20,13 @@ import tn.devMinds.entities.Assurence;
 import tn.devMinds.entities.Demande;
 import tn.devMinds.iservices.ServiceDemande;
 
-import java.io.FileNotFoundException;
+
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.Properties;
+
+import static javax.mail.Message.RecipientType.TO;
 
 public class DemandebackListController implements Initializable {
     @FXML
@@ -56,6 +51,9 @@ public class DemandebackListController implements Initializable {
     private TableColumn<Demande, String> etatColumn;
     @FXML
     private TableColumn<Demande, Void> actionColumn;
+
+    public DemandebackListController() throws SQLException {
+    }
 
     @FXML
     void filtrerDemandes(ActionEvent event) {
@@ -156,58 +154,58 @@ public class DemandebackListController implements Initializable {
         table.setItems(observableList);
     }
     private void setupActionColumn() {
-        actionColumn.setCellFactory(param -> new TableCell<Demande, Void>() {
-            private final Button acceptBtn = new Button("Accept");
-            private final Button refuseBtn = new Button("Refuse");
-            private final HBox hbox = new HBox(5, acceptBtn, refuseBtn);
+        actionColumn.setCellFactory(param -> {
+            return new TableCell<Demande, Void>() {
+                private final Button acceptBtn = new Button("Accept");
+                private final Button refuseBtn = new Button("Refuse");
+                private final HBox hbox = new HBox(5, acceptBtn, refuseBtn);
 
-            {
-                GMailer gMailer = null;
-                try {
-                    gMailer = new GMailer();
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-                GMailer finalGMailer = gMailer;
-                acceptBtn.setOnAction(event -> {
-                    Demande demande = getTableView().getItems().get(getIndex());
-                    demande.setEtat("Accepted");
-                    updateDemandeEtat(demande);
+                {
+                    GMailer gMailer = null;
                     try {
-                        // Generate the PDF contract
-                        String pdfFileName = "Contract_" + demande.getId() + ".pdf";
-                        GeneratePdf.generateContract(demande, pdfFileName);
-
-                        // Send email to the owner of the demand using GMailer
-                        Session session = Session.getDefaultInstance(new Properties());
-                        finalGMailer.sendMail(session, demande.getAdresseClient(), "Contract Attached", "Please find attached contract.", pdfFileName);
-
+                        gMailer = new GMailer();
                     } catch (Exception e) {
-                        e.printStackTrace();
-                        // Handle PDF generation or email sending error
+                        throw new RuntimeException(e);
                     }
-                });
+                    GMailer finalGMailer = gMailer;
+                    acceptBtn.setOnAction(event -> {
+                        Demande demande = getTableView().getItems().get(getIndex());
+                        demande.setEtat("Accepted");
+                        updateDemandeEtat(demande);
+                        try {
+                            // Generate the PDF contract
+                            String pdfFileName = "Contract_" + demande.getId() + ".pdf";
+                            GeneratePdf.generateContract(demande, pdfFileName);
+
+                            // Send email to the owner of the demand using GMailer
+                            javax.mail.Session session = javax.mail.Session.getDefaultInstance(new Properties());
+
+                            finalGMailer.sendMail(session, demande.getAdresseClient(), "Contract Attached", "Please find attached contract.", pdfFileName);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            // Handle PDF generation or email sending error
+                        }
+                    });
 
 
-
-
-
-                refuseBtn.setOnAction(event -> {
-                    Demande demande = getTableView().getItems().get(getIndex());
-                    demande.setEtat("Refused");
-                    updateDemandeEtat(demande);
-                });
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(hbox);
+                    refuseBtn.setOnAction(event -> {
+                        Demande demande = getTableView().getItems().get(getIndex());
+                        demande.setEtat("Refused");
+                        updateDemandeEtat(demande);
+                    });
                 }
-            }
+
+                @Override
+                protected void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(hbox);
+                    }
+                }
+            };
         });
     }
 

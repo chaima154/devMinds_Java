@@ -25,7 +25,7 @@ public class GeneratePdf {
 
         // Add logo
         try {
-            Image logo = Image.getInstance("C:\\Users\\jaoua\\Documents\\GitHub\\devMinds_Java\\src\\main\\resources\\banque\\images\\logo.png");
+            Image logo = Image.getInstance("C:\\Users\\Chaima\\IdeaProjects\\banque\\src\\main\\resources\\banque\\images\\logo.png");
             logo.setAlignment(Element.ALIGN_CENTER); // Center align the logo
             logo.scaleAbsolute(100, 100); // Set the size of the logo
             doc.add(logo);
@@ -54,7 +54,7 @@ public class GeneratePdf {
         doc.add(table);
         // Add signature
         try {
-            Image signature = Image.getInstance("C:\\Users\\jaoua\\Documents\\GitHub\\devMinds_Java\\src\\main\\resources\\banque\\images\\signature.png");
+            Image signature = Image.getInstance("C:\\Users\\Chaima\\IdeaProjects\\banque\\src\\main\\resources\\banque\\images\\signature.png");
             signature.scaleAbsolute(200, 50); // Set the size of the signature
             doc.add(signature);
         } catch (Exception e) {

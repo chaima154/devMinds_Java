@@ -16,6 +16,7 @@ import tn.devMinds.iservices.AssuranceService;
 
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class AjoutAssuranceController extends SideBarre_adminController {
     public AssuranceListController assuranceListController;
@@ -33,6 +34,9 @@ public class AjoutAssuranceController extends SideBarre_adminController {
 
 
     private AssuranceService assuranceService = new AssuranceService();
+
+    public AjoutAssuranceController() throws SQLException {
+    }
 
     public Boolean verif_nom(TextField t) {
         String champ = t.getText().trim();

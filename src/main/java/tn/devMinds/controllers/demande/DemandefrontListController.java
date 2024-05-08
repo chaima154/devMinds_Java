@@ -9,14 +9,20 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import tn.devMinds.controllers.ClientMenuController;
+import tn.devMinds.controllers.LoginController;
 import tn.devMinds.entities.Assurence;
 import tn.devMinds.entities.Demande;
 import tn.devMinds.iservices.ServiceDemande;
+import tn.devMinds.tools.MyConnection;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
 public class DemandefrontListController extends ClientMenuController {
     @FXML
@@ -39,19 +45,54 @@ public class DemandefrontListController extends ClientMenuController {
     private TableColumn<Demande, String> etatColumn;
     @FXML
     private TableColumn<Demande, Void> actionColumn;
+
+    private Preferences preferences;
+
     @FXML
     private TextField searchTerm;
+
+    private ClientMenuController clientMenuController;
+    public void setSidebarController(ClientMenuController clientMenuController) {
+    }
+
 
     private final ServiceDemande demandeService = new ServiceDemande();
 
     // Add this field to your class
     private String loggedInClientName;
 
+    public DemandefrontListController() throws SQLException {
+    }
+
+    private int getClientIdFromPreferences() {
+        preferences = Preferences.userRoot().node(LoginController.class.getName());
+        String savedValue = preferences.get("Id_Client", "0");
+        System.out.println(savedValue);
+        return Integer.parseInt(savedValue); // Default value "0" if not found
+    }
+
+
+    private static String getClientNameFromId(int clientId) {
+        String clientName = null;
+        try (Connection connection = MyConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement("SELECT nom FROM user WHERE id = ?")) {
+            stmt.setInt(1, clientId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    clientName = rs.getString("nom");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return clientName;
+    }
+
     // In initialize() method
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         filterChoiceBox.setValue("All");
-        loggedInClientName = "abderahmen"; // Assuming "djoo" is the logged-in client's name, replace it with your method to retrieve the name
+        loggedInClientName = getClientNameFromId(getClientIdFromPreferences()); // Assuming "djoo" is the logged-in client's name, replace it with your method to retrieve the name
         try {
             showList(getAllList(loggedInClientName)); // Filter by logged-in client name
         } catch (SQLException e) {
@@ -127,7 +168,7 @@ public class DemandefrontListController extends ClientMenuController {
                     if (result.isPresent() && result.get() == buttonTypeYes) {
                         try {
                             demandeService.delete(demande);
-                            showList(getAllList("djoo")); // Filter by client name "djoo"
+                            showList(getAllList(loggedInClientName)); // Filter by client name "djoo"
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         }

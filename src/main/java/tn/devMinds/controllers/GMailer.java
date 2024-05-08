@@ -15,8 +15,7 @@ import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
 import org.apache.commons.codec.binary.Base64;
 
-import javax.mail.Multipart;
-import javax.mail.Session;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
@@ -33,9 +32,15 @@ import java.util.Set;
 import static com.google.api.services.gmail.GmailScopes.GMAIL_SEND;
 import static javax.mail.Message.RecipientType.TO;
 
+
 public class GMailer {
 
-    private static final String TEST_EMAIL = "jaouadiabderahmen0@gmail.com";
+    private final String TEST_EMAIL = "jaouadiabderahmen0@gmail.com";
+
+    public String getTEST_EMAIL() {
+        return TEST_EMAIL;
+    }
+
     private Gmail service;
 
     public GMailer() throws Exception {
@@ -62,6 +67,8 @@ public class GMailer {
 
     public void sendMail(Session session, String to, String subject, String message, String pdfFileName) throws Exception {
         // Create MimeMessage object
+        Properties props = new Properties();
+
         MimeMessage email = new MimeMessage(session);
         email.setFrom(new InternetAddress(TEST_EMAIL));
         email.addRecipient(TO, new InternetAddress(to));
@@ -108,7 +115,3 @@ public class GMailer {
         }
     }
 }
-
-
-
-

@@ -7,8 +7,10 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import tn.devMinds.controllers.assurance.frontassurance;
 import tn.devMinds.controllers.client.credit.ClientCreditController;
 import tn.devMinds.controllers.comptecontroller.Ajoutercompte;
+import tn.devMinds.controllers.demande.DemandefrontListController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -52,7 +54,28 @@ public class ClientMenuController implements Initializable {
             this.borderPane.setCenter(parent);
         }
     }
+    @FXML
+    public void godemandefront(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/DEMANDE/ListDemandeFront.fxml"));
+        Parent parent = loader.load();
+        DemandefrontListController Demandelistfront = loader.getController();
+        if (loader.getController() instanceof DemandefrontListController) {
+            Demandelistfront.setSidebarController(this);
+            this.borderPane.setCenter(parent);
+        }
 
+    }
+
+    @FXML
+    public void goAssurancefront(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ASSURANCE/frontassurance.fxml"));
+        Parent parent = loader.load();
+        frontassurance Frontassurance = loader.getController();
+        if (loader.getController() instanceof frontassurance) {
+            Frontassurance.setSidebarController(this);
+            this.borderPane.setCenter(parent);
+        }
+    }
 
     @FXML
     void goAccount(MouseEvent event) throws IOException {

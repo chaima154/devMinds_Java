@@ -15,8 +15,8 @@ public class ServiceDemande implements IService<Demande> {
 
     private static Connection cnx;
 
-    public ServiceDemande() {
-        cnx = MyConnection.getInstance().getCnx();
+    public ServiceDemande() throws SQLException {
+        cnx = MyConnection.getConnection();
     }
 
     @Override
