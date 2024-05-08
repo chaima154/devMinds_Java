@@ -70,6 +70,9 @@ public class TransactionListController implements Initializable {
     private final TypeTransactionService typeTransactionService = new TypeTransactionService();
     private SideBarre_adminController sidebarController;
 
+    public TransactionListController() throws SQLException {
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showList(getAllList());
@@ -199,7 +202,7 @@ public class TransactionListController implements Initializable {
     private int getRibForAccount(int accountId) {
         int rib = 0;
         try {
-            Connection connection = MyConnection.getInstance().getCnx();
+            Connection connection = MyConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement("SELECT rib FROM compte WHERE id = ?");
             statement.setInt(1, accountId);
             ResultSet resultSet = statement.executeQuery();
@@ -215,9 +218,9 @@ public class TransactionListController implements Initializable {
     private void UpdateTransaction(int transactionId) {
         String query = "UPDATE transaction SET statut = ? WHERE id = ?";
         String getMontantQuery = "SELECT montant_transaction, compte_id, destinataire_compte_id_id, commission FROM transaction WHERE id = ?";
-        try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query);
-             PreparedStatement getMontantStatement = MyConnection.getInstance().getCnx().prepareStatement(getMontantQuery)) {
-            MyConnection.getInstance().getCnx().setAutoCommit(false);
+        try (PreparedStatement statement = MyConnection.getConnection().prepareStatement(query);
+             PreparedStatement getMontantStatement = MyConnection.getConnection().prepareStatement(getMontantQuery)) {
+            MyConnection.getConnection().setAutoCommit(false);
 
             statement.setString(1, "Validé");
             statement.setInt(2, transactionId);
@@ -233,23 +236,23 @@ public class TransactionListController implements Initializable {
                 int compteId = resultSet.getInt("compte_id");
                 int destinataireId = resultSet.getInt("destinataire_compte_id_id");
 
-                PreparedStatement updateCompteStatementDecrease = MyConnection.getInstance().getCnx().prepareStatement("UPDATE compte SET solde = solde - ? WHERE id = ?");
+                PreparedStatement updateCompteStatementDecrease = MyConnection.getConnection().prepareStatement("UPDATE compte SET solde = solde - ? WHERE id = ?");
                 updateCompteStatementDecrease.setDouble(1, totalTransactionAmount);
                 updateCompteStatementDecrease.setInt(2, compteId);
                 updateCompteStatementDecrease.executeUpdate();
 
-                PreparedStatement updateCompteStatementIncrease = MyConnection.getInstance().getCnx().prepareStatement("UPDATE compte SET solde = solde + ? WHERE id = ?");
+                PreparedStatement updateCompteStatementIncrease = MyConnection.getConnection().prepareStatement("UPDATE compte SET solde = solde + ? WHERE id = ?");
                 updateCompteStatementIncrease.setDouble(1, montantTransaction);
                 updateCompteStatementIncrease.setInt(2, destinataireId);
                 updateCompteStatementIncrease.executeUpdate();
 
-                MyConnection.getInstance().getCnx().commit();
+                MyConnection.getConnection().commit();
             }
         } catch (SQLException e) {
             e.printStackTrace();
             try {
-                if (MyConnection.getInstance().getCnx() != null) {
-                    MyConnection.getInstance().getCnx().rollback();
+                if (MyConnection.getConnection() != null) {
+                    MyConnection.getConnection().rollback();
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -304,7 +307,7 @@ public class TransactionListController implements Initializable {
             private boolean isTransactionStatusPending(int transactionId) {
                 String status = "";
                 try {
-                    Connection connection = MyConnection.getInstance().getCnx();
+                    Connection connection = MyConnection.getConnection();
                     PreparedStatement statement = connection.prepareStatement("SELECT statut FROM transaction WHERE id = ?");
                     statement.setInt(1, transactionId);
                     ResultSet resultSet = statement.executeQuery();

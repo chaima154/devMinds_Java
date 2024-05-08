@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import tn.devMinds.controllers.client.credit.ClientCreditController;
 import tn.devMinds.controllers.comptecontroller.Ajoutercompte;
 
 import java.io.IOException;
@@ -18,6 +19,7 @@ public class ClientMenuController implements Initializable {
     public Button transactin_btn;
     public Button accounts_btn;
     public Button profile_btn;
+    public Button credit_btn;
     public Button logout_btn;
     public Button report_btn;
     public BorderPane borderPane;
@@ -37,6 +39,20 @@ public class ClientMenuController implements Initializable {
             this.borderPane.setCenter(parent);
         }
     }
+
+    @FXML
+    void goCredit(MouseEvent event) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/client/Credit/ClientCreditSimulation.fxml"));
+        Parent parent = loader.load();
+        System.out.println("test working");
+        ClientCreditController clientcredit = loader.getController();
+        if (loader.getController() instanceof ClientCreditController) {
+            ((ClientCreditController) clientcredit).clientMenuController(this);
+            this.borderPane.setCenter(parent);
+        }
+    }
+
 
     @FXML
     void goAccount(MouseEvent event) throws IOException {

@@ -1,0 +1,114 @@
+.credit_container {
+    -fx-background-color: #EEEEEE;
+    }
+
+.credit_container-Title {
+    -fx-font-size: 2em;
+    -fx-fill: #000000;
+}
+
+.credit_container Text {
+    -fx-fill: #000000;
+    -fx-font-size: 3em;
+    -fx-font-family: "Calibri Light";
+    }
+
+
+/* ///////////////////////TABLEVIEW//////////////// */
+
+.table-view{
+    -fx-background-color:transparent;
+    -fx-border-color:linear-gradient(to bottom right, #272b3f, #256b51);
+    -fx-text-fill: black;
+    -fx-border-radius:8px;
+    -fx-padding:0px;
+}
+
+.table-view .table-column{
+    -fx-alignment:CENTER;
+}
+
+.table-view .column-header-background{
+    -fx-background-color: linear-gradient(to right, #132A13, #253F25);
+    -fx-background-insets: 0 0 0 0;
+    -f-background-radius:8px 8px 0px 0px;
+}
+
+.table-view .column-header, .filter{
+    -fx-background-color: transparent;
+    -fx-size:40px;
+}
+
+.table-view .column-header .label{
+    -fx-text-fill:#fff;
+    -fx-font-family:"Arial";
+}
+
+
+
+
+.credit_container_TextField {
+    -fx-pref-width: 200;
+    -fx-pref-height: 35;
+    -fx-background-color: #FFFFFF;
+    -fx-font-size: 1.3em;
+    -fx-effect: dropshadow(three-pass-box, #AAAAAA, 0, 0, 0, 3);
+}
+
+
+.credit_container ChoiceBox {
+    -fx-pref-width: 200;
+    -fx-pref-height: 35;
+    -fx-background-color: #FFFFFF;
+    -fx-font-size: 1.3em;
+    -fx-effect: dropshadow(three-pass-box, #AAAAAA, 0, 0, 0, 3);
+}
+
+.credit_container DatePicker {
+    -fx-pref-width: 200;
+    -fx-pref-height: 35;
+    -fx-background-color: #FFFFFF;
+    -fx-font-size: 1.3em;
+    -fx-effect: dropshadow(three-pass-box, #AAAAAA, 0, 0, 0, 3);
+}
+
+.credit_container_Button {
+    -fx-background-color: linear-gradient(to right, #132A13, #253F25);
+    -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 8, 8, 3);
+    -fx-pref-width: 250;
+    -fx-font-size: 1.5em;
+    -fx-font-family: "Calibri Light";
+    -fx-text-fill: #FFFFFF;
+}
+
+.credit_container Button:hover {
+    -fx-cursor: hand;
+}
+
+.credit_container_search{
+    -fx-background-color:transparent;
+    -fx-border-color:linear-gradient(to bottom right, #272b3f, #256b51);
+    -fx-border-radius:5px;
+    -fx-font-size:13px;
+    -fx-font-family:"Arial";
+    -fx-border-width:1px;
+    -fx-padding:0px 0px 0px 28px;
+}
+
+.search:focused{
+    -fx-border-width:2px;
+}
+
+.shadow{
+    -fx-effect:dropshadow(three-pass-box, rgba(0,0,0,0.5), 6,0,0,0);
+}
+
+.white-bg{
+    -fx-background-color:#fff;
+    -fx-background-radius:8px;
+}
+
+.import-btn{
+    -fx-background-color:#ddd;
+    -fx-cursor:hand;
+}

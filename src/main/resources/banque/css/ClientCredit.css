@@ -1,0 +1,51 @@
+.credit_container {
+    -fx-background-color: #EEEEEE;
+    }
+
+.credit_container Text {
+    -fx-fill: #000000;
+    -fx-font-size: 3em;
+    -fx-font-family: "Calibri Light";
+    }
+
+.credit_container_search{
+    -fx-background-color:transparent;
+    -fx-border-color:linear-gradient(to bottom right, #272b3f, #256b51);
+    -fx-border-radius:5px;
+    -fx-font-size:13px;
+    -fx-font-family:"Arial";
+    -fx-border-width:1px;
+    -fx-padding:0px 0px 0px 28px;
+}
+
+.search:focused{
+    -fx-border-width:2px;
+}
+
+.shadow{
+    -fx-effect:dropshadow(three-pass-box, rgba(0,0,0,0.5), 6,0,0,0);
+}
+
+.white-bg{
+    -fx-background-color:#fff;
+    -fx-background-radius:8px;
+}
+
+.import-btn{
+    -fx-background-color:#ddd;
+    -fx-cursor:hand;
+}
+
+.export-btn {
+    -fx-background-color: #132A13;
+    -fx-background-radius: 8px;
+    -fx-text-fill: #fff;
+    -fx-font-size: 14px;
+    -fx-font-family: "Arial";
+    -fx-cursor: hand;
+}
+
+.export-btn:hover{
+    -fx-background-color:#253F25;
+}
+

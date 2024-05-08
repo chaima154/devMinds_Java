@@ -9,6 +9,7 @@ import tn.devMinds.entities.TypeTransaction;
 import tn.devMinds.iservices.TypeTransactionService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class AjoutTypeTransactionController {
     public TypeTransactionListController typeTransactionListController;
@@ -18,6 +19,9 @@ public class AjoutTypeTransactionController {
     private TextField Commission;
 
     private TypeTransactionService typetransactionservice = new TypeTransactionService();
+
+    public AjoutTypeTransactionController() throws SQLException {
+    }
 
     public Boolean verif_libelle(TextField t) {
         String champ = t.getText().trim();

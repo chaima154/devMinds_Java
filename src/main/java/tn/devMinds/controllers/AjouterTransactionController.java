@@ -20,6 +20,7 @@ import tn.devMinds.iservices.TypeTransactionService;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -35,6 +36,9 @@ public class AjouterTransactionController extends SideBarre_adminController {
     private VBox dynamicFieldsContainer;
     private SideBarre_adminController sidebarController;
     private TransactionListController TransactionListController;
+
+    public AjouterTransactionController() throws SQLException {
+    }
 
     public void setSidebarController(SideBarre_adminController sidebarController) {
         this.sidebarController = sidebarController;

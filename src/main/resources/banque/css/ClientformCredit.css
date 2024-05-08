@@ -1,0 +1,62 @@
+.create_client_container {
+    -fx-background-color: #EEEEEE;
+    }
+
+.create_client_container Text {
+    -fx-font-size: 1.7em;
+    -fx-fill: #888888;
+    }
+
+.create_client_container Label {
+    -fx-font-size: 2.5em;
+    -fx-fill: transparent;
+}
+
+.create_client_container-Title {
+    -fx-font-size: 2em;
+    -fx-fill: #000000;
+}
+
+.create_client_container VBox {
+    -fx-padding: 10;
+    -fx-spacing: 15;
+    -fx-alignment: TOP_LEFT;
+    }
+
+.create_client_container TextField {
+    -fx-pref-width: 250;
+    -fx-pref-height: 35;
+    -fx-background-color: #FFFFFF;
+    -fx-font-size: 1.8em;
+    -fx-effect: dropshadow(three-pass-box, #AAAAAA, 0, 0, 0, 3);
+    }
+.create_client_container Spinner {
+    -fx-pref-width: 250;
+    -fx-background-color: #FFFFFF;
+    -fx-font-size: 1.4em;
+    -fx-effect: dropshadow(three-pass-box, #AAAAAA, 0, 0, 0, 3);
+}
+
+.create_client_container ChoiceBox {
+    -fx-pref-width: 250;
+    -fx-background-color: #FFFFFF;
+    -fx-font-size: 0.8em;
+    -fx-effect: dropshadow(three-pass-box, #AAAAAA, 0, 0, 0, 3);
+}
+
+.create_client_container Button {
+    -fx-background-color: linear-gradient(to right, #132A13, #253F25);
+    -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 8, 8, 3);
+    -fx-pref-width: 250;
+    -fx-font-size: 1.5em;
+    -fx-font-family: "Calibri Light";
+    -fx-text-fill: #FFFFFF;
+    }
+
+.create_client_container Button:hover {
+    -fx-cursor: hand;
+    }
+
+.error_lbl{
+    -fx-text-fill: #FF0000;
+}

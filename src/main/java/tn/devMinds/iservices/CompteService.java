@@ -4,23 +4,20 @@ import tn.devMinds.entities.Compte;
 import tn.devMinds.tools.MyConnection;
 
 import java.sql.*;
-import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class CompteService implements IService<Compte> {
 
-    private Connection connection;
-    public CompteService(){connection = MyConnection.getInstance().getCnx(); }
-    public String test="test";
+    public String test = "test";
 
     @Override
-    public boolean delete(Compte compte) throws SQLException {
+    public boolean delete(Compte compte) {
         String query = "DELETE FROM compte WHERE id=?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(query);
-            ps.setInt(1,compte.getId());
-
+        try (Connection connection = MyConnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, compte.getId());
             int rows = ps.executeUpdate();
             return rows > 0;
         } catch (SQLException exception) {
@@ -36,65 +33,87 @@ public class CompteService implements IService<Compte> {
     }
 
     @Override
-    public ArrayList<Compte> getAllData() throws SQLException {
-        // Your getAllData method implementation
-        return null;
+    public ArrayList<Compte> getAllData() {
+        String query = "SELECT * FROM compte";
+        ArrayList<Compte> comptes = new ArrayList<>();
+        try (Connection connection = MyConnection.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(query)) {
+            while (rs.next()) {
+                Compte c = new Compte();
+                c.setId(rs.getInt("id"));
+                c.setSolde(rs.getInt("solde"));
+                c.setTypecompte(rs.getString("typecompte"));
+                c.setAgence(rs.getString("agence"));
+                c.setRib(rs.getString("rib"));
+                comptes.add(c);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return comptes;
     }
 
     @Override
-    public String add(Compte compte) throws SQLException {
-
+    public String add(Compte compte) {
         String sql = "insert into compte (agence,typecompte,solde,rib,user_id) values (?,?,?,?,?)";
-        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(sql)) {
-
+        try (Connection connection = MyConnection.getConnection();
+             PreparedStatement pst = connection.prepareStatement(sql)) {
             pst.setString(1, compte.getAgence());
             pst.setString(2, compte.getTypecompte());
             pst.setInt(3, compte.getSolde());
-            pst.setString(4,compte.getRib());
-            pst.setInt(5,compte.getUser_id());
+            pst.setString(4, compte.getRib());
+            pst.setInt(5, compte.getUser_id());
 
             int rowsAffected = pst.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Carte ajoutée avec succès");
+                System.out.println("Compte ajouté avec succès");
             } else {
-                System.out.println("Échec de l'ajout de la carte");
+                System.out.println("Échec de l'ajout du compte");
             }
         } catch (SQLException e) {
-            System.out.println("Erreur lors de l'ajout de la carte : " + e.getMessage());
+            System.out.println("Erreur lors de l'ajout du compte : " + e.getMessage());
         }
-
         return test;
     }
 
-    public boolean read(Compte compte) throws SQLException {
-
+    public boolean read(Compte compte) {
         String sql = "select * from compte";
-        Statement statement = connection.createStatement();
-        ResultSet rs = statement.executeQuery(sql);
-        List<Compte> comptes = new ArrayList<>();
-        while (rs.next()){
-            Compte c = new Compte();
-            c.setId(rs.getInt("id"));
-            c.setSolde(rs.getInt("solde"));
-            c.setTypecompte(rs.getString("typecompte"));
-            c.setAgence(rs.getString("agence"));
-            c.setRib(rs.getString("rib"));
-            comptes.add(c);
+        try (Connection connection = MyConnection.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(sql)) {
+            List<Compte> comptes = new ArrayList<>();
+            while (rs.next()) {
+                Compte c = new Compte();
+                c.setId(rs.getInt("id"));
+                c.setSolde(rs.getInt("solde"));
+                c.setTypecompte(rs.getString("typecompte"));
+                c.setAgence(rs.getString("agence"));
+                c.setRib(rs.getString("rib"));
+                comptes.add(c);
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
-    public boolean update(Compte compte) throws SQLException {
+    public boolean update(Compte compte) {
         String sql = "UPDATE compte SET typecompte = ?, solde = ?, agence = ?, rib = ? WHERE id = ?";
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setString(1, compte.getTypecompte());
-        ps.setInt(2, compte.getSolde());
-        ps.setString(3, compte.getAgence());
-        ps.setString(4, compte.getRib());
-        ps.setInt(5, compte.getId());
-
-        ps.executeUpdate();
-        return false;
+        try (Connection connection = MyConnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, compte.getTypecompte());
+            ps.setInt(2, compte.getSolde());
+            ps.setString(3, compte.getAgence());
+            ps.setString(4, compte.getRib());
+            ps.setInt(5, compte.getId());
+            ps.executeUpdate();
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public String generateUniqueNumero(int x) {
@@ -119,13 +138,13 @@ public class CompteService implements IService<Compte> {
 
     public boolean checkIfNumeroExists(String numero) {
         String request = "SELECT rib FROM compte WHERE rib=?";
-        try {
-            PreparedStatement preparedStatement = MyConnection.getInstance().getCnx().prepareStatement(request);
+        try (Connection connection = MyConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(request)) {
             preparedStatement.setString(1, numero);
             ResultSet rs = preparedStatement.executeQuery();
             return rs.next(); // Returns true if ResultSet contains any rows (numero exists), false otherwise
         } catch (SQLException e) {
-            System.out.println("+++" + e.getMessage() + "+++");
+            e.printStackTrace();
             return false; // Return false in case of exception
         }
     }

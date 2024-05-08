@@ -12,37 +12,40 @@ public class TransactionService implements IService<Transaction> {
     private Connection cnx;
 
     public TransactionService() {
-        cnx = MyConnection.getInstance().getCnx();
+        try {
+            cnx = MyConnection.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<Transaction> getAllTransactions() {
         List<Transaction> transactions = new ArrayList<>();
         String requete = "SELECT * FROM transaction";
-        try {
-            PreparedStatement pst = cnx.prepareStatement(requete);
-            ResultSet rs = pst.executeQuery();
-            while (rs.next()) {
-                Transaction transaction = new Transaction();
-                transaction.setId(rs.getInt("id"));
-                transaction.setDate(rs.getString("date"));
-                transaction.setStatut(rs.getString("statut"));
-                transaction.setMontant_transaction(rs.getDouble("montant_transaction"));
-                transaction.setNumcheque(rs.getString("numcheque"));
-                transaction.setTypetransaction_id(rs.getInt("typetransaction_id"));
-                transaction.setCompte_id(rs.getInt("compte_id"));
-                transaction.setDestinataire_compte_id_id(rs.getInt("destinataire_compte_id_id"));
-                transactions.add(transaction);
+        try (PreparedStatement pst = cnx.prepareStatement(requete)) {
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    Transaction transaction = new Transaction();
+                    transaction.setId(rs.getInt("id"));
+                    transaction.setDate(rs.getString("date"));
+                    transaction.setStatut(rs.getString("statut"));
+                    transaction.setMontant_transaction(rs.getDouble("montant_transaction"));
+                    transaction.setNumcheque(rs.getString("numcheque"));
+                    transaction.setTypetransaction_id(rs.getInt("typetransaction_id"));
+                    transaction.setCompte_id(rs.getInt("compte_id"));
+                    transaction.setDestinataire_compte_id_id(rs.getInt("destinataire_compte_id_id"));
+                    transactions.add(transaction);
+                }
             }
         } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
+            ex.printStackTrace();
         }
         return transactions;
     }
 
     public String add(Transaction transaction) {
         String requete = "INSERT INTO transaction (date, statut, montant_transaction, numcheque, typetransaction_id, compte_id, destinataire_compte_id_id) VALUES (?,?,?,?,?,?,?)";
-        try {
-            PreparedStatement pst = cnx.prepareStatement(requete);
+        try (PreparedStatement pst = cnx.prepareStatement(requete)) {
             pst.setString(1, transaction.getDate());
             pst.setString(2, transaction.getStatut());
             pst.setDouble(3, transaction.getMontant_transaction());
@@ -77,51 +80,28 @@ public class TransactionService implements IService<Transaction> {
     }
 
     @Override
-    public ArrayList<Transaction> getAllData() throws SQLException {
+    public ArrayList<Transaction> getAllData() {
         return null;
     }
 
     public List<Transaction> getTransactionsByRib(int rib) {
         List<Transaction> transactions = new ArrayList<>();
         String requete = "SELECT * FROM transaction WHERE compte_id IN (SELECT id FROM compte WHERE rib = ?)";
-        try {
-            PreparedStatement pst = cnx.prepareStatement(requete);
+        try (PreparedStatement pst = cnx.prepareStatement(requete)) {
             pst.setInt(1, rib);
-            ResultSet rs = pst.executeQuery();
-            while (rs.next()) {
-                Transaction transaction = new Transaction();
-                transaction.setId(rs.getInt("id"));
-                transaction.setDate(rs.getString("date"));
-                transaction.setStatut(rs.getString("statut"));
-                transaction.setMontant_transaction(rs.getDouble("montant_transaction"));
-                transaction.setNumcheque(rs.getString("numcheque"));
-                transaction.setTypetransaction_id(rs.getInt("typetransaction_id"));
-                transaction.setCompte_id(rs.getInt("compte_id"));
-                transaction.setDestinataire_compte_id_id(rs.getInt("destinataire_compte_id_id"));
-                transactions.add(transaction);
-            }
-        } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
-        }
-        return transactions;
-    }
-    public List<Transaction> getTransactionsForLast5Days() {
-        List<Transaction> transactions = new ArrayList<>();
-        String query = "SELECT * FROM transaction WHERE date BETWEEN CURDATE() - INTERVAL 5 DAY AND CURDATE()";
-        try {
-            PreparedStatement pst = cnx.prepareStatement(query);
-            ResultSet rs = pst.executeQuery();
-            while (rs.next()) {
-                Transaction transaction = new Transaction();
-                transaction.setId(rs.getInt("id"));
-                transaction.setDate(rs.getString("date"));
-                transaction.setStatut(rs.getString("statut"));
-                transaction.setMontant_transaction(rs.getDouble("montant_transaction"));
-                transaction.setNumcheque(rs.getString("numcheque"));
-                transaction.setTypetransaction_id(rs.getInt("typetransaction_id"));
-                transaction.setCompte_id(rs.getInt("compte_id"));
-                transaction.setDestinataire_compte_id_id(rs.getInt("destinataire_compte_id_id"));
-                transactions.add(transaction);
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    Transaction transaction = new Transaction();
+                    transaction.setId(rs.getInt("id"));
+                    transaction.setDate(rs.getString("date"));
+                    transaction.setStatut(rs.getString("statut"));
+                    transaction.setMontant_transaction(rs.getDouble("montant_transaction"));
+                    transaction.setNumcheque(rs.getString("numcheque"));
+                    transaction.setTypetransaction_id(rs.getInt("typetransaction_id"));
+                    transaction.setCompte_id(rs.getInt("compte_id"));
+                    transaction.setDestinataire_compte_id_id(rs.getInt("destinataire_compte_id_id"));
+                    transactions.add(transaction);
+                }
             }
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
@@ -129,4 +109,31 @@ public class TransactionService implements IService<Transaction> {
         return transactions;
     }
 
+    public List<Transaction> getTransactionsForLast5Days() {
+        List<Transaction> transactions = new ArrayList<>();
+        String query = "SELECT * FROM transaction WHERE date BETWEEN CURDATE() - INTERVAL 5 DAY AND CURDATE()";
+        try (PreparedStatement pst = cnx.prepareStatement(query)) {
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    Transaction transaction = new Transaction();
+                    transaction.setId(rs.getInt("id"));
+                    transaction.setDate(rs.getString("date"));
+                    transaction.setStatut(rs.getString("statut"));
+                    transaction.setMontant_transaction(rs.getDouble("montant_transaction"));
+                    transaction.setNumcheque(rs.getString("numcheque"));
+                    transaction.setTypetransaction_id(rs.getInt("typetransaction_id"));
+                    transaction.setCompte_id(rs.getInt("compte_id"));
+                    transaction.setDestinataire_compte_id_id(rs.getInt("destinataire_compte_id_id"));
+                    transactions.add(transaction);
+                }
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return transactions;
+    }
+
+    public void close() {
+        MyConnection.closeConnection(cnx);
+    }
 }

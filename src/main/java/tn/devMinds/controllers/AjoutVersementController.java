@@ -20,16 +20,16 @@ public class AjoutVersementController {
     private TextField montant;
     private MyConnection cnx;
 
-    public AjoutVersementController() {
-        cnx = MyConnection.getInstance();
+    public AjoutVersementController() throws SQLException {
+        cnx = (MyConnection) MyConnection.getConnection();
     }
 
     @FXML
-    void AddTransaction(ActionEvent event) {
+    void AddTransaction(ActionEvent event) throws SQLException {
         String compteDestinataireRIB = compteDestinataire.getText();
         double montantTransaction = Double.parseDouble(montant.getText());
 
-        Connection connection = cnx.getCnx();
+        Connection connection = cnx.getConnection();
 
         if (!compteExists(compteDestinataireRIB)) {
             displayAlert("Alerte", "Le compte destinataire n'existe pas.", Alert.AlertType.ERROR);
@@ -47,7 +47,7 @@ public class AjoutVersementController {
 
     private boolean compteExists(String rib) {
         String query = "SELECT COUNT(*) FROM compte WHERE rib = ?";
-        try (PreparedStatement preparedStatement = cnx.getCnx().prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = cnx.getConnection().prepareStatement(query)) {
             preparedStatement.setString(1, rib);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -65,10 +65,10 @@ public class AjoutVersementController {
         String insertTransaction = "INSERT INTO transaction (date, statut, typetransaction_id, compte_id, destinataire_compte_id_id, montant_transaction) " +
                 "VALUES (?, ?, ?, (SELECT id FROM compte WHERE rib = ?), (SELECT id FROM compte WHERE rib = ?), ?)";
         LocalDate date = LocalDate.now();
-        try (PreparedStatement updateCompteDestinataireStatement = cnx.getCnx().prepareStatement(updateCompteDestinataire);
-             PreparedStatement insertTransactionStatement = cnx.getCnx().prepareStatement(insertTransaction)) {
+        try (PreparedStatement updateCompteDestinataireStatement = cnx.getConnection().prepareStatement(updateCompteDestinataire);
+             PreparedStatement insertTransactionStatement = cnx.getConnection().prepareStatement(insertTransaction)) {
 
-            cnx.getCnx().setAutoCommit(false);
+            cnx.getConnection().setAutoCommit(false);
 
             // Add to the receiving account
             updateCompteDestinataireStatement.setDouble(1, montantTransaction);
@@ -79,7 +79,7 @@ public class AjoutVersementController {
             int typetransaction_id = getTypeTransactionId("versement");
             if (typetransaction_id == -1) {
                 displayAlert("Alerte", "Type de transaction non trouvé.", Alert.AlertType.ERROR);
-                cnx.getCnx().rollback();
+                cnx.getConnection().rollback();
                 return false;
             }
 
@@ -94,18 +94,18 @@ public class AjoutVersementController {
             int insertedTransactionRows = insertTransactionStatement.executeUpdate();
 
             if (updatedCompteDestinataireRows > 0 && insertedTransactionRows > 0) {
-                cnx.getCnx().commit();
+                cnx.getConnection().commit();
                 return true;
             } else {
-                cnx.getCnx().rollback();
+                cnx.getConnection().rollback();
                 return false;
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
             try {
-                if (cnx.getCnx() != null) {
-                    cnx.getCnx().rollback();
+                if (cnx.getConnection() != null) {
+                    cnx.getConnection().rollback();
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -118,7 +118,7 @@ public class AjoutVersementController {
 
     private int getTypeTransactionId(String type) {
         String query = "SELECT id FROM type_transaction WHERE libelle = ?";
-        try (PreparedStatement preparedStatement = cnx.getCnx().prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = cnx.getConnection().prepareStatement(query)) {
             preparedStatement.setString(1, type);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {

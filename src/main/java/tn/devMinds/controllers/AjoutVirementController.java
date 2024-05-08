@@ -32,8 +32,8 @@ public class AjoutVirementController {
 
     private MyConnection cnx;
 
-    public AjoutVirementController() {
-        cnx = MyConnection.getInstance();
+    public AjoutVirementController() throws SQLException {
+        cnx = (MyConnection) MyConnection.getConnection();
     }
 
     @FXML
@@ -50,7 +50,7 @@ public class AjoutVirementController {
     }
 
     @FXML
-    void AddTransaction(ActionEvent event) {
+    void AddTransaction(ActionEvent event) throws SQLException {
         String compteEmetteurRIB = compteEmetteur.getText().trim();
         String compteDestinataireRIB = compteDestinataire.getText().trim();
         String montantString = montant.getText().trim();
@@ -73,7 +73,7 @@ public class AjoutVirementController {
             return;
         }
 
-        Connection connection = cnx.getCnx();
+        Connection connection = cnx.getConnection();
 
         if (!compteExists(compteEmetteurRIB)) {
             displayAlert("Alerte", "Le compte émetteur n'existe pas.", Alert.AlertType.ERROR);
@@ -101,7 +101,7 @@ public class AjoutVirementController {
 
     private boolean compteExists(String rib) {
         String query = "SELECT COUNT(*) FROM compte WHERE rib = ?";
-        try (PreparedStatement preparedStatement = cnx.getCnx().prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = cnx.getConnection().prepareStatement(query)) {
             preparedStatement.setString(1, rib);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -121,7 +121,7 @@ public class AjoutVirementController {
 
     private double getSoldeForAccount(String rib) {
         String query = "SELECT solde FROM compte WHERE rib = ?";
-        try (PreparedStatement preparedStatement = cnx.getCnx().prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = cnx.getConnection().prepareStatement(query)) {
             preparedStatement.setString(1, rib);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -139,7 +139,7 @@ public class AjoutVirementController {
 
         LocalDate date = LocalDate.now();
         commission = getCommissionTransactionType(getTypeTransactionId("virement"));
-        try (PreparedStatement insertTransactionStatement = MyConnection.getInstance().getCnx().prepareStatement(insertTransaction)) {
+        try (PreparedStatement insertTransactionStatement = MyConnection.getConnection().prepareStatement(insertTransaction)) {
 
             // Add a new line to the transaction table
             insertTransactionStatement.setString(1, date.toString());
@@ -161,7 +161,7 @@ public class AjoutVirementController {
 
     private int getTypeTransactionId(String type) {
         String query = "SELECT id FROM type_transaction WHERE libelle = ?";
-        try (PreparedStatement preparedStatement = cnx.getCnx().prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = cnx.getConnection().prepareStatement(query)) {
             preparedStatement.setString(1, type);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -175,7 +175,7 @@ public class AjoutVirementController {
 
     private Double getCommissionTransactionType(int id) {
         String query = "SELECT Commission FROM type_transaction WHERE id = ?";
-        try (PreparedStatement preparedStatement = cnx.getCnx().prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = cnx.getConnection().prepareStatement(query)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {

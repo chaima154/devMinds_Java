@@ -18,6 +18,7 @@ import tn.devMinds.iservices.TypeTransactionService;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class TypeTransactionListController implements Initializable {
@@ -40,6 +41,9 @@ public class TypeTransactionListController implements Initializable {
     @FXML
     private TextField searchTerm;
     private SideBarre_adminController sidebarController;
+
+    public TypeTransactionListController() throws SQLException {
+    }
 
     public void setSidebarController(SideBarre_adminController sidebarController) {
         this.sidebarController = sidebarController;

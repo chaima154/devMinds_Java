@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import tn.devMinds.controllers.admin.credit.AdminIndexCreditController;
 import tn.devMinds.controllers.comptecontroller.Affichagecompte;
 
 import java.io.IOException;
@@ -35,7 +36,14 @@ public class SideBarre_adminController implements Initializable {
     }
 
     @FXML
-    void goCredit(MouseEvent event) {
+    void goCredit(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/admin/credit/credit.fxml"));
+        Parent parent = loader.load();
+        AdminIndexCreditController creditcontroller = loader.getController();
+        if (loader.getController() instanceof AdminIndexCreditController) {
+            ((AdminIndexCreditController) creditcontroller).setSidebarController(this);
+            this.borderPane.setCenter(parent);
+        }
 
     }
 

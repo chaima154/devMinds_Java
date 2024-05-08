@@ -55,6 +55,9 @@ public class TransactionClientController implements Initializable {
     private ClientMenuController clientMenuController;
     private Preferences preferences;
 
+    public TransactionClientController() throws SQLException {
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         int clientId = getClientIdFromPreferences();
@@ -109,7 +112,7 @@ public class TransactionClientController implements Initializable {
     private int getRibForAccount(int accountId) {
         int rib = 0;
         try {
-            Connection connection = MyConnection.getInstance().getCnx();
+            Connection connection = MyConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement("SELECT rib FROM compte WHERE id = ?");
             statement.setInt(1, accountId);
             ResultSet resultSet = statement.executeQuery();

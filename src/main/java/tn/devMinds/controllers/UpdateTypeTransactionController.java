@@ -8,6 +8,7 @@ import tn.devMinds.entities.TypeTransaction;
 import tn.devMinds.iservices.TypeTransactionService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class UpdateTypeTransactionController extends SideBarre_adminController {
     private TypeTransactionListController typeTransactionListController;
@@ -16,6 +17,9 @@ public class UpdateTypeTransactionController extends SideBarre_adminController {
     private TextField libelle;
     @FXML
     private TextField Commission;
+
+    public UpdateTypeTransactionController() throws SQLException {
+    }
 
     public void setSidebarController(SideBarre_adminController sidebarController) {
         this.sidebarController = sidebarController;

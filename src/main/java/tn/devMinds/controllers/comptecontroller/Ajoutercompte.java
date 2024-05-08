@@ -91,7 +91,7 @@ public class Ajoutercompte {
         return FXCollections.observableArrayList(getcompte());
     }
 
-    public void initialize() {
+    public void initialize() throws SQLException {
         CompteService cs=new CompteService();
 
         Crib.setText(cs.generateUniqueNumero(11));
@@ -115,7 +115,7 @@ public class Ajoutercompte {
         ArrayList<Compte> comptes =new ArrayList<>();
         String requet="SELECT * FROM Compte";
         try{
-            Statement st= MyConnection.getInstance().getCnx().createStatement();
+            Statement st= MyConnection.getConnection().createStatement();
             ResultSet rs=st.executeQuery(requet);
 
             while (rs.next()) {

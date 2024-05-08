@@ -62,8 +62,14 @@ public class TransactionStatisticsController implements Initializable {
         caption.setStyle("-fx-font: 24 arial;");
 
         // Initialize services
-        TransactionService transactionService = new TransactionService();
-        TypeTransactionService typeTransactionService = new TypeTransactionService();
+        TransactionService transactionService = null;
+        transactionService = new TransactionService();
+        TypeTransactionService typeTransactionService = null;
+        try {
+            typeTransactionService = new TypeTransactionService();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         // Fetch all transactions
         List<Transaction> transactions = transactionService.getAllTransactions();

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="750.0" prefWidth="850.0" styleClass="create_client_container" stylesheets="@../../css/ClientformCredit.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.client.credit.ClientCreditController">
+   <VBox layoutX="15.2" layoutY="14.0" prefHeight="486.0" prefWidth="376.0" styleClass="create_client_container-VBox" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="459.0">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="create_client_container-Title" text="Simuler Un Crédit" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type de Crédit" />
+      <ChoiceBox fx:id="typeCredit" prefWidth="150.0" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Montant Crédit (TND)" />
+      <Spinner fx:id="montantCredit" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Taux d'Intérêt (%)" />
+      <Spinner fx:id="tauxInteret" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Durée (Par Mois)" />
+      <Spinner fx:id="duree" />
+      <Button fx:id="simuler_btn" mnemonicParsing="false" onAction="#handleSimulation" text="Simuler Crédit">
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin></Button>
+   </VBox>
+   <VBox layoutX="14.0" layoutY="594.0" prefHeight="130.0" prefWidth="350.0" styleClass="create_client_container-VBox" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="459.6">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="create_client_container-Title" text="Accéder demandes" />
+      <Button fx:id="listeCredit_btn" mnemonicParsing="false" onAction="#showCreditInterface" text="Accéder Demandes" />
+   </VBox>
+   <VBox fx:id="demande_vbox" layoutX="425.0" layoutY="14.0" prefHeight="480.0" prefWidth="350.0" styleClass="create_client_container-VBox" visible="false">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="create_client_container-Title" text="Example De Crédit" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Montant Crédit:" />
+      <Label fx:id="montantredit_val" text="Label" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Taux d'Intérêt:" />
+      <Label fx:id="tauxInteret_val" text="Label" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Durée:" />
+      <Label fx:id="duree_val" text="Label" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mensualité:" />
+      <Label fx:id="mensualite_val" text="Label" />
+      <Button fx:id="creer_btn" mnemonicParsing="false" onAction="#openForm" text="Créer Demande">
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+      </Button>
+   </VBox>
+</AnchorPane>

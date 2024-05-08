@@ -12,8 +12,8 @@ import java.util.List;
 public class TypeTransactionService implements IService<TypeTransaction> {
     private Connection cnx;
 
-    public TypeTransactionService() {
-        cnx = MyConnection.getInstance().getCnx();
+    public TypeTransactionService() throws SQLException {
+        cnx = MyConnection.getConnection();
     }
 
     @Override
@@ -36,7 +36,7 @@ public class TypeTransactionService implements IService<TypeTransaction> {
         // Volet 2: On ne peut pas ajouter deux produits avec les mêmes informations deux fois dans la base
         String checkUniqueQuery = "SELECT COUNT(*) FROM type_transaction WHERE libelle = ?";
         try {
-            PreparedStatement checkUniqueStmt = MyConnection.getInstance().getCnx().prepareStatement(checkUniqueQuery);
+            PreparedStatement checkUniqueStmt = MyConnection.getConnection().prepareStatement(checkUniqueQuery);
             checkUniqueStmt.setString(1, typeTransaction.getLibelle());
             ResultSet resultSet = checkUniqueStmt.executeQuery();
             if (resultSet.next() && resultSet.getInt(1) > 0) {
@@ -49,7 +49,7 @@ public class TypeTransactionService implements IService<TypeTransaction> {
         // If all validations passed, proceed with inserting into the database
         String requete = "INSERT INTO type_transaction(libelle,Commission) VALUES (?,?)";
         try {
-            PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
+            PreparedStatement pst = MyConnection.getConnection().prepareStatement(requete);
             pst.setString(1, typeTransaction.getLibelle());
             pst.setDouble(2, typeTransaction.getCommission());
             int rowsAffected = pst.executeUpdate();

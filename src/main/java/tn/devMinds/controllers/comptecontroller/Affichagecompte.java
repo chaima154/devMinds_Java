@@ -116,7 +116,7 @@ public class Affichagecompte  {
     }
 
 
-    public void initialize() {
+    public void initialize() throws SQLException {
 CompteService cs=new CompteService();
 
 tfrib.setText(cs.generateUniqueNumero(11));
@@ -176,7 +176,7 @@ tfrib.setText(cs.generateUniqueNumero(11));
        ArrayList<Compte> comptes =new ArrayList<>();
        String requet="SELECT * FROM Compte";
        try{
-           Statement st= MyConnection.getInstance().getCnx().createStatement();
+           Statement st= MyConnection.getConnection().createStatement();
            ResultSet rs=st.executeQuery(requet);
 
                while (rs.next()) {
@@ -238,26 +238,21 @@ cs.add(c);
 
 
     @FXML
-    public void deletecompte(javafx.event.ActionEvent actionEvent) {
+    public void deletecompte(javafx.event.ActionEvent actionEvent) throws SQLException {
         Compte selectedCompte = Compte_tableview.getSelectionModel().getSelectedItem();
 
         if (selectedCompte != null) {
             CompteService cs = new CompteService();
 
-            try {
-                // Attempt to delete the compte
-                boolean success = cs.delete(selectedCompte);
+            // Attempt to delete the compte
+            boolean success = cs.delete(selectedCompte);
 
-                if (success) {
-                    System.out.println("Compte deleted successfully");
-                    Compte_tableview.refresh();
-                } else {
-                    System.out.println("Failed to delete compte");
-                    // Handle the case where deletion failed
-                }
-            } catch (SQLException e) {
-                // Handle SQLException
-                e.printStackTrace(); // or log the exception
+            if (success) {
+                System.out.println("Compte deleted successfully");
+                Compte_tableview.refresh();
+            } else {
+                System.out.println("Failed to delete compte");
+                // Handle the case where deletion failed
             }
         } else {
             System.out.println("No compte selected for deletion");
