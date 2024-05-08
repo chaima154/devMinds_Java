@@ -31,6 +31,7 @@ import tn.devMinds.models.TypeCard;
 import tn.devMinds.services.CardCrud;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -47,6 +48,9 @@ import tn.devMinds.tools.MyConnection;
 
 public class ShowCardClient implements Initializable {
     @FXML
+    private ImageView notif;
+
+    @FXML
     private TableColumn<Card, Integer> csv;
     @FXML
     private TableColumn<Card, LocalDate> datexp;
@@ -60,18 +64,23 @@ public class ShowCardClient implements Initializable {
     private TableView<Card> tableView;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-       updateCardStatusAndDelete(2);
+        updateCardStatusAndDelete(2);
         reload();
         addButtonStatusToTableprepaedcard();
         addButtonLostToTableprepaedcard();
         addButtonToTableprepaedcard();
-        try {
-            Pane page = FXMLLoader.load(getClass().getResource("/banque/GestionCard/carouselCard.fxml"));
-            paneCardPrinciapl.getChildren().setAll(page);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        loadcard();
+
+
     }
+
+    private void loadcard()
+    { try {
+        Pane page = FXMLLoader.load(getClass().getResource("/banque/GestionCard/carouselCard.fxml"));
+        paneCardPrinciapl.getChildren().setAll(page);
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }}
     ObservableList<Card>initialData() throws SQLException
     {
         CardCrud ps=new CardCrud();
@@ -401,55 +410,31 @@ return futureDate;
         reload();
 
     }
-
-
     @FXML
-    private Button notif;
-    @FXML
-    void notifi(ActionEvent event) {
-//        Card data = getTableView().getItems().get(getIndex());
-//
-//        Dialog<Void> dialog = new Dialog<>();
-//        dialog.setTitle("Recharger");
-//
-//        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-//        // Create the recharge form
-//        GridPane rechargeForm = (GridPane) createRechargeForm(data.getId(), data.getCompte().getId(), data.getCompte().getSolde());
-//
-//        // Set the content of the dialog to the recharge form
-//        dialog.getDialogPane().setContent(rechargeForm);
-//
-//        dialog.showAndWait();
+    void notifi(MouseEvent event ) {
         }
     private void updateCardStatusAndDelete(int compteId) {
         try {
             Connection connection = MyConnection.getInstance().getCnx();
-
             // Select distinct statuses for the given compte_id
             String selectQuery = "SELECT statut_carte FROM carte WHERE compte_id = ?";
             PreparedStatement selectStatement = connection.prepareStatement(selectQuery);
             selectStatement.setInt(1, compteId);
             ResultSet resultSet = selectStatement.executeQuery();
-
             while (resultSet.next()) {
                 String status = resultSet.getString("statut_carte");
-
                 if (status.equals("Accepted")) {
                     // Update status to "Active" for cards with status "Accepted"
-                    String updateQuery = "UPDATE carte SET statut_carte = 'Active' WHERE compte_id = ? AND statut_carte = 'Accepted'";
+                    String updateQuery = "UPDATE carte SET statut_carte = 'active' WHERE compte_id = ? ";
                     PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
                     updateStatement.setInt(1, compteId);
                     updateStatement.executeUpdate();
-                    Notification notification = new Notification();
-                    notification.notifier("Card demands were Accepted");
                 } else if (status.equals("Refused")) {
                     // Delete cards with status "Refused"
-                    String deleteQuery = "DELETE FROM carte WHERE compte_id = ? AND statut_carte = 'Refused'";
+                    String deleteQuery = "DELETE FROM carte WHERE compte_id = ? ";
                     PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery);
                     deleteStatement.setInt(1, compteId);
                     deleteStatement.executeUpdate();
-                    Notification notification = new Notification();
-                    notification.notifier("Card demands were refused");
                 }
             }
             System.out.println("Card status updated and deleted successfully.");
@@ -457,5 +442,11 @@ return futureDate;
             e.printStackTrace();
         }
     }
-
+    public void notifi(javafx.scene.input.MouseEvent mouseEvent) {
+        Notification notification = new Notification();
+        notification.notifier("Card demands were verified");
+        updateCardStatusAndDelete(2);
+        reload();
+        loadcard();
+    }
 }

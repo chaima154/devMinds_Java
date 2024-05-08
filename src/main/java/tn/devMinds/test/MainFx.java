@@ -13,7 +13,7 @@ public class MainFx extends Application {
     }
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/banque/GestionCard/showCardClient.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/banque/GestionCard/showCardAdmin.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         primaryStage.setTitle("it's!");
         primaryStage.setScene(scene);
