@@ -1,11 +1,16 @@
 package tn.devMinds.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import tn.devMinds.iservices.EmailService;
 import tn.devMinds.iservices.PasswordService;
-
+import org.mindrot.jbcrypt.BCrypt;
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Random;
 
@@ -21,20 +26,61 @@ public class ForgotPasswordController {
     @FXML
     public void resetPassword() {
         String userEmail = emailField.getText();
-        String newPassword = PasswordService.generateRandomPassword(); // Générer un nouveau mot de passe
 
-        // Envoyer l'e-mail avec le nouveau mot de passe
-        String subject = "Hello, " + userEmail + "\n\nYour new password is: " + newPassword;
-        String message = "Hello,\n\nYour new password is: " + newPassword; // Utilisez le nouveau mot de passe dans le message
+        // Generate a new random password
+        String newPassword = PasswordService.generateRandomPassword();
+
+        // Hash the new password
+        String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+
+        // Update the password in the database
+        PasswordService.updatePasswordInDatabase(userEmail, hashedPassword);
+
+        // Send the email with the new password
+        String subject = "Password Reset";
+        String message = "Hello,\n\nYour new password is: " + newPassword;
         EmailService emailService = new EmailService(userEmail, subject, message);
         emailService.setOnSucceeded(event -> {
-            // Mettre à jour le mot de passe dans la base de données après l'envoi de l'e-mail
             if (emailService.isSentSuccessfully()) {
-                PasswordService.updatePasswordInDatabase(userEmail, newPassword);
+                System.out.println("Password reset successful. New password sent to user.");
+            } else {
+                System.out.println("Failed to send the new password to the user.");
             }
         });
         emailService.start();
+
+        navigateToLoginPage();
     }
+
+
+
+
+    private void navigateToLoginPage() {
+        try {
+            // Chargez le fichier FXML de la page de connexion
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/login.fxml"));
+            Parent root = loader.load();
+
+            // Obtenez le contrôleur de la page de connexion
+            LoginController loginController = loader.getController();
+
+            // Obtenez la scène actuelle à partir du bouton "resetPasswordButton"
+            Stage stage = (Stage) resetPasswordButton.getScene().getWindow();
+
+            // Remplacez la scène actuelle par la scène de la page de connexion
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Gérer les exceptions liées au chargement de la page de connexion
+        }
+    }
+
+
+
+
+
 
 
 

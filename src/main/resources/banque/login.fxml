@@ -32,8 +32,8 @@
 
         <Label fx:id="errorLabel" styleClass="error_lbl" text="Error:" />
     </VBox>
-   <stylesheets>
-      <URL value="@css/login.css" />
-      <URL value="@css/login.css" />
-   </stylesheets>
+    <stylesheets>
+        <URL value="@css/login.css" />
+        <URL value="@css/login.css" />
+    </stylesheets>
 </AnchorPane>

@@ -41,7 +41,8 @@ public class PasswordService {
         String query = "UPDATE user SET mdp = ? WHERE email = ?";
 
         try (Connection connection = MyConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(query);) {
+
             // Définir les paramètres de la requête
             preparedStatement.setString(1, hashedPassword);
             preparedStatement.setString(2, userEmail);
@@ -55,9 +56,16 @@ public class PasswordService {
                 System.out.println("Échec de la mise à jour du mot de passe pour l'utilisateur: " + userEmail);
             }
         } catch (SQLException e) {
-            System.out.println("Erreur lors de la mise à jour du mot de passe dans la base de données: " + e.getMessage());
+            // Gérer l'exception SQL
+            System.out.println("Erreur SQL lors de la mise à jour du mot de passe dans la base de données: " + e.getMessage());
+            e.printStackTrace(); // Affichez la trace de la pile pour plus de détails sur l'exception
+        } catch (Exception e) {
+            // Gérer toutes les autres exceptions
+            System.out.println("Une erreur s'est produite lors de la mise à jour du mot de passe dans la base de données: " + e.getMessage());
+            e.printStackTrace(); // Affichez la trace de la pile pour plus de détails sur l'exception
         }
     }
-
-
+    public boolean matchPassword(String newPassword, String hashedPassword) {
+        return BCrypt.checkpw(newPassword, hashedPassword);
+    }
 }

@@ -51,49 +51,94 @@ public class LoginController {
         String enteredEmail = email.getText();
         String enteredPassword = mdp.getText();
 
-        LoginService loginService = new LoginService(enteredEmail, enteredPassword, selectedRole);
+
+        // Check for null or empty password
+        if (enteredPassword == null || enteredPassword.isEmpty()) {
+            // Handle empty password (e.g., display an error message)
+            errorLabel.setText("Password is required!");
+            return;
+        }
+
+        // Retrieve hashed password from the database based on entered email
+        String hashedPasswordFromDatabase = getPasswordFromDatabase(enteredEmail);
+
+        // Check if hashed password is retrieved successfully
+        if (hashedPasswordFromDatabase == null) {
+            // Handle case where user email is not found (e.g., display an error message)
+            errorLabel.setText("Email not found!");
+            return;
+        }
+
+        boolean isAuthenticated = BCrypt.checkpw(enteredPassword, hashedPasswordFromDatabase);
+        System.out.println(isAuthenticated);
+
+        LoginService loginService = new LoginService(enteredEmail, enteredPassword, selectedRole); // Pass the plain text password
         loginService.setOnSucceeded(event -> {
-            boolean isAuthenticated = loginService.getValue();
             if (isAuthenticated) {
-                // Authentification réussie, rediriger vers la page appropriée
+                // Authentication successful, redirect to the appropriate page
                 if ("ROLE_ADMIN".equals(selectedRole)) {
-                    // Redirection vers la page admin
-                    System.out.println("Authentification réussie pour l'administrateur");
+                    // Redirect to the admin page
+                    // Redirect to the admin page
+                    System.out.println("Authentication successful for the administrator");
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/sidebarre_admin.fxml"));
-                    Parent adminPage = null;
+                    Parent adminPage = null; // Load the FXML file
                     try {
                         adminPage = loader.load();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                    Scene scene = new Scene(adminPage);
-
+                    Scene scene = new Scene(adminPage); // Create a new scene with the loaded parent node
                     Stage stage = (Stage) login_btn.getScene().getWindow(); // Assuming login_btn is a control in your login.fxml file
-                    stage.setScene(scene);
-                    stage.show();
+                    stage.setScene(scene); // Set the new scene to the stage
+                    stage.show(); // Show the stage
+
                 } else if ("ROLE_USER".equals(selectedRole)) {
-                    // Redirection vers la page client
-                    System.out.println("Authentification réussie pour le client");
+                    // Redirect to the client page
+                    System.out.println("Authentication successful for the client");
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/client.fxml"));
-                    Parent clientPage = null;
+                    Parent clientPage = null; // Load the FXML file
                     try {
                         clientPage = loader.load();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                    Scene scene = new Scene(clientPage);
+                    Scene scene = new Scene(clientPage); // Create a new scene with the loaded parent node
                     Stage stage = (Stage) login_btn.getScene().getWindow(); // Assuming login_btn is a control in your login.fxml file
-                    stage.setScene(scene);
-                    stage.show();
+                    stage.setScene(scene); // Set the new scene to the stage
+                    stage.show(); // Show the stage
                 }
             } else {
-                // Afficher un message d'erreur si l'authentification échoue
-                errorLabel.setText("Email ou mot de passe incorrect !");
+                // Display an error message if authentication fails
+                errorLabel.setText("Email or password incorrect!");
             }
         });
 
         loginService.start();
+
     }
+    public String getPasswordFromDatabase(String userEmail) {
+        String hashedPassword = null;
+        String query = "SELECT mdp FROM user WHERE email = ?";
+
+        try (Connection connection = MyConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, userEmail);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    hashedPassword = resultSet.getString("mdp");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle database access error
+        }
+
+        return hashedPassword;
+    }
+
+
+
 /*
     @FXML
     public void handleSendVerificationCode(ActionEvent event) {
@@ -134,21 +179,21 @@ public class LoginController {
     }
 
 
-    private String getPasswordFromDatabase(String userEmail) {
-        // Connexion à la base de données
-        try (Connection connection = MyConnection.getConnection()) {
-            String query = "SELECT mdp FROM user WHERE email = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setString(1, userEmail);
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        return resultSet.getString("mdp");
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Error retrieving password from database: " + e.getMessage());
-        }
-        return null; // Retourne null si l'utilisateur n'est pas trouvé ou s'il y a une erreur
-    }
+//    private String getPasswordFromDatabase(String userEmail) {
+//        // Connexion à la base de données
+//        try (Connection connection = MyConnection.getConnection()) {
+//            String query = "SELECT mdp FROM user WHERE email = ?";
+//            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+//                preparedStatement.setString(1, userEmail);
+//                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+//                    if (resultSet.next()) {
+//                        return resultSet.getString("mdp");
+//                    }
+//                }
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("Error retrieving password from database: " + e.getMessage());
+//        }
+//        return null; // Retourne null si l'utilisateur n'est pas trouvé ou s'il y a une erreur
+//    }
 }
