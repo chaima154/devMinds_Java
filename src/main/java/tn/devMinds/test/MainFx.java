@@ -9,6 +9,8 @@ package tn.devMinds.test;
         import java.io.IOException;
         import java.sql.SQLException;
         import java.util.ArrayList;
+        import javafx.scene.image.Image;
+
 
 public class MainFx extends Application {
    // MyConnection mc = new MyConnection();
@@ -27,6 +29,11 @@ public class MainFx extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        Image logoImage = new Image(getClass().getResourceAsStream("/banque/images/logo.png"));
+
+        // Set the primary stage icon
+        primaryStage.getIcons().add(logoImage);
+
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/banque/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
