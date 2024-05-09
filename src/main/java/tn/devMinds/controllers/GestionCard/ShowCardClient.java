@@ -4,6 +4,10 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import javafx.scene.control.SelectionMode;
+
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -25,6 +29,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
+import tn.devMinds.controllers.ClientMenuController;
+import tn.devMinds.controllers.LoginController;
 import tn.devMinds.models.Card;
 import tn.devMinds.models.Compte;
 import tn.devMinds.models.TypeCard;
@@ -41,6 +47,9 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
+
 import org.controlsfx.control.Notifications;
 import javafx.scene.image.Image;
 import tn.devMinds.tools.MyConnection;
@@ -61,6 +70,12 @@ public class ShowCardClient implements Initializable {
     private TableColumn<Card, Double> solde;
     @FXML
     private TableView<Card> tableView;
+    
+    public Preferences preferences;
+
+    private ClientMenuController clientMenuController;
+
+
     @FXML
     private Button requestmorepc;
     public int getIdtoopencompte() {
@@ -71,14 +86,17 @@ public class ShowCardClient implements Initializable {
     }
     @FXML
     private int idtoopencompte;
+    public void clientMenuController(ClientMenuController clientMenuController) {
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         reload();
         addButtonStatusToTableprepaedcard();
         addButtonLostToTableprepaedcard();
         addButtonToTableprepaedcard();
         loadcard();
+
     }
     private void loadcard()
     {
@@ -93,7 +111,7 @@ public class ShowCardClient implements Initializable {
     {
         CardCrud ps=new CardCrud();
         //idtoopencompte;
-        return FXCollections.observableArrayList(ps.getAllPrepaedCardById(2));
+        return FXCollections.observableArrayList(ps.getAllPrepaedCardById(getClientIdFromPreferences()));
     }
     private void reload(){
         numero.setCellValueFactory(new PropertyValueFactory<>("numero"));
@@ -412,7 +430,7 @@ return futureDate;
         }
     private void updateCardStatusAndDelete(int compteId) {
         try {
-            Connection connection = MyConnection.getInstance().getCnx();
+            Connection connection = MyConnection.getConnection();
             // Select distinct statuses for the given compte_id
             String selectQuery = "SELECT statut_carte FROM carte WHERE compte_id = ?";
             PreparedStatement selectStatement = connection.prepareStatement(selectQuery);
@@ -439,30 +457,29 @@ return futureDate;
             e.printStackTrace();
         }
     }
+    @FXML
     public void notifi(javafx.scene.input.MouseEvent mouseEvent) {
        CardCrud cc=new CardCrud();
         Notification notification = new Notification();
-        //idtoopencompte;
-        idtoopencompte = 2;
 
-        if((cc.containsWaitingcardprpaedAccepted(idtoopencompte)==0)&&(cc.containsWaitingcardprpaedAccepted(idtoopencompte)==0)&&(cc.containsWaitingnormalcardAccepted(idtoopencompte)==0)&&(cc.containsWaitingnormalcardRefused(idtoopencompte)==0))
-        {notification.notifier("pas de nouvelles mises à jour");}
-        else if((cc.containsWaitingcardprpaedRefused(idtoopencompte)!=0)&&(cc.containsWaitingcardprpaedAccepted(idtoopencompte)!=0)&&(cc.containsWaitingnormalcardRefused(idtoopencompte)==0)&&(cc.containsWaitingnormalcardAccepted(idtoopencompte)==0))
-        {updateCardStatusAndDelete(2);
-            reload();
-            notification.notifier("la carte prépayée a été mise à jour");
-        }
-            else if((cc.containsWaitingcardprpaedAccepted(idtoopencompte)==0)&&(cc.containsWaitingcardprpaedRefused(idtoopencompte)==0)&&(cc.containsWaitingnormalcardAccepted(idtoopencompte)!=0)&&(cc.containsWaitingnormalcardRefused(idtoopencompte)!=0))
-            {notification.notifier("la carte  a été mise à jour");updateCardStatusAndDelete(2);loadcard();}
-        else if((cc.containsWaitingcardprpaedAccepted(idtoopencompte)!=0)&&(cc.containsWaitingcardprpaedRefused(idtoopencompte)!=0)&&(cc.containsWaitingnormalcardAccepted(idtoopencompte)!=0)&&(cc.containsWaitingnormalcardRefused(idtoopencompte)!=0))
-        {notification.notifier("la demande a été traitée");updateCardStatusAndDelete(2);loadcard();reload();}
-            else{notification.notifier("Les demandes des cartes sont à jour");
-        }
+
+       updateCardStatusAndDelete(getClientIdFromPreferences());
+       loadcard();reload();
+
+
+
+    }
+    private int getClientIdFromPreferences() {
+        preferences = Preferences.userRoot().node(LoginController.class.getName());
+        String savedValue = preferences.get("Id_Client", "0");
+        System.out.println(savedValue);
+        return Integer.parseInt(savedValue); // Default value "0" if not found
     }
     public boolean requestmorepcbtn(ActionEvent actionEvent) {
         CardCrud cc = new CardCrud();
+        
         //idtoopencompte;
-        idtoopencompte = 2;
+        idtoopencompte = getClientIdFromPreferences();
         int cardsToCreate = 5; // Desired number of cards to create
         int createdCards = cc.containsWaitingcardprpaed(idtoopencompte);
         if (createdCards == cardsToCreate) {

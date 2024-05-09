@@ -1,5 +1,6 @@
 package tn.devMinds.controllers;
 
+import com.twilio.rest.microvisor.v1.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import tn.devMinds.controllers.GestionCard.AddTypeCardAdmin;
+import tn.devMinds.controllers.GestionCard.AdminCardList;
 import tn.devMinds.controllers.admin.credit.AdminIndexCreditController;
 import tn.devMinds.controllers.assurance.AssuranceListController;
 import tn.devMinds.controllers.comptecontroller.Affichagecompte;
@@ -19,11 +22,14 @@ import tn.devMinds.controllers.demande.DemandebackListController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 
 public class SideBarre_adminController implements Initializable {
 
     @FXML
     public BorderPane borderPane; // Add @FXML annotation here
+    private Preferences Preferences;
     @FXML
     private Button deconnecter;
 
@@ -34,7 +40,25 @@ public class SideBarre_adminController implements Initializable {
 
     @FXML
     void goDeconect(MouseEvent event) {
+        try {
+            // Load the login page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/Login.fxml"));
+            Parent root = loader.load();
 
+            // Clear user preferences
+            Preferences prefs = Preferences.userNodeForPackage(App.class);
+            prefs.clear();
+
+            // Switch to the login scene
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BackingStoreException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
@@ -120,6 +144,28 @@ public class SideBarre_adminController implements Initializable {
     }
 
     @FXML
+    void goCarte(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/GestionCard/showCardAdmin.fxml"));
+        Parent parent = loader.load();
+        AdminCardList admincardlist = loader.getController();
+        if (loader.getController() instanceof AdminCardList) {
+            ((AdminCardList) admincardlist).setSidebarController(this);
+            this.borderPane.setCenter(parent);
+        }
+
+    }
+    @FXML
+    void goTypeCarteBancaire(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/GestionCard/addTypeCardAdmin.fxml"));
+        Parent parent = loader.load();
+        AddTypeCardAdmin addtypecarteadmin = loader.getController();
+        if (loader.getController() instanceof AddTypeCardAdmin) {
+            ((AddTypeCardAdmin) addtypecarteadmin).setSidebarController(this);
+            this.borderPane.setCenter(parent);
+        }
+
+    }
+    @FXML
     void goCompteBancaire(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/compte/affichage.fxml"));
         Parent parent = loader.load();
@@ -131,22 +177,16 @@ public class SideBarre_adminController implements Initializable {
 
     }
 
-    @FXML
-    void goCarteBancaire(MouseEvent event) {
 
-    }
 
     @FXML
-    void goUsers(MouseEvent event) {
-        try {
-            Node node = (Node) event.getSource();
-            Stage stage = (Stage) node.getScene().getWindow();
-            Scene scene = stage.getScene();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListeUsers.fxml"));
-            scene.setRoot(loader.load());
-            stage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
+    void goUsers(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/ListeUsers.fxml"));
+        Parent parent = loader.load();
+        ListeUsersController listusercontroller = loader.getController();
+        if (loader.getController() instanceof ListeUsersController) {
+            ((ListeUsersController) listusercontroller).setSidebarController(this);
+            this.borderPane.setCenter(parent);
         }
     }
 

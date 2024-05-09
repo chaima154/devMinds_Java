@@ -28,7 +28,10 @@ module com.example.projet {
     requires org.apache.poi.poi;
     requires org.apache.poi.ooxml;
     exports tn.devMinds.controllers.assurance;
-    requires jdk.httpserver; // Add this line
+    requires jdk.httpserver;
+    requires com.google.protobuf;
+    requires org.controlsfx.controls;
+    requires java.scripting; // Add this line
 
 
     exports tn.devMinds.entities;
@@ -44,7 +47,7 @@ module com.example.projet {
     opens tn.devMinds.controllers to javafx.fxml;
     opens tn.devMinds.entities to javafx.base;
     opens tn.devMinds.models to javafx.base;
-
+    opens tn.devMinds.controllers.GestionCard to javafx.fxml;
     opens tn.devMinds.controllers.admin.credit to javafx.fxml;
     opens tn.devMinds.controllers.admin.tranche to javafx.fxml;
     opens tn.devMinds.controllers.comptecontroller to javafx.fxml;

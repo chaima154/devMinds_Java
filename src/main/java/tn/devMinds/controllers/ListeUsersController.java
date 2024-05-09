@@ -1,6 +1,8 @@
 package tn.devMinds.controllers;
 
 import javafx.collections.FXCollections;
+import javafx.scene.Node;
+import javafx.stage.Modality;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -29,6 +31,7 @@ import tn.devMinds.entities.User;
 import tn.devMinds.iservices.UserService;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -54,9 +57,14 @@ public class ListeUsersController extends BackendHome {
     private UserService userService;
 
     private ArrayList<User> allUsers;
+    private SideBarre_adminController sidebarController;
     ObservableList<User> userList = FXCollections.observableArrayList();
 // Store all users
 
+
+    public void setSidebarController(SideBarre_adminController sideBarreAdminController) {
+        this.sidebarController = sidebarController;
+    }
 
     public ListeUsersController() throws SQLException {
         userService = new UserService();
@@ -194,17 +202,23 @@ public class ListeUsersController extends BackendHome {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/AjoutUser.fxml"));
             Parent root = loader.load();
 
-            // Create a new scene with the loaded view
-            Scene scene = new Scene(root);
+            // Create a new stage
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Add User");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
 
-            // Get the main window and display the new scene
-            Stage stage = (Stage) container.getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
+            // Set the scene in the new stage
+            Scene scene = new Scene(root);
+            dialogStage.setScene(scene);
+
+            // Show the dialog
+            dialogStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     private void handleUpdateUser(User user) {
         openModifierUserForm(user);
@@ -288,25 +302,21 @@ public class ListeUsersController extends BackendHome {
                 row.createCell(4).setCellValue(user.getRole().toString());
             }
 
-            // Afficher un FileChooser pour permettre à l'utilisateur de choisir l'emplacement et le nom du fichier Excel
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Enregistrer le fichier Excel");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichier Excel", "*.xlsx"));
-            File file = fileChooser.showSaveDialog(container.getScene().getWindow());
+            // Emplacement et nom du fichier Excel
+            File file = new File("C:\\Users\\chaima\\Downloads\\Utilisateurs.xlsx");
 
-            if (file != null) {
-                // Enregistrer le fichier Excel dans l'emplacement choisi par l'utilisateur
-                FileOutputStream fileOut = new FileOutputStream(file);
-                workbook.write(fileOut);
-                fileOut.close();
+            // Enregistrer le fichier Excel
+            FileOutputStream fileOut = new FileOutputStream(file);
+            workbook.write(fileOut);
+            fileOut.close();
 
-                // Fermer le classeur Excel
-                workbook.close();
+            // Ouvrir le fichier Excel après le téléchargement
+            Desktop.getDesktop().open(file);
 
-                System.out.println("Fichier Excel enregistré avec succès : " + file.getAbsolutePath());
-            } else {
-                System.out.println("Opération d'enregistrement annulée par l'utilisateur.");
-            }
+            // Fermer le classeur Excel
+            workbook.close();
+
+            System.out.println("Fichier Excel enregistré avec succès : " + file.getAbsolutePath());
 
         } catch (IOException e) {
             e.printStackTrace();

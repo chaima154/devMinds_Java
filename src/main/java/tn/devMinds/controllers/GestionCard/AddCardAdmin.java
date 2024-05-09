@@ -109,7 +109,7 @@ public class AddCardAdmin implements Initializable {
     public void comboCompte() {
         String requet = "SELECT id,rib FROM compte";
         try {
-            Statement st = MyConnection.getInstance().getCnx().createStatement();
+            Statement st = MyConnection.getConnection().createStatement();
             ResultSet rs = st.executeQuery(requet);
             ObservableList<String> listDataCompte = FXCollections.observableArrayList();
             while (rs.next()) {
@@ -129,7 +129,7 @@ public class AddCardAdmin implements Initializable {
     public void comboTypeCarte() {
         String requet = "SELECT id,type_carte FROM type_carte";
         try {
-            Statement st = MyConnection.getInstance().getCnx().createStatement();
+            Statement st = MyConnection.getConnection().createStatement();
             ResultSet rs = st.executeQuery(requet);
             ObservableList<String> listDataTypeCarte = FXCollections.observableArrayList();
             while (rs.next()) {

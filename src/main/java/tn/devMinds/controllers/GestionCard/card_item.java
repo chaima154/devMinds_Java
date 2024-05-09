@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
+import tn.devMinds.controllers.LoginController;
 import tn.devMinds.models.Card;
 import tn.devMinds.models.Compte;
 import tn.devMinds.models.TypeCard;
@@ -14,6 +15,8 @@ import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.prefs.Preferences;
+
 public class card_item {
     @FXML
     private Label Title;
@@ -27,6 +30,8 @@ private int id;
     private Text description;
     private TypeCard typec;
     private int idcompte;
+
+    private Preferences preferences;
 
     private int idtoopencompte;
 
@@ -44,6 +49,13 @@ private int id;
     typec=type;
     // idcompte=id;
 }
+
+    private int getClientIdFromPreferences() {
+        preferences = Preferences.userRoot().node(LoginController.class.getName());
+        String savedValue = preferences.get("Id_Client", "0");
+        System.out.println(savedValue);
+        return Integer.parseInt(savedValue); // Default value "0" if not found
+    }
     LocalDate getDate()
     {
         LocalDate today = LocalDate.now();
@@ -54,7 +66,7 @@ private int id;
         Notification not=new Notification();
         CardCrud cc=new CardCrud();
         //idtoopencompte;
-        if(cc.containstypeValueWaiting(2)) {
+        if(cc.containstypeValueWaiting(getClientIdFromPreferences())) {
             not.notifier("Il y a déjà une demande en cours de traitement!");
              }
         else{Card newCard=new Card();
@@ -66,7 +78,7 @@ private int id;
         newCard.setMdp(cc.generateUniqueNumero(4));
         newCard.setStatutCarte("Waiting");
             //idtoopencompte;
-        compte.setId(2);
+        compte.setId(getClientIdFromPreferences());
         typeCard.setId(typec.getId());
         newCard.setCompte(compte);
         newCard.setTypeCarte(typeCard);

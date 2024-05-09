@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import tn.devMinds.controllers.SideBarre_adminController;
 import tn.devMinds.models.Card;
 import tn.devMinds.models.Compte;
 import tn.devMinds.services.CardCrud;
@@ -72,6 +73,12 @@ public class AdminCardList implements Initializable {
     private TableView<Card>  tableview1;
     @FXML
     private TableView<Card> tableview;
+
+    private SideBarre_adminController sidebarController;
+
+    public void setSidebarController(SideBarre_adminController sideBarreAdminController) {
+        this.sidebarController = sidebarController;
+    }
     ObservableList<Card>initialData() throws SQLException
     {
         CardCrud ps=new CardCrud();
@@ -125,7 +132,7 @@ public class AdminCardList implements Initializable {
         demande.getColumns().add(colActions);
         try {
             String query = "SELECT cm.rib AS rib, COUNT(*) AS numberOfWaitingCards FROM carte c JOIN compte cm ON c.compte_id = cm.id WHERE c.statut_carte = 'Waiting' GROUP BY cm.rib";
-            PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query);
+            PreparedStatement statement = MyConnection.getConnection().prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             ObservableList<Map.Entry<String, Integer>> data = FXCollections.observableArrayList();
             while (resultSet.next()) {
@@ -155,7 +162,7 @@ public class AdminCardList implements Initializable {
 
     private void updateCardStatus(String rib, String newStatus) {
         try {
-            Connection connection = MyConnection.getInstance().getCnx();
+            Connection connection = MyConnection.getConnection();
             String query = "UPDATE carte SET statut_carte = ? WHERE compte_id = (SELECT id FROM compte WHERE rib = ?) AND statut_carte = 'Waiting'";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, newStatus);
@@ -176,9 +183,9 @@ public class AdminCardList implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         fillDemandeTable();reload();
-        addButtonToTableprepaedcard();
-        addButtonToTablemaincard();
+
     }
+
     private void reload(){
 
         numeroCol.setCellValueFactory(new PropertyValueFactory<>("numero"));

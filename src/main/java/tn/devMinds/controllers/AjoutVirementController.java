@@ -30,24 +30,28 @@ public class AjoutVirementController {
 
     private Double commission;
 
-    private MyConnection cnx;
-
-    public AjoutVirementController() throws SQLException {
-        cnx = (MyConnection) MyConnection.getConnection();
-    }
-
     @FXML
     void initialize() {
         // Add listener to compteEmetteur TextField
         compteEmetteur.textProperty().addListener((observable, oldValue, newValue) -> {
-            updateSoldeEmetteur(newValue);
+            try {
+                updateSoldeEmetteur(MyConnection.getConnection(), newValue);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 
-    private void updateSoldeEmetteur(String rib) {
-        double solde = getSoldeForAccount(rib);
+    private void updateSoldeEmetteur(Connection connection, String rib) {
+        double solde = 0.0;
+        try {
+            solde = getSoldeForAccount(connection, rib);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         soldeEmetteurLabel.setText("Solde émetteur: " + solde);
     }
+
 
     @FXML
     void AddTransaction(ActionEvent event) throws SQLException {
@@ -73,78 +77,74 @@ public class AjoutVirementController {
             return;
         }
 
-        Connection connection = cnx.getConnection();
+        try (Connection connection = MyConnection.getConnection()) {
+            if (!compteExists(connection, compteEmetteurRIB)) {
+                displayAlert("Alerte", "Le compte émetteur n'existe pas.", Alert.AlertType.ERROR);
+                return;
+            }
 
-        if (!compteExists(compteEmetteurRIB)) {
-            displayAlert("Alerte", "Le compte émetteur n'existe pas.", Alert.AlertType.ERROR);
-            return;
-        }
+            if (!compteExists(connection, compteDestinataireRIB)) {
+                displayAlert("Alerte", "Le compte destinataire n'existe pas.", Alert.AlertType.ERROR);
+                return;
+            }
 
-        if (!compteExists(compteDestinataireRIB)) {
-            displayAlert("Alerte", "Le compte destinataire n'existe pas.", Alert.AlertType.ERROR);
-            return;
-        }
+            if (!checkSoldeSufficient(connection, compteEmetteurRIB, montantTransaction)) {
+                displayAlert("Alerte", "Solde insuffisant.", Alert.AlertType.ERROR);
+                return;
+            }
 
-        if (!checkSoldeSufficient(compteEmetteurRIB, montantTransaction)) {
-            displayAlert("Alerte", "Solde insuffisant.", Alert.AlertType.ERROR);
-            return;
-        }
-
-        if (performTransaction(compteEmetteurRIB, compteDestinataireRIB, montantTransaction)) {
-            displayAlert("Alerte", "Transaction effectuée avec succès.", Alert.AlertType.INFORMATION);
-            // Close the popup
-            ((Stage) compteEmetteur.getScene().getWindow()).close();
-        } else {
-            displayAlert("Alerte", "Erreur lors de la transaction.", Alert.AlertType.ERROR);
+            if (performTransaction(connection, compteEmetteurRIB, compteDestinataireRIB, montantTransaction)) {
+                displayAlert("Alerte", "Transaction effectuée avec succès.", Alert.AlertType.INFORMATION);
+                // Close the popup
+                ((Stage) compteEmetteur.getScene().getWindow()).close();
+            } else {
+                displayAlert("Alerte", "Erreur lors de la transaction.", Alert.AlertType.ERROR);
+            }
         }
     }
 
-    private boolean compteExists(String rib) {
+    private boolean compteExists(Connection connection, String rib) throws SQLException {
         String query = "SELECT COUNT(*) FROM compte WHERE rib = ?";
-        try (PreparedStatement preparedStatement = cnx.getConnection().prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, rib);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 int count = resultSet.getInt(1);
                 return count > 0;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return false;
     }
 
-    private boolean checkSoldeSufficient(String rib, double montantTransaction) {
-        double solde = getSoldeForAccount(rib);
+    private boolean checkSoldeSufficient(Connection connection, String rib, double montantTransaction) throws SQLException {
+        double solde = getSoldeForAccount(connection, rib);
         return solde >= montantTransaction;
     }
 
-    private double getSoldeForAccount(String rib) {
+    private double getSoldeForAccount(Connection connection, String rib) throws SQLException {
         String query = "SELECT solde FROM compte WHERE rib = ?";
-        try (PreparedStatement preparedStatement = cnx.getConnection().prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, rib);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getDouble("solde");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return 0.0;
     }
 
-    private boolean performTransaction(String compteEmetteurRIB, String compteDestinataireRIB, double montantTransaction) {
+    private boolean performTransaction(Connection connection, String compteEmetteurRIB, String compteDestinataireRIB, double montantTransaction) throws SQLException {
         String insertTransaction = "INSERT INTO transaction (date, statut, typetransaction_id, compte_id, destinataire_compte_id_id, montant_transaction, commission) " +
                 "VALUES (?, ?, ?, (SELECT id FROM compte WHERE rib = ?), (SELECT id FROM compte WHERE rib = ?), ?, ?)";
 
         LocalDate date = LocalDate.now();
-        commission = getCommissionTransactionType(getTypeTransactionId("virement"));
-        try (PreparedStatement insertTransactionStatement = MyConnection.getConnection().prepareStatement(insertTransaction)) {
+        commission = getCommissionTransactionType(connection, getTypeTransactionId(connection, "virement"));
+        try (PreparedStatement insertTransactionStatement = connection.prepareStatement(insertTransaction)) {
 
             // Add a new line to the transaction table
             insertTransactionStatement.setString(1, date.toString());
             insertTransactionStatement.setString(2, "En attente");
-            insertTransactionStatement.setInt(3, getTypeTransactionId("virement"));
+            insertTransactionStatement.setInt(3, getTypeTransactionId(connection, "virement"));
             insertTransactionStatement.setString(4, compteEmetteurRIB);
             insertTransactionStatement.setString(5, compteDestinataireRIB);
             insertTransactionStatement.setDouble(6, montantTransaction);
@@ -153,36 +153,29 @@ public class AjoutVirementController {
 
             return insertedTransactionRows > 0;
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
         }
     }
 
-    private int getTypeTransactionId(String type) {
+    private int getTypeTransactionId(Connection connection, String type) throws SQLException {
         String query = "SELECT id FROM type_transaction WHERE libelle = ?";
-        try (PreparedStatement preparedStatement = cnx.getConnection().prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, type);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt("id");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return -1;
     }
 
-    private Double getCommissionTransactionType(int id) {
+    private Double getCommissionTransactionType(Connection connection, int id) throws SQLException {
         String query = "SELECT Commission FROM type_transaction WHERE id = ?";
-        try (PreparedStatement preparedStatement = cnx.getConnection().prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getDouble("Commission");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return (double) -1;
     }

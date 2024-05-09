@@ -150,6 +150,7 @@ public class Ajoutercompte {
             return;
         }
         id_client= getClientIdFromPreferences();
+        System.out.println(getClientIdFromPreferences());
         Integer solde = Integer.valueOf(soldeText);
       String rib=Crib.getText();
         Compte c=new Compte(0,solde,typecompte,agence,rib,id_client);

@@ -1,5 +1,6 @@
 package tn.devMinds.services;
 import tn.devMinds.iservices.IService;
+import tn.devMinds.iservices.IService2;
 import tn.devMinds.models.Card;
 import tn.devMinds.models.Compte;
 import tn.devMinds.models.TypeCard;
@@ -12,25 +13,26 @@ import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class CardCrud implements  IService<Card>{
+public class CardCrud implements IService2<Card> {
     @Override
     public ArrayList<Card> getAll() throws SQLException {
         ArrayList<Card> data =new ArrayList<>();
         String requet="SELECT * FROM carte";
         try{
-            Statement st= MyConnection.getInstance().getCnx().createStatement();
+            Statement st= MyConnection.getConnection().createStatement();
             ResultSet rs=st.executeQuery(requet);
             while (rs.next())
             {
                 Card carte=new Card();
-                carte.setId(rs.getInt(1));
-                carte.setCompte(getCompteById(rs.getInt(2)));
-                carte.setTypeCarte(getTypeCarteById(rs.getInt(3)));
-                carte.setNumero(rs.getString(4));
-                carte.setDateExpiration(rs.getDate(5).toLocalDate());
-                carte.setCsv(String.valueOf(rs.getInt(6)));
-                carte.setMdp(rs.getString(7));
-                carte.setStatutCarte(rs.getString(8));
+                carte.setId(rs.getInt("id"));
+                carte.setCompte(getCompteById(rs.getInt("compte_id")));
+                carte.setTypeCarte(getTypeCarteById(rs.getInt("type_carte_id")));
+                carte.setNumero(rs.getString("numero"));
+                carte.setDateExpiration(rs.getDate("date_expiration").toLocalDate());
+                carte.setCsv(rs.getString("csv"));
+                carte.setMdp(rs.getString("mdp"));
+                carte.setStatutCarte(rs.getString("statut_carte"));
+                carte.setSolde(rs.getDouble("solde"));
                 data.add(carte);
             }
         }
@@ -46,7 +48,7 @@ public class CardCrud implements  IService<Card>{
     public boolean add(Card card) {
         String requete = "INSERT INTO carte (compte_id, type_carte_id, numero, date_expiration, csv, mdp, statut_carte, solde)" +
                 " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)) {
+        try (PreparedStatement pst = MyConnection.getConnection().prepareStatement(requete)) {
             pst.setInt(1, card.getCompte().getId());
             pst.setInt(2, card.getTypeCarte().getId());
             System.out.println(card.getTypeCarte().getId());
@@ -72,7 +74,7 @@ public class CardCrud implements  IService<Card>{
     @Override
     public boolean delete(Card card) throws SQLException {
         String requete = "DELETE FROM carte WHERE id=?";
-        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)) {
+        try (PreparedStatement pst = MyConnection.getConnection().prepareStatement(requete)) {
             pst.setInt(1, card.getId());
             int rowsAffected = pst.executeUpdate();
             if (rowsAffected > 0) {
@@ -87,7 +89,7 @@ public class CardCrud implements  IService<Card>{
     @Override
     public boolean delete(int id) throws SQLException {
         String requete="DELETE FROM carte WHERE id=?";
-        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)) {
+        try (PreparedStatement pst = MyConnection.getConnection().prepareStatement(requete)) {
             pst.setInt(1, id);
             int rowsAffected = pst.executeUpdate();
             if (rowsAffected > 0) {
@@ -105,7 +107,7 @@ public class CardCrud implements  IService<Card>{
         String requete="UPDATE `carte` SET `compte_id`=?,`numero`=?," +
                 "`date_expiration`=?,`csv`=?,`mdp`=?,`statut_carte`=?,`solde`=?" +
                 " WHERE id=?";
-        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)){
+        try (PreparedStatement pst = MyConnection.getConnection().prepareStatement(requete)){
             pst.setInt(1, card.getCompte().getId());
             pst.setString(2,card.getNumero());
             pst.setDate(3,java.sql.Date.valueOf(card.getDateExpiration()));
@@ -132,7 +134,7 @@ public class CardCrud implements  IService<Card>{
         Compte c=new Compte();
         String requet="SELECT * FROM compte where id="+id ;
         try {
-            Statement st = MyConnection.getInstance().getCnx().createStatement();
+            Statement st = MyConnection.getConnection().createStatement();
             ResultSet rs=st.executeQuery(requet);
             while (rs.next())
             {
@@ -152,7 +154,7 @@ public class CardCrud implements  IService<Card>{
         TypeCard tc=new TypeCard();
         String requet="SELECT * FROM type_carte where id="+id;
         try {
-            Statement st = MyConnection.getInstance().getCnx().createStatement();
+            Statement st = MyConnection.getConnection().createStatement();
             ResultSet rs=st.executeQuery(requet);
             while (rs.next())
             {
@@ -172,7 +174,7 @@ public class CardCrud implements  IService<Card>{
     public boolean updateStat(int id, String stat) throws SQLException {
         String requete="UPDATE `carte` SET `statut_carte`=?" +
                 " WHERE id=?";
-        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)){
+        try (PreparedStatement pst = MyConnection.getConnection().prepareStatement(requete)){
             if(stat.equals("active"))
             { pst.setString(1,"inactive");}
             else if(stat.equals("inactive"))
@@ -196,19 +198,20 @@ public class CardCrud implements  IService<Card>{
         ArrayList<Card> data =new ArrayList<>();
         String requet= "SELECT c.* FROM carte c JOIN type_carte tc ON c.type_carte_id= tc.id WHERE tc.type_carte != 'carte prépayée' AND c.statut_carte != 'Waiting' AND c.statut_carte != 'Accepted' AND c.statut_carte != 'Refused'";
         try{
-            Statement st= MyConnection.getInstance().getCnx().createStatement();
+            Statement st= MyConnection.getConnection().createStatement();
             ResultSet rs=st.executeQuery(requet);
             while (rs.next())
             {
                 Card carte=new Card();
-                carte.setId(rs.getInt(1));
-                carte.setCompte(getCompteById(rs.getInt(2)));
-                carte.setTypeCarte(getTypeCarteById(rs.getInt(3)));
-                carte.setNumero(rs.getString(4));
-                carte.setDateExpiration(rs.getDate(5).toLocalDate());
-                carte.setCsv(String.valueOf(rs.getInt(6)));
-                carte.setMdp(rs.getString(7));
-                carte.setStatutCarte(rs.getString(8));
+                carte.setId(rs.getInt("id"));
+                carte.setCompte(getCompteById(rs.getInt("compte_id")));
+                carte.setTypeCarte(getTypeCarteById(rs.getInt("type_carte_id")));
+                carte.setNumero(rs.getString("numero"));
+                carte.setDateExpiration(rs.getDate("date_expiration").toLocalDate());
+                carte.setCsv(rs.getString("csv"));
+                carte.setMdp(rs.getString("mdp"));
+                carte.setStatutCarte(rs.getString("statut_carte"));
+
                 data.add(carte);
             }
         }
@@ -223,19 +226,20 @@ public class CardCrud implements  IService<Card>{
         ArrayList<Card> data =new ArrayList<>();
         String requet= "SELECT c.* FROM carte c JOIN type_carte tc ON c.type_carte_id= tc.id WHERE tc.type_carte = 'carte prépayée' AND c.statut_carte != 'Waiting' AND c.statut_carte !='Accepted' AND c.statut_carte !='Refused'";
             try{
-            Statement st= MyConnection.getInstance().getCnx().createStatement();
+            Statement st= MyConnection.getConnection().createStatement();
             ResultSet rs=st.executeQuery(requet);
             while (rs.next())
             {
                 Card carte=new Card();
-                carte.setId(rs.getInt(1));
-                carte.setCompte(getCompteById(rs.getInt(2)));
-                carte.setTypeCarte(getTypeCarteById(rs.getInt(3)));
-                carte.setNumero(rs.getString(4));
-                carte.setDateExpiration(rs.getDate(5).toLocalDate());
-                carte.setCsv(String.valueOf(rs.getInt(6)));
-                carte.setMdp(rs.getString(7));
-                carte.setStatutCarte(rs.getString(8));
+                carte.setId(rs.getInt("id"));
+                carte.setCompte(getCompteById(rs.getInt("compte_id")));
+                carte.setTypeCarte(getTypeCarteById(rs.getInt("type_carte_id")));
+                carte.setNumero(rs.getString("numero"));
+                carte.setDateExpiration(rs.getDate("date_expiration").toLocalDate());
+                carte.setCsv(rs.getString("csv"));
+                carte.setMdp(rs.getString("mdp"));
+                carte.setStatutCarte(rs.getString("statut_carte"));
+
                 data.add(carte);
             }
         }
@@ -269,7 +273,7 @@ public class CardCrud implements  IService<Card>{
         public  boolean checkIfNumeroExists(String numero) {
             String request = "SELECT numero FROM carte WHERE numero=?";
             try {
-                PreparedStatement preparedStatement = MyConnection.getInstance().getCnx().prepareStatement(request);
+                PreparedStatement preparedStatement = MyConnection.getConnection().prepareStatement(request);
                 preparedStatement.setString(1, numero);
                 ResultSet rs = preparedStatement.executeQuery();
                 return rs.next(); // Returns true if ResultSet contains any rows (numero exists), false otherwise
@@ -283,7 +287,7 @@ public class CardCrud implements  IService<Card>{
 
     public boolean containstypeValue(String value) {
         String query = "SELECT COUNT(*) FROM type_carte WHERE numero = ?";
-        try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query)) {
+        try (PreparedStatement statement = MyConnection.getConnection().prepareStatement(query)) {
             statement.setString(1, value);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -301,20 +305,21 @@ public class CardCrud implements  IService<Card>{
         ArrayList<Card> data =new ArrayList<>();
         String requet = "SELECT c.* FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE tc.type_carte != 'carte prépayée' AND c.statut_carte != 'Waiting' AND c.statut_carte != 'Accepted' AND c.statut_carte != 'Refused' AND c.compte_id = ?";
         try(
-            PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(requet)) {
+            PreparedStatement statement = MyConnection.getConnection().prepareStatement(requet)) {
                 statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next())
             {
                 Card carte=new Card();
-                carte.setId(rs.getInt(1));
-                carte.setCompte(getCompteById(rs.getInt(2)));
-                carte.setTypeCarte(getTypeCarteById(rs.getInt(3)));
-                carte.setNumero(rs.getString(4));
-                carte.setDateExpiration(rs.getDate(5).toLocalDate());
-                carte.setCsv(String.valueOf(rs.getInt(6)));
-                carte.setMdp(rs.getString(7));
-                carte.setStatutCarte(rs.getString(8));
+                carte.setId(rs.getInt("id"));
+                carte.setCompte(getCompteById(rs.getInt("compte_id")));
+                carte.setTypeCarte(getTypeCarteById(rs.getInt("type_carte_id")));
+                carte.setNumero(rs.getString("numero"));
+                carte.setDateExpiration(rs.getDate("date_expiration").toLocalDate());
+                carte.setCsv(rs.getString("csv"));
+                carte.setMdp(rs.getString("mdp"));
+                carte.setStatutCarte(rs.getString("statut_carte"));
+
                 data.add(carte);
             }
         }
@@ -324,40 +329,38 @@ public class CardCrud implements  IService<Card>{
         }
         return data;
     }
+
     public ArrayList<Card> getAllPrepaedCardById(int id) throws SQLException {
-        ArrayList<Card> data =new ArrayList<>();
+        ArrayList<Card> data = new ArrayList<>();
         String requet = "SELECT c.* FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE tc.type_carte = 'carte prépayée' AND c.statut_carte != 'Waiting' AND c.compte_id = ? AND c.statut_carte != 'Accepted' AND c.statut_carte != 'Refused'";
-        try(
-                PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(requet)) {
+        try (PreparedStatement statement = MyConnection.getConnection().prepareStatement(requet)) {
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
-            while (rs.next())
-            {
-                Card carte=new Card();
-                carte.setId(rs.getInt(1));
-                carte.setCompte(getCompteById(rs.getInt(2)));
-                carte.setTypeCarte(getTypeCarteById(rs.getInt(3)));
-                carte.setNumero(rs.getString(4));
-                carte.setDateExpiration(rs.getDate(5).toLocalDate());
-                carte.setCsv(String.valueOf(rs.getInt(6)));
-                carte.setMdp(rs.getString(7));
-                carte.setStatutCarte(rs.getString(8));
-                carte.setSolde(rs.getDouble(9));
+            while (rs.next()) {
+                Card carte = new Card();
+                carte.setId(rs.getInt("id"));
+                carte.setCompte(getCompteById(rs.getInt("compte_id")));
+                carte.setTypeCarte(getTypeCarteById(rs.getInt("type_carte_id")));
+                carte.setNumero(rs.getString("numero"));
+                carte.setDateExpiration(rs.getDate("date_expiration").toLocalDate());
+                carte.setCsv(rs.getString("csv"));
+                carte.setMdp(rs.getString("mdp"));
+                carte.setStatutCarte(rs.getString("statut_carte"));
+                carte.setSolde(rs.getDouble("solde"));
                 data.add(carte);
             }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return data;
     }
+
 
 
     public boolean updatepassword(int id,String mdp) throws SQLException {
         String requete="UPDATE `carte` SET `mdp`=?" +
                 " WHERE id=?";
-        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)){
+        try (PreparedStatement pst = MyConnection.getConnection().prepareStatement(requete)){
 
         pst.setString(1,mdp);
             pst.setInt(2,id);
@@ -378,7 +381,7 @@ public class CardCrud implements  IService<Card>{
     public boolean updateSolde(int id,Double solde) throws SQLException {
         String requete="UPDATE `carte` SET `solde`=`solde`+?" +
                 " WHERE id=?";
-        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)){
+        try (PreparedStatement pst = MyConnection.getConnection().prepareStatement(requete)){
 
             pst.setDouble(1,+solde);
             pst.setInt(2,id);
@@ -398,7 +401,7 @@ public class CardCrud implements  IService<Card>{
     public boolean updateSoldeCompte(int id,Double solde) throws SQLException {
         String requete="UPDATE `compte` SET `solde`=`solde`-?" +
                 " WHERE id=?";
-        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)){
+        try (PreparedStatement pst = MyConnection.getConnection().prepareStatement(requete)){
 
             pst.setDouble(1,+solde);
             pst.setInt(2,id);
@@ -415,7 +418,7 @@ public class CardCrud implements  IService<Card>{
     public boolean updateSoldeCompteplus(int id,Double solde) throws SQLException {
         String requete="UPDATE `compte` SET `solde`=`solde`+?" +
                 " WHERE id=?";
-        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)){
+        try (PreparedStatement pst = MyConnection.getConnection().prepareStatement(requete)){
 
             pst.setDouble(1,+solde);
             pst.setInt(2,id);
@@ -436,7 +439,7 @@ public class CardCrud implements  IService<Card>{
 
     public boolean containstypeValueWaiting(int id) {
         String query = "SELECT COUNT(*) FROM carte WHERE statut_carte = ? AND compte_id=?";
-        try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query)) {
+        try (PreparedStatement statement = MyConnection.getConnection().prepareStatement(query)) {
             statement.setString(1, "Waiting");
             statement.setInt(2, id);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -456,7 +459,7 @@ public class CardCrud implements  IService<Card>{
     public int containsWaitingcardprpaedRefused(int id) {
         int x=0;
         String query = "SELECT COUNT(*) AS card_count FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE c.compte_id =? AND tc.type_carte = 'carte prépayée'And c.statut_carte='Refused'";
-        try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query)) {
+        try (PreparedStatement statement = MyConnection.getConnection().prepareStatement(query)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -471,7 +474,7 @@ public class CardCrud implements  IService<Card>{
     public int containsWaitingcardprpaedAccepted(int id) {
         int x=0;
         String query = "SELECT COUNT(*) AS card_count FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE c.compte_id =? AND tc.type_carte = 'carte prépayée'And c.statut_carte='Accepted'";
-        try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query)) {
+        try (PreparedStatement statement = MyConnection.getConnection().prepareStatement(query)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -486,7 +489,7 @@ public class CardCrud implements  IService<Card>{
     public int containsWaitingcardprpaed(int id) {
         int x=0;
         String query = "SELECT COUNT(*) AS card_count FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE c.compte_id =? AND tc.type_carte = 'carte prépayée'And c.statut_carte='Waiting'";
-        try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query)) {
+        try (PreparedStatement statement = MyConnection.getConnection().prepareStatement(query)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -503,7 +506,7 @@ public class CardCrud implements  IService<Card>{
     public int containsWaitingnormalcardAccepted(int id) {
         int x=0;
         String query = "SELECT COUNT(*) AS card_count FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE c.compte_id =? AND tc.type_carte != 'carte prépayée'And c.statut_carte='Accepted'";
-        try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query)) {
+        try (PreparedStatement statement = MyConnection.getConnection().prepareStatement(query)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -518,7 +521,7 @@ public class CardCrud implements  IService<Card>{
     public int containsWaitingnormalcardRefused(int id) {
         int x=0;
         String query = "SELECT COUNT(*) AS card_count FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE c.compte_id =? AND tc.type_carte != 'carte prépayée'And c.statut_carte='Refused'";
-        try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query)) {
+        try (PreparedStatement statement = MyConnection.getConnection().prepareStatement(query)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -534,7 +537,7 @@ public class CardCrud implements  IService<Card>{
 
     public int containstypeCardpreapaed() {
         String query = "SELECT id FROM type_carte WHERE type_carte = ?";
-        try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query)) {
+        try (PreparedStatement statement = MyConnection.getConnection().prepareStatement(query)) {
             statement.setString(1, "carte prépayée");
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {

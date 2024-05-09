@@ -15,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import tn.devMinds.controllers.LoginController;
 import tn.devMinds.models.Card;
 import tn.devMinds.models.Compte;
 import tn.devMinds.models.TypeCard;
@@ -25,12 +26,15 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
 public class carousel implements Initializable {
    @FXML
     int idtoopencompte;
     @FXML
     private StackPane Stackpane1;
+
+    private Preferences preferences;
     @FXML
     private StackPane Stackpane2;
     @FXML
@@ -328,10 +332,17 @@ public class carousel implements Initializable {
         Stackpane2.setVisible(false);
         Stackpane3.setVisible(false);
     }
+
+    private int getClientIdFromPreferences() {
+        preferences = Preferences.userRoot().node(LoginController.class.getName());
+        String savedValue = preferences.get("Id_Client", "0");
+        System.out.println(savedValue);
+        return Integer.parseInt(savedValue); // Default value "0" if not found
+    }
     private ObservableList<Card> initialData() throws SQLException {
         CardCrud ps = new CardCrud();
         //idtoopencompte;
-        return FXCollections.observableArrayList(ps.getAllNormlaCardByCompteid(2));
+        return FXCollections.observableArrayList(ps.getAllNormlaCardByCompteid(getClientIdFromPreferences()));
     }
     private void slideOut(StackPane pane, double width) {
         TranslateTransition slideOutTransition = new TranslateTransition(Duration.seconds(0.5), pane);

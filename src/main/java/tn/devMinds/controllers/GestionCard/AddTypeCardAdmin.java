@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
+import tn.devMinds.controllers.SideBarre_adminController;
 import tn.devMinds.models.Card;
 import tn.devMinds.models.TypeCard;
 import tn.devMinds.services.CardCrud;
@@ -51,6 +52,11 @@ public class AddTypeCardAdmin implements Initializable {
     private Button cancel;
     @FXML
     private int idtypecarte;
+    private SideBarre_adminController sidebarController;
+
+    public void setSidebarController(SideBarre_adminController sideBarreAdminController) {
+        this.sidebarController = sidebarController;
+    }
     public void setIdtypecarte(int idtypecarte) {
         this.idtypecarte = idtypecarte;
     }
@@ -104,6 +110,8 @@ public class AddTypeCardAdmin implements Initializable {
 
         cbstatus.getItems().addAll(choix);
         cbstatus.setOnAction(this::getselectedelement);
+        reload();
+        addButtonToTablemaincard();
 
     }
     private void getselectedelement(javafx.event.ActionEvent actionEvent) {
@@ -111,8 +119,8 @@ public class AddTypeCardAdmin implements Initializable {
         System.out.println(statuts);
     }
 private void reload()
-{descriptionCol.setCellValueFactory(new PropertyValueFactory<>("statusTypeCarte"));
-    statuscol.setCellValueFactory(new PropertyValueFactory<>("descriptionCarte"));
+{descriptionCol.setCellValueFactory(new PropertyValueFactory<>("descriptionCarte"));
+    statuscol.setCellValueFactory(new PropertyValueFactory<>("statusTypeCarte"));
     typeCol.setCellValueFactory(new PropertyValueFactory<>("typeCarte"));
     fraiscol.setCellValueFactory(new PropertyValueFactory<>("frais"));
     try {

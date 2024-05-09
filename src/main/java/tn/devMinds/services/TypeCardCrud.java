@@ -1,5 +1,6 @@
 package tn.devMinds.services;
 import tn.devMinds.iservices.IService;
+import tn.devMinds.iservices.IService2;
 import tn.devMinds.models.Compte;
 import tn.devMinds.models.TypeCard;
 import tn.devMinds.tools.MyConnection;
@@ -8,23 +9,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.Statement;
-public class TypeCardCrud implements  IService<TypeCard>{
+public class TypeCardCrud implements IService2<TypeCard> {
 
     @Override
     public ArrayList<TypeCard> getAll() throws SQLException {
         ArrayList<TypeCard> data =new ArrayList<>();
         String requet="SELECT * FROM type_carte";
         try{
-            Statement st= MyConnection.getInstance().getCnx().createStatement();
+            Statement st= MyConnection.getConnection().createStatement();
             ResultSet rs=st.executeQuery(requet);
             while (rs.next())
             {
                 TypeCard tc=new TypeCard();
-                tc.setId(rs.getInt(1));
-                tc.setTypeCarte(rs.getString(2));
-                tc.setDescriptionCarte(rs.getString(3));
-                tc.setFrais(rs.getFloat(4));
-                tc.setStatusTypeCarte(rs.getString(5));
+                tc.setId(rs.getInt("id"));
+                System.out.println(rs.getInt("id"));
+                tc.setTypeCarte(rs.getString("type_carte"));
+                System.out.println(rs.getString("type_carte"));
+                tc.setDescriptionCarte(rs.getString("description_carte"));
+
+                tc.setFrais(rs.getFloat("frais"));
+                tc.setStatusTypeCarte(rs.getString("status_type_carte"));
                 data.add(tc);
             }}
                    catch (SQLException e)
@@ -39,7 +43,7 @@ public class TypeCardCrud implements  IService<TypeCard>{
         String requete = "INSERT INTO type_carte (type_carte,description_carte,frais,status_type_carte)" +
                 "VALUES ('" + typeCard.getTypeCarte()+ "','" + typeCard.getDescriptionCarte() +"','" +typeCard.getFrais()+"','" +typeCard.getStatusTypeCarte()+"')";
         try
-                (Statement st = MyConnection.getInstance().getCnx().createStatement()){
+                (Statement st = MyConnection.getConnection().createStatement()){
             int rowsAffected = st.executeUpdate(requete);
             if (rowsAffected > 0) {
                 System.out.println("Type Carte ajoutée avec succès");
@@ -54,7 +58,7 @@ public class TypeCardCrud implements  IService<TypeCard>{
     @Override
     public boolean delete(TypeCard typeCard) throws SQLException {
         String requete = "DELETE FROM type_carte WHERE id=?";
-        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)) {
+        try (PreparedStatement pst = MyConnection.getConnection().prepareStatement(requete)) {
             pst.setInt(1, typeCard.getId());
             int rowsAffected = pst.executeUpdate();
             if (rowsAffected > 0) {
@@ -70,7 +74,7 @@ public class TypeCardCrud implements  IService<TypeCard>{
     @Override
     public boolean delete(int id) throws SQLException {
         String requete = "DELETE FROM type_carte WHERE id=?";
-        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)) {
+        try (PreparedStatement pst = MyConnection.getConnection().prepareStatement(requete)) {
             pst.setInt(1, id);
             int rowsAffected = pst.executeUpdate();
             if (rowsAffected > 0) {
@@ -88,7 +92,7 @@ public class TypeCardCrud implements  IService<TypeCard>{
         String requete="UPDATE `type_carte` SET `type_carte`=?,`description_carte`=?," +
                 "`frais`=?,`status_type_carte`=?" +
                 " WHERE id=?";
-        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)){
+        try (PreparedStatement pst = MyConnection.getConnection().prepareStatement(requete)){
             pst.setString(1, typeCard.getTypeCarte());
             pst.setString(2,typeCard.getDescriptionCarte());
             pst.setFloat(3,typeCard.getFrais());
@@ -110,16 +114,18 @@ public class TypeCardCrud implements  IService<TypeCard>{
         ArrayList<TypeCard> data =new ArrayList<>();
         String requet="SELECT * FROM type_carte WHERE type_carte != 'carte prépayée'";
         try{
-            Statement st= MyConnection.getInstance().getCnx().createStatement();
+            Statement st= MyConnection.getConnection().createStatement();
             ResultSet rs=st.executeQuery(requet);
             while (rs.next())
             {
                 TypeCard tc=new TypeCard();
-                tc.setId(rs.getInt(1));
-                tc.setTypeCarte(rs.getString(2));
-                tc.setDescriptionCarte(rs.getString(3));
-                tc.setFrais(rs.getFloat(4));
-                tc.setStatusTypeCarte(rs.getString(5));
+                tc.setId(rs.getInt("id"));
+                tc.setTypeCarte(rs.getString("type_carte"));
+                tc.setStatusTypeCarte(rs.getString("status_type_carte"));
+
+                tc.setFrais(rs.getFloat("frais"));
+                tc.setDescriptionCarte(rs.getString("description_carte"));
+
                 data.add(tc);
             }}
         catch (SQLException e)
@@ -155,7 +161,7 @@ public class TypeCardCrud implements  IService<TypeCard>{
 
     public boolean containstypeValue(String value) {
         String query = "SELECT COUNT(*) FROM type_carte WHERE type_carte = ?";
-        try (PreparedStatement statement = MyConnection.getInstance().getCnx().prepareStatement(query)) {
+        try (PreparedStatement statement = MyConnection.getConnection().prepareStatement(query)) {
             statement.setString(1, value);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {

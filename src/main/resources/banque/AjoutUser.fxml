@@ -14,15 +14,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="370.0" prefWidth="600.0" stylesheets="@css/ajout_user.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.AjoutUserController">
-    <HBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="785.0" stylesheets="@css/styles.css">
-        <!-- Sidebarre -->
-        <VBox prefHeight="560.0" prefWidth="322.0" spacing="10" styleClass="sidebar">
-            <fx:include source="sidebarre_admin.fxml" />
-        </VBox>
 
         <!-- Formulaire -->
-        <BorderPane prefHeight="600.0" prefWidth="700.0" styleClass="form-container">
+        <BorderPane prefHeight="370.0" prefWidth="600.0" stylesheets="@css/ajout_user.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.AjoutUserController">
          <left>
                 <GridPane hgap="10" prefHeight="200.0" prefWidth="300.0" styleClass="content-label" vgap="10" BorderPane.alignment="CENTER">
                     <columnConstraints>
@@ -72,5 +66,3 @@
                 </GridPane>
          </left>
         </BorderPane>
-    </HBox>
-</StackPane>

@@ -51,6 +51,7 @@ public class LoginController {
         role.getSelectionModel().select("ROLE_USER");
     }
 
+
     @FXML
     public void handleLogin() {
         String selectedRole = role.getValue();
@@ -65,37 +66,37 @@ public class LoginController {
             return;
         }
 
-        // Retrieve hashed password and client ID from the database based on entered email
         User user = getUserFromDatabase(enteredEmail);
         System.out.println(user.getId());
         userID = user.getId();
 
-        // Check if user is retrieved successfully
-        if (user == null) {
+        // Retrieve hashed password from the database based on entered email
+        String hashedPasswordFromDatabase = getPasswordFromDatabase(enteredEmail);
+
+        // Check if hashed password is retrieved successfully
+        if (hashedPasswordFromDatabase == null) {
             // Handle case where user email is not found (e.g., display an error message)
             errorLabel.setText("Email not found!");
             return;
         }
 
-        boolean isAuthenticated = BCrypt.checkpw(enteredPassword, user.getMdp());
+        boolean isAuthenticated = BCrypt.checkpw(enteredPassword, hashedPasswordFromDatabase);
         System.out.println(isAuthenticated);
 
-        LoginService loginService = new LoginService(enteredEmail, enteredPassword, selectedRole, user.getId()); // Pass the plain text password
+        LoginService loginService = new LoginService(enteredEmail, enteredPassword, selectedRole); // Pass the plain text password
         loginService.setOnSucceeded(event -> {
             if (isAuthenticated) {
+                String userRole = getUserRoleFromDatabase(enteredEmail);
                 preferences = Preferences.userRoot().node(this.getClass().getName());
 
                 // Example of saving a variable
                 preferences.put("Id_Client", String.valueOf(userID));
-
-                String savedValue = preferences.get("Id_Client", "02");
+                System.out.println(preferences.get("Id_Client","0"));
 
                 // Authentication successful, redirect to the appropriate page
-                if ("ROLE_ADMIN".equals(selectedRole)) {
+                if (("ROLE_ADMIN".equals(userRole)) && ("ROLE_ADMIN".equals(selectedRole))){
                     // Redirect to the admin page
                     System.out.println("Authentication successful for the administrator");
-
-
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/sidebarre_admin.fxml"));
                     Parent adminPage = null; // Load the FXML file
                     try {
@@ -108,9 +109,7 @@ public class LoginController {
                     stage.setScene(scene); // Set the new scene to the stage
                     stage.show(); // Show the stage
 
-                } else if ("ROLE_USER".equals(selectedRole)) {
-
-
+                } else if (("ROLE_USER".equals(userRole))&& ("ROLE_USER".equals(selectedRole))) {
                     // Redirect to the client page
                     System.out.println("Authentication successful for the client");
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/banque/sidebarre_client.fxml"));
@@ -124,14 +123,12 @@ public class LoginController {
                     Stage stage = (Stage) login_btn.getScene().getWindow(); // Assuming login_btn is a control in your login.fxml file
                     stage.setScene(scene); // Set the new scene to the stage
                     stage.show(); // Show the stage
-
                 }
             } else {
                 // Display an error message if authentication fails
-                errorLabel.setText("Email or password incorrect!");
+                errorLabel.setText("Email,Role or password incorrect!");
             }
         });
-
 
         loginService.start();
 
@@ -159,6 +156,47 @@ public class LoginController {
 
         return user;
     }
+    public String getPasswordFromDatabase(String userEmail) {
+        String hashedPassword = null;
+        String query = "SELECT mdp FROM user WHERE email = ?";
+
+        try (Connection connection = MyConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, userEmail);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    hashedPassword = resultSet.getString("mdp");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle database access error
+        }
+
+        return hashedPassword;
+    }
+    private String getUserRoleFromDatabase(String email) {
+        String role = null;
+        String query = "SELECT role FROM user WHERE email = ?";
+
+        try (Connection connection = MyConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, email);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    role = resultSet.getString("role");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle database access error
+        }
+
+        return role;
+    }
+
 
 
 
