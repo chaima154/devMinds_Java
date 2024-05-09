@@ -10,6 +10,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import tn.devMinds.controllers.ClientMenuController;
+import tn.devMinds.controllers.LoginController;
 import tn.devMinds.entities.Transaction;
 import tn.devMinds.iservices.TransactionService;
 import tn.devMinds.iservices.TypeTransactionService;
@@ -27,6 +28,8 @@ import java.util.prefs.Preferences;
 public class TransactionClientController implements Initializable {
     @FXML
     private TableView<Transaction> table;
+
+    private MyConnection cnx = new MyConnection(); // Instantiating MyConnection
     @FXML
     private TableColumn<Transaction, Integer> idColumn;
     @FXML
@@ -72,13 +75,31 @@ public class TransactionClientController implements Initializable {
         return Integer.parseInt(savedValue); // Default value "0" if not found
     }
 
+
+    private int findCompteIdByClientId(int clientId) throws SQLException {
+        String query = "SELECT id FROM compte WHERE user_id = ?";
+        try (PreparedStatement preparedStatement = cnx.getConnection().prepareStatement(query)) {
+            preparedStatement.setInt(1, clientId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("id");
+            }
+        }
+        return -1;
+    }
+
     private ObservableList<Transaction> getAllTransactionsForClient(int clientId) {
         ObservableList<Transaction> allTransactions = getAllList();
         ObservableList<Transaction> clientTransactions = FXCollections.observableArrayList();
 
         for (Transaction transaction : allTransactions) {
-            if (transaction.getCompte_id() == clientId) {
-                clientTransactions.add(transaction);
+            try {
+                int compteId = findCompteIdByClientId(clientId);
+                if (compteId == transaction.getCompte_id()) {
+                    clientTransactions.add(transaction);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
         return clientTransactions;
