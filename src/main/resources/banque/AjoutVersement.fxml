@@ -46,7 +46,7 @@
                         </TextField>
 
 
-                        <Button fx:id="CreateAccount"  onAction="#AddTransaction" mnemonicParsing="false"  prefHeight="29.0" prefWidth="187.0" style="-fx-background-color: #3f704d;" text="Ajouter " textFill="#fffafa">
+                        <Button fx:id="CreateAccount"  onAction="#addTransaction" mnemonicParsing="false"  prefHeight="29.0" prefWidth="187.0" style="-fx-background-color: #3f704d;" text="Ajouter " textFill="#fffafa">
                             <VBox.margin>
                                 <Insets top="40.0" />
                             </VBox.margin>

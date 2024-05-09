@@ -198,16 +198,15 @@ public class TransactionListController implements Initializable {
     }
 
 
-
     private int getRibForAccount(int accountId) {
         int rib = 0;
-        try {
-            Connection connection = MyConnection.getConnection();
-            PreparedStatement statement = connection.prepareStatement("SELECT rib FROM compte WHERE id = ?");
+        try (Connection connection = MyConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement("SELECT rib FROM compte WHERE id = ?")) {
             statement.setInt(1, accountId);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                rib = resultSet.getInt("rib");
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    rib = resultSet.getInt("rib");
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -218,42 +217,43 @@ public class TransactionListController implements Initializable {
     private void UpdateTransaction(int transactionId) {
         String query = "UPDATE transaction SET statut = ? WHERE id = ?";
         String getMontantQuery = "SELECT montant_transaction, compte_id, destinataire_compte_id_id, commission FROM transaction WHERE id = ?";
-        try (PreparedStatement statement = MyConnection.getConnection().prepareStatement(query);
-             PreparedStatement getMontantStatement = MyConnection.getConnection().prepareStatement(getMontantQuery)) {
-            MyConnection.getConnection().setAutoCommit(false);
+        try (Connection connection = MyConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query);
+             PreparedStatement getMontantStatement = connection.prepareStatement(getMontantQuery)) {
+            connection.setAutoCommit(false);
 
             statement.setString(1, "Validé");
             statement.setInt(2, transactionId);
             statement.executeUpdate();
 
             getMontantStatement.setInt(1, transactionId);
-            ResultSet resultSet = getMontantStatement.executeQuery();
-            if (resultSet.next()) {
-                double montantTransaction = resultSet.getDouble("montant_transaction");
-                double commission = resultSet.getDouble("Commission");
-                double totalTransactionAmount = montantTransaction + commission;
+            try (ResultSet resultSet = getMontantStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    double montantTransaction = resultSet.getDouble("montant_transaction");
+                    double commission = resultSet.getDouble("Commission");
+                    double totalTransactionAmount = montantTransaction + commission;
 
-                int compteId = resultSet.getInt("compte_id");
-                int destinataireId = resultSet.getInt("destinataire_compte_id_id");
+                    int compteId = resultSet.getInt("compte_id");
+                    int destinataireId = resultSet.getInt("destinataire_compte_id_id");
 
-                PreparedStatement updateCompteStatementDecrease = MyConnection.getConnection().prepareStatement("UPDATE compte SET solde = solde - ? WHERE id = ?");
-                updateCompteStatementDecrease.setDouble(1, totalTransactionAmount);
-                updateCompteStatementDecrease.setInt(2, compteId);
-                updateCompteStatementDecrease.executeUpdate();
+                    try (PreparedStatement updateCompteStatementDecrease = connection.prepareStatement("UPDATE compte SET solde = solde - ? WHERE id = ?");
+                         PreparedStatement updateCompteStatementIncrease = connection.prepareStatement("UPDATE compte SET solde = solde + ? WHERE id = ?")) {
+                        updateCompteStatementDecrease.setDouble(1, totalTransactionAmount);
+                        updateCompteStatementDecrease.setInt(2, compteId);
+                        updateCompteStatementDecrease.executeUpdate();
 
-                PreparedStatement updateCompteStatementIncrease = MyConnection.getConnection().prepareStatement("UPDATE compte SET solde = solde + ? WHERE id = ?");
-                updateCompteStatementIncrease.setDouble(1, montantTransaction);
-                updateCompteStatementIncrease.setInt(2, destinataireId);
-                updateCompteStatementIncrease.executeUpdate();
+                        updateCompteStatementIncrease.setDouble(1, montantTransaction);
+                        updateCompteStatementIncrease.setInt(2, destinataireId);
+                        updateCompteStatementIncrease.executeUpdate();
 
-                MyConnection.getConnection().commit();
+                        connection.commit();
+                    }
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
             try {
-                if (MyConnection.getConnection() != null) {
-                    MyConnection.getConnection().rollback();
-                }
+                MyConnection.getConnection().rollback();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }

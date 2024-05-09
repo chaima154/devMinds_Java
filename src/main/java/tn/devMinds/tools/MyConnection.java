@@ -1,16 +1,26 @@
 package tn.devMinds.tools;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MyConnection {
-    private static final String URL = "jdbc:mysql://localhost:3306/db_bank";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "";
+    private static final HikariDataSource dataSource;
+
+    static {
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl("jdbc:mysql://localhost:3306/db_bank");
+        config.setUsername("root");
+        config.setPassword("");
+        config.setMaximumPoolSize(5000); // Set maximum pool size
+
+        dataSource = new HikariDataSource(config);
+    }
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        return dataSource.getConnection();
     }
 
     public static void closeConnection(Connection connection) {

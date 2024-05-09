@@ -64,6 +64,9 @@ public class Affichagecompte  {
     private TextField tfsolde;
 
     @FXML
+    private TextField UserID;
+
+    @FXML
     private ChoiceBox<String> cbtypecompte;
     @FXML
     private TableColumn<Compte, String> Agence;
@@ -196,27 +199,32 @@ tfrib.setText(cs.generateUniqueNumero(11));
 
 
 }
-@FXML
-   public void addcompte(javafx.event.ActionEvent actionEvent) throws SQLException {
-String agence=tfagence.getText();
-String typecompte=cbtypecompte.getValue();
-    String soldeText = tfsolde.getText();
+    @FXML
+    public void addcompte(javafx.event.ActionEvent actionEvent) throws SQLException {
+        String agence = tfagence.getText();
+        String typecompte = cbtypecompte.getValue();
+        String soldeText = tfsolde.getText();
 
-// Check if agence or solde fields are empty
-    if (agence.isEmpty() || soldeText.isEmpty()) {
-        showAlertDialog("Agence et/ou Solde ne peut pas être vide!");
-        return;
-    }
-    Integer solde = Integer.valueOf(soldeText);
-String rib=tfrib.getText();
-Compte c=new Compte(0,solde,typecompte,agence,rib);
-CompteService cs = new CompteService();
-cs.add(c);
+        // Check if agence, solde, or user_id fields are empty
+        if (agence.isEmpty() || soldeText.isEmpty() || UserID.getText().isEmpty()) {
+            showAlertDialog("Agence, Solde et/ou user_id ne peut pas être vide!");
+            return;
+        }
+        Integer solde = Integer.valueOf(soldeText);
+        String rib = tfrib.getText();
 
-    initialize();
-    cbtypecompte.getItems().clear();
-    cbtypecompte.getItems().addAll(choix);
+        // Get the user ID from the UserID TextField
+        int userId = Integer.parseInt(UserID.getText());
+
+        Compte c = new Compte(0, solde, typecompte, agence, rib, userId);
+        CompteService cs = new CompteService();
+        cs.add(c);
+
+        initialize();
+        cbtypecompte.getItems().clear();
+        cbtypecompte.getItems().addAll(choix);
     }
+
     @FXML
     public void updatecompte(javafx.event.ActionEvent actionEvent) throws SQLException {
         int id=Integer.parseInt(idfield.getText());
