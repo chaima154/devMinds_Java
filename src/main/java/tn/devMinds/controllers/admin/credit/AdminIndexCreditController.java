@@ -1,6 +1,9 @@
 package tn.devMinds.controllers.admin.credit;
 
 import com.twilio.Twilio;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 import com.twilio.rest.api.v2010.account.Message;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +24,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import tn.devMinds.controllers.GestionCard.SendSms;
 import tn.devMinds.controllers.SideBarre_adminController;
 import tn.devMinds.controllers.admin.tranche.AdminIndexTrancheController;
 import tn.devMinds.entities.Credit;
@@ -97,8 +101,8 @@ public class AdminIndexCreditController implements Initializable {
     public TableColumn <Credit, String> creditTableView_StatutCredit;
     @FXML
     public TableColumn <Credit, String> creditTableView_TypeCredit;
-    public static final String ACCOUNT_SID = "ACc3bc97fbd7d7fdc0e57c7a5e6e6be5f4";
-    public static final String AUTH_TOKEN = "283c8bb0a5cce6f84d26a7ab0504ad76";
+    public static final String ACCOUNT_SID = "AC768c8015cd745adfc30f7e60c629f310";
+    public static final String AUTH_TOKEN = "5683c0963f22d94c228b440d58c6f39c";
     private Image image;
     ObservableList<Credit> credits;
     private final CreditCrud creditCrud = new CreditCrud();
@@ -588,12 +592,9 @@ public class AdminIndexCreditController implements Initializable {
     }
 
     void sendSMS(Credit credit) {
-        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-        Message message = Message.creator(
-                        new com.twilio.type.PhoneNumber("+21654025328"),
-                        new com.twilio.type.PhoneNumber("+15054665064"), "Félicitation !!! Votre Crédit #" + credit.getId() + " de type " + credit.getTypeCredit() + " a été approuvé. Veuillez consulter l'application pour accéder l'emploi des tranches.")
-                .create();
-        System.out.println(message.getSid());
+        SendSms sms = new SendSms(  ACCOUNT_SID ,AUTH_TOKEN);
+        sms.sendCredit("+15073646864" , "+21693860151", credit);
+
     }
 
 }

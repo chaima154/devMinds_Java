@@ -66,7 +66,7 @@ private int id;
         Notification not=new Notification();
         CardCrud cc=new CardCrud();
         //idtoopencompte;
-        if(cc.containstypeValueWaiting(getClientIdFromPreferences())) {
+        if(cc.containstypeValueNormalWaiting(getClientIdFromPreferences())) {
             not.notifier("Il y a déjà une demande en cours de traitement!");
              }
         else{Card newCard=new Card();

@@ -9,14 +9,11 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
 
+<!-- Formulaire -->
 
-        <!-- Formulaire -->
-        <BorderPane prefHeight="370.0" prefWidth="600.0" stylesheets="@css/ajout_user.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.AjoutUserController">
+<BorderPane prefHeight="370.0" prefWidth="600.0" stylesheets="@css/ajout_user.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.devMinds.controllers.AjoutUserController">
          <left>
                 <GridPane hgap="10" prefHeight="200.0" prefWidth="300.0" styleClass="content-label" vgap="10" BorderPane.alignment="CENTER">
                     <columnConstraints>

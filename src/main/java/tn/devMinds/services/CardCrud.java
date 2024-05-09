@@ -549,5 +549,21 @@ public class CardCrud implements IService2<Card> {
         }
         return 0;
     }
+    public boolean containstypeValueNormalWaiting(int id) {
+        String query = "SELECT COUNT(*) AS card_count FROM carte c JOIN type_carte tc ON c.type_carte_id = tc.id WHERE c.compte_id =? AND tc.type_carte != 'carte prépayée' AND c.statut_carte = ?";
+        try (PreparedStatement statement = MyConnection.getConnection().prepareStatement(query)) {
+            statement.setInt(1, id);
+            statement.setString(2, "Waiting");
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int count = resultSet.getInt(1);
+                    return count > 0; // If count > 0, the value exists in the table
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
 
 }

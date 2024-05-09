@@ -92,6 +92,7 @@ public class AddTypeCardAdmin implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText(null);
             alert.setContentText("le type a ete bien Ajouter ");
+            reload();
             alert.showAndWait();
         } catch (SQLException e) {
             throw new RuntimeException(e);
